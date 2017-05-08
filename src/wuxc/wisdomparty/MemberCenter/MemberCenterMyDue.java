@@ -102,6 +102,10 @@ public class MemberCenterMyDue extends Activity implements OnTouchListener, OnCl
 			if (Type.equals(GET_SUCCESS_RESULT)) {
 				GetPager(pager);
 				GetDataList(Data, curPage);
+			} else if (Type.equals("fail")) {
+				Toast.makeText(getApplicationContext(), "服务器数据失败", Toast.LENGTH_SHORT).show();
+			} else {
+				Toast.makeText(getApplicationContext(), "数据格式校验失败", Toast.LENGTH_SHORT).show();
 			}
 		} catch (JSONException e) {
 			// TODO Auto-generated catch block
@@ -120,16 +124,21 @@ public class MemberCenterMyDue extends Activity implements OnTouchListener, OnCl
 		try {
 			jArray = new JSONArray(data);
 			JSONObject json_data = null;
-			for (int i = 0; i < jArray.length(); i++) {
-				json_data = jArray.getJSONObject(i);
-				Log.e("json_data", "" + json_data);
-				JSONObject jsonObject = json_data.getJSONObject("data");
-				MydueModel listinfo = new MydueModel();
-				listinfo.setMoney(jsonObject.getString("amount")+"元");
-				listinfo.setMonth(jsonObject.getString("fareMonth"));
-				listinfo.setTime(jsonObject.getString("createTime"));
-				list.add(listinfo);
+			if (jArray.length() == 0) {
+				Toast.makeText(getApplicationContext(), "无数据", Toast.LENGTH_SHORT).show();
 
+			} else {
+				for (int i = 0; i < jArray.length(); i++) {
+					json_data = jArray.getJSONObject(i);
+					Log.e("json_data", "" + json_data);
+					JSONObject jsonObject = json_data.getJSONObject("data");
+					MydueModel listinfo = new MydueModel();
+					listinfo.setMoney(jsonObject.getString("amount") + "元");
+					listinfo.setMonth(jsonObject.getString("fareMonth"));
+					listinfo.setTime(jsonObject.getString("createTime"));
+					list.add(listinfo);
+
+				}
 			}
 		} catch (JSONException e) {
 			// TODO Auto-generated catch block

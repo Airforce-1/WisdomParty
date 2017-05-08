@@ -62,12 +62,12 @@ public class StartLogoActivity extends Activity {
 		PreAccount = getSharedPreferences("Account", Context.MODE_PRIVATE);
 		PreGuidePage = getSharedPreferences("GuidePage", Context.MODE_PRIVATE);
 		ReadGuidePage();
-		if (GuidePage == 0) {
-			Intent intent = new Intent();
-			intent.setClass(getApplicationContext(), GuidePageActivity.class);
-			startActivity(intent);
-			finish();
-		} else {
+//		if (GuidePage == 0) {
+//			Intent intent = new Intent();
+//			intent.setClass(getApplicationContext(), GuidePageActivity.class);
+//			startActivity(intent);
+//			finish();
+//		} else {
 			ReadAccount();
 			if (LoginId == null || LoginId.equals("")) {
 				Intent intent = new Intent();
@@ -91,7 +91,7 @@ public class StartLogoActivity extends Activity {
 				}).start();
 
 			}
-		}
+//		}
 	}
 
 	public void GetDataDetailFromLoginResultData(Object obj) {

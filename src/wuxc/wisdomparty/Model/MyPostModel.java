@@ -1,5 +1,7 @@
 package wuxc.wisdomparty.Model;
 
+import android.R.string;
+
 public class MyPostModel {
 
 	private String Title;
@@ -7,6 +9,24 @@ public class MyPostModel {
 	private String ReBack;
 	private String HeadImgUrl;
 	private String Name;
+	private String url;
+	private String keyid;
+
+	public String getUrl() {
+		return url;
+	}
+
+	public void setUrl(String url) {
+		this.url = url;
+	}
+
+	public String getKeyid() {
+		return keyid;
+	}
+
+	public void setKeyid(String keyid) {
+		this.keyid = keyid;
+	}
 
 	public String getTitle() {
 		return Title;

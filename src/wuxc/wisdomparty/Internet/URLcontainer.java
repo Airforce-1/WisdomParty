@@ -2,7 +2,7 @@ package wuxc.wisdomparty.Internet;
 
 public class URLcontainer {
 	// 域名
-	public static String urlip = "http://dev.huilansoft.cn/";
+	public static String urlip = "http://211.149.216.199:9050/PB/";
 	// 获取文件
 	public static String GetFile = "upload";
 	// 用户登录

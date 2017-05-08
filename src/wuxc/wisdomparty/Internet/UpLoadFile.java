@@ -18,7 +18,7 @@ public class UpLoadFile {
 	public static String uploadHeadImage(File file, String RequestURL, String userId, String ticket) {
 		String result = null;
 		int res = 0;
-		RequestURL = RequestURL + "?userId=" + userId + "&scaleSmall=1&scaleWidth=60&scaleHeight=60&ticket=" + ticket;
+		RequestURL = RequestURL + "?userId=" + userId + "&scaleSmall=1&scaleWidth=180&scaleHeight=180&ticket=" + ticket;
 		String BOUNDARY = UUID.randomUUID().toString(); // 边界标识 随机生成
 		String PREFIX = "--", LINE_END = "\r\n";
 		String CONTENT_TYPE = "multipart/form-data"; // 内容类型

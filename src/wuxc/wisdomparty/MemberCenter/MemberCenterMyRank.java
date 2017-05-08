@@ -1,5 +1,6 @@
 package wuxc.wisdomparty.MemberCenter;
 
+import android.R.integer;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -45,6 +46,7 @@ public class MemberCenterMyRank extends Activity implements OnClickListener {
 	private String LoginId;
 	private String ticket;
 	private String userPhoto;
+	private String userName;
 	private SharedPreferences PreUserInfo;// 存储个人信息
 	private final static int GET_USER_HEAD_IMAGE = 6;
 	private Handler uiHandler = new Handler() {
@@ -80,10 +82,12 @@ public class MemberCenterMyRank extends Activity implements OnClickListener {
 
 		ImageBack.setOnClickListener(this);
 		initheight();
-		SetRank(myrank);
+
 		ReadTicket();
 		GetHeadPic();
+		SetRank(myrank);
 	}
+
 	protected void ShowHeadImage(Object obj) {
 		// TODO Auto-generated method stub
 		if (!(obj == null)) {
@@ -95,11 +99,22 @@ public class MemberCenterMyRank extends Activity implements OnClickListener {
 			}
 		}
 	}
+
 	private void ReadTicket() {
 		// TODO Auto-generated method stub
-		LoginId = PreUserInfo.getString("loginId", null);
-		ticket = PreUserInfo.getString("ticket", null);
-		userPhoto = PreUserInfo.getString("userPhoto", null);
+		LoginId = PreUserInfo.getString("loginId", "");
+		ticket = PreUserInfo.getString("ticket", "");
+		userPhoto = PreUserInfo.getString("userPhoto", "");
+		userName = PreUserInfo.getString("userName", "");
+		String temp = PreUserInfo.getString("credits", "100");
+		try {
+			myrank = Integer.parseInt(temp);
+		} catch (Exception e) {
+			// TODO: handle exception
+			myrank = 100;
+		}
+
+		TextName.setText(userName);
 	}
 
 	private void GetHeadPic() {

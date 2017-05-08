@@ -31,7 +31,7 @@ public class GuideFragment4 extends Fragment implements OnClickListener {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.guidefragment, container, false);
 		Image = (ImageView) view.findViewById(R.id.image);
-		Image.setImageResource(R.drawable.spanner04);
+		Image.setImageResource(R.drawable.inter_party_background);
 		Image.setOnClickListener(this);
 		return view;
 	}

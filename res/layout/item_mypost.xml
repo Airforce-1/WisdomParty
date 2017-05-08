@@ -18,7 +18,7 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="60dp"
+            android:layout_height="wrap_content"
             android:orientation="horizontal" >
 
             <wuxc.wisdomparty.layout.RoundedImageView
@@ -33,7 +33,7 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:orientation="vertical" >
 
@@ -53,6 +53,7 @@
                         android:id="@+id/text_time"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
+                        android:layout_marginLeft="4dp"
                         android:layout_toRightOf="@id/text_name"
                         android:gravity="center_vertical"
                         android:textColor="@color/member_transform_stroke"
@@ -69,12 +70,11 @@
                 <TextView
                     android:id="@+id/text_title"
                     android:layout_width="match_parent"
-                    android:layout_height="35dp"
+                    android:layout_height="wrap_content"
                     android:layout_marginTop="5dp"
                     android:background="@drawable/shape_5_grey"
                     android:gravity="center_vertical"
                     android:paddingLeft="10dp"
-                    android:singleLine="true"
                     android:textSize="@dimen/member_transform_size" />
             </LinearLayout>
         </LinearLayout>

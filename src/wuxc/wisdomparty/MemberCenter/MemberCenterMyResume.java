@@ -1,5 +1,11 @@
 package wuxc.wisdomparty.MemberCenter;
 
+import java.util.ArrayList;
+
+import org.apache.http.message.BasicNameValuePair;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import android.R.bool;
 import android.app.Activity;
 import android.content.Context;
@@ -16,8 +22,10 @@ import android.view.View.OnClickListener;
 import android.view.Window;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 import single.wuxc.wisdomparty.R;
 import wuxc.wisdomparty.Internet.GetBitmapFromServer;
+import wuxc.wisdomparty.Internet.HttpGetData;
 import wuxc.wisdomparty.Internet.URLcontainer;
 import wuxc.wisdomparty.Internet.getImageAbsolutePath;
 import wuxc.wisdomparty.layout.RoundedImageView;
@@ -37,20 +45,23 @@ public class MemberCenterMyResume extends Activity implements OnClickListener {
 	private TextView TextIfParty;
 	private TextView TextPartyAge;
 	private TextView TextMotto;
-	private String StrName;
-	private String StrNameList;
-	private String StrSex;
-	private String StrPhoneNumber;
-	private String StrAddress;
-	private String StrIfParty;
-	private String StrPartyAge;
-	private String StrMotto;
+	private String StrName = "正在加载";
+	private String StrNameList = "正在加载";
+	private String StrSex = "正在加载";
+	private String StrPhoneNumber = "正在加载";
+	private String StrAddress = "正在加载";
+	private String StrIfParty = "正在加载";
+	private String StrPartyAge = "正在加载";
+	private String StrMotto = "正在加载";
 	private SharedPreferences PreUserInfo;// 存储个人信息
 	private String LoginId;
 	private String ticket;
 	private String userPhoto;
 	private final static int GET_USER_HEAD_IMAGE = 6;
 	private final static int GO_CHANGE_HEADIMG = 8;
+	private static final String GET_SUCCESS_RESULT = "success";
+	private static final String GET_FAIL_RESULT = "fail";
+	private static final int GET_DUE_DATA = 9;
 	private boolean UploadImage = false;
 	private Handler uiHandler = new Handler() {
 		@Override
@@ -58,6 +69,9 @@ public class MemberCenterMyResume extends Activity implements OnClickListener {
 			switch (msg.what) {
 			case GET_USER_HEAD_IMAGE:
 				ShowHeadImage(msg.obj);
+				break;
+			case GET_DUE_DATA:
+				GetDataDueData(msg.obj);
 				break;
 			default:
 				break;
@@ -92,6 +106,97 @@ public class MemberCenterMyResume extends Activity implements OnClickListener {
 		ImageBack.setOnClickListener(this);
 		ReadTicket();
 		GetHeadPic();
+		settext();
+		GetData();
+		Toast.makeText(getApplicationContext(), "正在加载数据", Toast.LENGTH_SHORT).show();
+
+	}
+
+	protected void GetDataDueData(Object obj) {
+
+		// TODO Auto-generated method stub
+		String Type = null;
+		String Data = "";
+		try {
+			JSONObject demoJson = new JSONObject(obj.toString());
+			Type = demoJson.getString("type");
+
+			Data = demoJson.getString("data");
+			if (Type.equals(GET_SUCCESS_RESULT)) {
+				JSONObject demoJsondata = new JSONObject(Data);
+				StrNameList = demoJsondata.getString("realName");
+				try {
+					StrName = demoJsondata.getString("userName");
+				} catch (Exception e) {
+					// TODO: handle exception
+					StrName = "无数据";
+				}
+
+				StrSex = demoJsondata.getString("sex");
+				if (StrSex.equals("male")) {
+					StrSex = "男";
+				} else {
+					StrSex = "女";
+				}
+				StrAddress = demoJsondata.getString("address");
+				try {
+					StrMotto = demoJsondata.getString("sign");
+				} catch (Exception e) {
+					// TODO: handle exception
+					StrMotto = "无数据";
+				}
+				try {
+					StrPhoneNumber = demoJsondata.getString("mobile");
+				} catch (Exception e) {
+					// TODO: handle exception
+					StrPhoneNumber = "无数据";
+				}
+				settext();
+			} else if (Type.equals(GET_FAIL_RESULT)) {
+				Toast.makeText(getApplicationContext(), "服务器数据失败", Toast.LENGTH_SHORT).show();
+			} else {
+				Toast.makeText(getApplicationContext(), "数据格式校验失败", Toast.LENGTH_SHORT).show();
+			}
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+	}
+
+	private void GetData() {
+		// TODO Auto-generated method stub
+
+		// TODO Auto-generated method stub
+		final ArrayList ArrayValues = new ArrayList();
+		ArrayValues.add(new BasicNameValuePair("ticket", ticket));
+		ArrayValues.add(new BasicNameValuePair("queryUserId", LoginId));
+
+		new Thread(new Runnable() { // 开启线程上传文件
+			@Override
+			public void run() {
+				String DueData = "";
+				DueData = HttpGetData.GetData("api/member/getUserInfo", ArrayValues);
+				Message msg = new Message();
+				msg.obj = DueData;
+				msg.what = GET_DUE_DATA;
+				uiHandler.sendMessage(msg);
+			}
+		}).start();
+
+	}
+
+	private void settext() {
+		// TODO Auto-generated method stub
+		TextName.setText(StrName);
+		TextNameList.setText(StrNameList);
+		TextSex.setText(StrSex);
+		TextPhoneNumber.setText(StrPhoneNumber);
+		TextAddress.setText(StrAddress);
+		TextIfParty.setText("正在加载");
+		TextPartyAge.setText("正在加载");
+		TextMotto.setText(StrMotto);
 	}
 
 	protected void ShowHeadImage(Object obj) {

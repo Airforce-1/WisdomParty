@@ -24,7 +24,7 @@
             android:layout_marginRight="@dimen/top_height"
             android:gravity="center"
             android:singleLine="true"
-            android:text="我的收藏"
+            android:text="我的活动"
             android:textColor="@color/text_white"
             android:textSize="@dimen/text_size" />
 

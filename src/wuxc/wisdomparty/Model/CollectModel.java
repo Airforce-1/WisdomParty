@@ -6,6 +6,24 @@ public class CollectModel {
 	private String Time;
 	private boolean isselected;
 	private boolean isDelete;
+	private String keyid;
+	private String url;
+
+	public String getKeyid() {
+		return keyid;
+	}
+
+	public void setKeyid(String keyid) {
+		this.keyid = keyid;
+	}
+
+	public String getUrl() {
+		return url;
+	}
+
+	public void setUrl(String url) {
+		this.url = url;
+	}
 
 	public boolean isDelete() {
 		return isDelete;

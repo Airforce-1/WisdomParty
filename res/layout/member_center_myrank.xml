@@ -75,7 +75,8 @@
                     android:layout_height="28dp"
                     android:layout_alignParentRight="true"
                     android:layout_alignParentTop="true"
-                    android:src="@drawable/head_party" />
+                    android:src="@drawable/head_party"
+                    android:visibility="gone" />
             </RelativeLayout>
 
             <LinearLayout

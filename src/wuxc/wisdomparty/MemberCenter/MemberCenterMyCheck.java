@@ -208,6 +208,10 @@ public class MemberCenterMyCheck extends Activity implements OnTouchListener, On
 			if (Type.equals(GET_SUCCESS_RESULT)) {
 				GetPager(pager);
 				GetDataList(Data, curPage);
+			}else if (Type.equals("fail")) {
+				Toast.makeText(getApplicationContext(), "服务器数据失败", Toast.LENGTH_SHORT).show();
+			} else {
+				Toast.makeText(getApplicationContext(), "数据格式校验失败", Toast.LENGTH_SHORT).show();
 			}
 		} catch (JSONException e) {
 			// TODO Auto-generated catch block
@@ -226,25 +230,30 @@ public class MemberCenterMyCheck extends Activity implements OnTouchListener, On
 		try {
 			jArray = new JSONArray(data);
 			JSONObject jsonObject = null;
-			for (int i = 0; i < jArray.length(); i++) {
-				jsonObject = jArray.getJSONObject(i);
-				MydueModel listinfo = new MydueModel();
-				int status = jsonObject.getInt("hstate");
-				if (status == 0) {
-					listinfo.setMoney("新增");
-				} else if (status == 1) {
-					listinfo.setMoney("通过");
-				} else if (status == 2) {
-					listinfo.setMoney("不通过");
-				} else if (status == 3) {
-					listinfo.setMoney("审批中");
-				} else {
-					listinfo.setMoney("审批中");
-				}
-				listinfo.setMonth(jsonObject.getString("title"));
-				listinfo.setTime(jsonObject.getString("createtime"));
-				list.add(listinfo);
+			if (jArray.length() == 0) {
+				Toast.makeText(getApplicationContext(), "无数据", Toast.LENGTH_SHORT).show();
 
+			} else {
+				for (int i = 0; i < jArray.length(); i++) {
+					jsonObject = jArray.getJSONObject(i);
+					MydueModel listinfo = new MydueModel();
+					int status = jsonObject.getInt("hstate");
+					if (status == 0) {
+						listinfo.setMoney("新增");
+					} else if (status == 1) {
+						listinfo.setMoney("通过");
+					} else if (status == 2) {
+						listinfo.setMoney("不通过");
+					} else if (status == 3) {
+						listinfo.setMoney("审批中");
+					} else {
+						listinfo.setMoney("审批中");
+					}
+					listinfo.setMonth(jsonObject.getString("title"));
+					listinfo.setTime(jsonObject.getString("createtime"));
+					list.add(listinfo);
+
+				}
 			}
 		} catch (JSONException e) {
 			// TODO Auto-generated catch block
