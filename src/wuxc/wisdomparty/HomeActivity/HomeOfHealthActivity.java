@@ -62,7 +62,7 @@ public class HomeOfHealthActivity extends FragmentActivity implements OnClickLis
 	private int ScreenHeight = 0;
 	public List<Fragment> Fragments = new ArrayList<Fragment>();
 	private FragmentManager FragmentManager;
-	private int NumberPicture = 4;
+	private int NumberPicture = 1;
 	private ListView ListData;
 	private ImageView ImageBack;
 	List<HealthModel> list = new ArrayList<HealthModel>();

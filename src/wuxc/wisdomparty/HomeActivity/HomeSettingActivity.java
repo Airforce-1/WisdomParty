@@ -26,7 +26,10 @@ import single.wuxc.wisdomparty.R;
 import wuxc.wisdomparty.Internet.APPVersion;
 import wuxc.wisdomparty.Internet.HttpGetData;
 import wuxc.wisdomparty.Internet.URLcontainer;
-import wuxc.wisdomparty.StartPage.LoginAactivity;
+import wuxc.wisdomparty.MemberCenter.MemberCenterMyResume;
+import wuxc.wisdomparty.MemberCenter.MySettingChangePasswordActivity;
+import wuxc.wisdomparty.MemberCenter.NoticeDatalistActivity;
+import wuxc.wisdomparty.StartPage.LoginActivity;
 import wuxc.wisdomparty.layout.dialogtwo;
 import wuxc.wisdomparty.main.MainActivity;
 import android.view.View.OnClickListener;
@@ -42,6 +45,10 @@ public class HomeSettingActivity extends Activity implements OnClickListener {
 	private String ticket;
 	private SharedPreferences PreUserInfo;// 存储个人信息
 	private static final int GET_VERSION_RESULT = 1;
+
+	private LinearLayout lin_changepassword;
+	private LinearLayout lin_message;
+	private LinearLayout lin_myinfo;
 	private Handler uiHandler = new Handler() {
 		@Override
 		public void handleMessage(Message msg) {
@@ -69,6 +76,14 @@ public class HomeSettingActivity extends Activity implements OnClickListener {
 		LinGetNewVersion.setOnClickListener(this);
 		PreUserInfo = getSharedPreferences("UserInfo", Context.MODE_PRIVATE);
 		PreAccount = getSharedPreferences("Account", Context.MODE_PRIVATE);
+		lin_changepassword = (LinearLayout) findViewById(R.id.lin_changepassword);
+
+		lin_message = (LinearLayout) findViewById(R.id.lin_message);
+
+		lin_myinfo = (LinearLayout) findViewById(R.id.lin_myinfo);
+		lin_changepassword.setOnClickListener(this);
+		lin_message.setOnClickListener(this);
+		lin_myinfo.setOnClickListener(this);
 		ReadTicket();
 	}
 
@@ -134,11 +149,26 @@ public class HomeSettingActivity extends Activity implements OnClickListener {
 		case R.id.image_back:
 			finish();
 			break;
+		case R.id.lin_changepassword:
+			Intent MySettingChangePasswordActivity = new Intent();
+			MySettingChangePasswordActivity.setClass(getApplicationContext(), MySettingChangePasswordActivity.class);
+			startActivity(MySettingChangePasswordActivity);
+			break;
+		case R.id.lin_message:
+			Intent intent_NoticeDatalistActivity = new Intent();
+			intent_NoticeDatalistActivity.setClass(getApplicationContext(), NoticeDatalistActivity.class);
+			startActivity(intent_NoticeDatalistActivity);
+			break;
+		case R.id.lin_myinfo:
+			Intent intent_MemberCenterMyResume = new Intent();
+			intent_MemberCenterMyResume.setClass(getApplicationContext(), MemberCenterMyResume.class);
+			startActivity(intent_MemberCenterMyResume);
+			break;
 		case R.id.btn_exit:
 			if (IsExit) {
 				IsExit = false;
 				Intent intent_test = new Intent();
-				intent_test.setClass(getApplicationContext(), LoginAactivity.class);
+				intent_test.setClass(getApplicationContext(), LoginActivity.class);
 				startActivity(intent_test);
 				finish();
 				MainActivity.activity.finish();

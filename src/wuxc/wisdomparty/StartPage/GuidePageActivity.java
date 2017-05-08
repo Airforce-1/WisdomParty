@@ -129,7 +129,7 @@ public class GuidePageActivity extends FragmentActivity implements OnClickListen
 		switch (v.getId()) {
 		case R.id.text_finish:
 			Intent intent_test = new Intent();
-			intent_test.setClass(getApplicationContext(), LoginAactivity.class);
+			intent_test.setClass(getApplicationContext(), LoginActivity.class);
 			startActivity(intent_test);
 			finish();
 

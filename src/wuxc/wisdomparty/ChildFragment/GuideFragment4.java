@@ -11,7 +11,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import single.wuxc.wisdomparty.R;
 import wuxc.wisdomparty.StartPage.GuidePageActivity;
-import wuxc.wisdomparty.StartPage.LoginAactivity;
+import wuxc.wisdomparty.StartPage.LoginActivity;
 
 public class GuideFragment4 extends Fragment implements OnClickListener {
 

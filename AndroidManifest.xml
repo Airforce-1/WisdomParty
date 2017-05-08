@@ -74,7 +74,7 @@
             android:screenOrientation="portrait" >
         </activity>
         <activity
-            android:name="wuxc.wisdomparty.StartPage.LoginAactivity"
+            android:name="wuxc.wisdomparty.StartPage.LoginActivity"
             android:configChanges="keyboardHidden|orientation"
             android:screenOrientation="portrait" >
         </activity>
@@ -505,6 +505,11 @@
         </activity>
         <activity
             android:name="wuxc.wisdomparty.Internet.webview"
+            android:configChanges="keyboardHidden|orientation"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name="wuxc.wisdomparty.MemberCenter.MySettingChangePasswordActivity"
             android:configChanges="keyboardHidden|orientation"
             android:screenOrientation="portrait" >
         </activity>

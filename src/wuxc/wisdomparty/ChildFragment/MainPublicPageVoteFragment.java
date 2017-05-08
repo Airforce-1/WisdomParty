@@ -62,8 +62,8 @@ public class MainPublicPageVoteFragment extends Fragment
 	private int ScreenHeight = 0;
 	public List<Fragment> Fragments = new ArrayList<Fragment>();
 	private FragmentManager FragmentManager;
-	private int NumberPicture = 4;
-	private String[] Title = { "习大大的讲话1", "习大大的讲话2", "习大大的讲话3", "习大大的讲话4", "习大大的讲话5", "习大大的讲话6", "习大大的讲话7", "习大大的讲话8",
+	private int NumberPicture = 1;
+	private String[] Title = { "公平公正 自律自觉", "习大大的讲话2", "习大大的讲话3", "习大大的讲话4", "习大大的讲话5", "习大大的讲话6", "习大大的讲话7", "习大大的讲话8",
 			"习大大的讲话9", "习大大的讲话10" };
 	private TextView TextTitle;
 	private Handler uiHandler = new Handler() {

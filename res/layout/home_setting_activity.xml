@@ -163,7 +163,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:gravity="center_vertical"
-                android:orientation="horizontal" >
+                android:orientation="horizontal"
+                android:visibility="gone" >
 
                 <TextView
                     android:layout_width="10dp"
@@ -197,7 +198,8 @@
                 android:layout_height="1dp"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
-                android:background="@color/member_transform_stroke" />
+                android:background="@color/member_transform_stroke"
+                android:visibility="gone" />
 
             <LinearLayout
                 android:id="@+id/lin_getnewversion"

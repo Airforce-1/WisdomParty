@@ -62,36 +62,36 @@ public class StartLogoActivity extends Activity {
 		PreAccount = getSharedPreferences("Account", Context.MODE_PRIVATE);
 		PreGuidePage = getSharedPreferences("GuidePage", Context.MODE_PRIVATE);
 		ReadGuidePage();
-//		if (GuidePage == 0) {
-//			Intent intent = new Intent();
-//			intent.setClass(getApplicationContext(), GuidePageActivity.class);
-//			startActivity(intent);
-//			finish();
-//		} else {
-			ReadAccount();
-			if (LoginId == null || LoginId.equals("")) {
-				Intent intent = new Intent();
-				intent.setClass(getApplicationContext(), LoginAactivity.class);
-				startActivity(intent);
-				finish();
-			} else {
-				final ArrayList ArrayValues = new ArrayList();
-				ArrayValues.add(new BasicNameValuePair("login_id", LoginId));
-				ArrayValues.add(new BasicNameValuePair("pwd", pwd));
-				new Thread(new Runnable() { // 开启线程上传文件
-					@Override
-					public void run() {
-						String LoginResultData = "";
-						LoginResultData = HttpGetData.GetData(URLcontainer.LoginIn, ArrayValues);
-						Message msg = new Message();
-						msg.obj = LoginResultData;
-						msg.what = GET_LOGININ_RESULT_DATA;
-						uiHandler.sendMessage(msg);
-					}
-				}).start();
+		// if (GuidePage == 0) {
+		// Intent intent = new Intent();
+		// intent.setClass(getApplicationContext(), GuidePageActivity.class);
+		// startActivity(intent);
+		// finish();
+		// } else {
+		ReadAccount();
+		if (LoginId == null || LoginId.equals("")) {
+			Intent intent = new Intent();
+			intent.setClass(getApplicationContext(), LoginActivity.class);
+			startActivity(intent);
+			finish();
+		} else {
+			final ArrayList ArrayValues = new ArrayList();
+			ArrayValues.add(new BasicNameValuePair("login_id", LoginId));
+			ArrayValues.add(new BasicNameValuePair("pwd", pwd));
+			new Thread(new Runnable() { // 开启线程上传文件
+				@Override
+				public void run() {
+					String LoginResultData = "";
+					LoginResultData = HttpGetData.GetData(URLcontainer.LoginIn, ArrayValues);
+					Message msg = new Message();
+					msg.obj = LoginResultData;
+					msg.what = GET_LOGININ_RESULT_DATA;
+					uiHandler.sendMessage(msg);
+				}
+			}).start();
 
-			}
-//		}
+		}
+		// }
 	}
 
 	public void GetDataDetailFromLoginResultData(Object obj) {
@@ -101,11 +101,16 @@ public class StartLogoActivity extends Activity {
 		try {
 			JSONObject demoJson = new JSONObject(obj.toString());
 			Type = demoJson.getString("type");
-			Data = demoJson.getString("data");
+
 			if (Type.equals(GET_SUCCESS_RESULT)) {
+				Data = demoJson.getString("data");
 				Toast.makeText(getApplicationContext(), "登陆成功", Toast.LENGTH_SHORT).show();
 				GetDetailData(Data);
 			} else {
+				Intent intent = new Intent();
+				intent.setClass(getApplicationContext(), LoginActivity.class);
+				startActivity(intent);
+				finish();
 				Toast.makeText(getApplicationContext(), "登陆失败", Toast.LENGTH_SHORT).show();
 			}
 		} catch (JSONException e) {

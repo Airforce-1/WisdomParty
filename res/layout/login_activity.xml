@@ -112,6 +112,7 @@
                     android:background="@android:color/transparent"
                     android:gravity="center_vertical"
                     android:hint="@string/login_password"
+                    android:password="true"
                     android:textSize="@dimen/login_edit_size" />
             </LinearLayout>
 
@@ -164,7 +165,7 @@
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
                     android:layout_marginRight="12dp"
-                    android:text="@string/register"
+                    android:text="修改密码"
                     android:textColor="@color/login_toregister"
                     android:textSize="@dimen/auto_login" />
             </RelativeLayout>

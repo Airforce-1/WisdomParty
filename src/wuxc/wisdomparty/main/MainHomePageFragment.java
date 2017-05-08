@@ -21,7 +21,7 @@ import wuxc.wisdomparty.HomeActivity.HomeOfYouthActivity;
 import wuxc.wisdomparty.HomeActivity.HomeSearchActivity;
 import wuxc.wisdomparty.HomeActivity.HomeSettingActivity;
 import wuxc.wisdomparty.MemberCenter.NoticeDetailActivity;
-import wuxc.wisdomparty.StartPage.LoginAactivity;
+import wuxc.wisdomparty.StartPage.LoginActivity;
 import wuxc.wisdomparty.layout.CircleLayout;
 import wuxc.wisdomparty.layout.CircleLayout.OnItemClickListener;
 
@@ -170,7 +170,7 @@ public class MainHomePageFragment extends MainBaseFragment implements OnItemClic
 			break;
 		case R.id.text_test:
 			Intent intent_test = new Intent();
-			intent_test.setClass(getActivity(), LoginAactivity.class);
+			intent_test.setClass(getActivity(), LoginActivity.class);
 			startActivity(intent_test);
 			break;
 		default:
