@@ -185,7 +185,7 @@ public class MemberCenterMyPost extends Activity
 		// TODO Auto-generated method stub
 		ticket = PreUserInfo.getString("ticket", "");
 		userPhoto = PreUserInfo.getString("userPhoto", "");
-		LoginId = PreUserInfo.getString("loginId", "");
+		LoginId = PreUserInfo.getString("userName", "");
 	}
 
 	private void GetData() {
@@ -403,7 +403,8 @@ public class MemberCenterMyPost extends Activity
 	@Override
 	public void click(View v) {
 		// TODO Auto-generated method stub
-//		Toast.makeText(MemberCenterMyPost.this, "删除第" + (Integer) v.getTag() + "条", Toast.LENGTH_SHORT).show();
+		// Toast.makeText(MemberCenterMyPost.this, "删除第" + (Integer) v.getTag()
+		// + "条", Toast.LENGTH_SHORT).show();
 		showAlertDialog((Integer) v.getTag());
 	}
 

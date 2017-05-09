@@ -20,6 +20,7 @@ import wuxc.wisdomparty.HomeActivity.HomeOfVolunteerActivity;
 import wuxc.wisdomparty.HomeActivity.HomeOfYouthActivity;
 import wuxc.wisdomparty.HomeActivity.HomeSearchActivity;
 import wuxc.wisdomparty.HomeActivity.HomeSettingActivity;
+import wuxc.wisdomparty.MemberCenter.NoticeDatalistActivity;
 import wuxc.wisdomparty.MemberCenter.NoticeDetailActivity;
 import wuxc.wisdomparty.StartPage.LoginActivity;
 import wuxc.wisdomparty.layout.CircleLayout;
@@ -165,7 +166,7 @@ public class MainHomePageFragment extends MainBaseFragment implements OnItemClic
 			break;
 		case R.id.text_notice:
 			Intent intent_notice = new Intent();
-			intent_notice.setClass(getActivity(), NoticeDetailActivity.class);
+			intent_notice.setClass(getActivity(), NoticeDatalistActivity.class);
 			startActivity(intent_notice);
 			break;
 		case R.id.text_test:

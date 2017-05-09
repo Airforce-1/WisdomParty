@@ -4,6 +4,7 @@ import java.io.WriteAbortedException;
 import java.util.ArrayList;
 
 import org.apache.http.message.BasicNameValuePair;
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -55,12 +56,18 @@ public class LoginActivity extends Activity implements OnClickListener {
 	private static final String ERROR_CODE = "0204";
 	private static final int GET_LOGININ_RESULT_DATA = 1;
 	private static final String GET_SUCCESS_RESULT = "success";
+
+	private static final int GET_ALL_CHANNEL = 5;
+	private SharedPreferences PreALLChannel;// 存储所用频道信息
 	private Handler uiHandler = new Handler() {
 		@Override
 		public void handleMessage(Message msg) {
 			switch (msg.what) {
 			case GET_LOGININ_RESULT_DATA:
 				GetDataDetailFromLoginResultData(msg.obj);
+				break;
+			case GET_ALL_CHANNEL:
+				GetDataDetailData(msg.obj);
 				break;
 			default:
 				break;
@@ -124,7 +131,7 @@ public class LoginActivity extends Activity implements OnClickListener {
 			username = demoJson.getString("username");
 			WriteAccount();
 			WriteUserInfo();
-			JumpPageToMainPage();
+			GetAllData();
 
 		} catch (JSONException e) {
 			// TODO Auto-generated catch block
@@ -132,6 +139,99 @@ public class LoginActivity extends Activity implements OnClickListener {
 		} catch (Exception e) {
 			// TODO: handle exception
 		}
+	}
+
+	private void GetAllData() {
+		// TODO Auto-generated method stub
+
+		// TODO Auto-generated method stub
+		final ArrayList ArrayValues = new ArrayList();
+		ArrayValues.add(new BasicNameValuePair("ticket", ticket));
+
+		new Thread(new Runnable() { // 开启线程上传文件
+			@Override
+			public void run() {
+				String DueData = "";
+				DueData = HttpGetData.GetData("api/cms/channel/getAllChannel", ArrayValues);
+				Message msg = new Message();
+				msg.obj = DueData;
+				msg.what = GET_ALL_CHANNEL;
+				uiHandler.sendMessage(msg);
+			}
+		}).start();
+
+	}
+
+	protected void GetDataDetailData(Object obj) {
+
+		// TODO Auto-generated method stub
+		String Type = null;
+		String Data = null;
+		JumpPageToMainPage();
+		try {
+			JSONObject demoJson = new JSONObject(obj.toString());
+			Type = demoJson.getString("type");
+
+			Data = demoJson.getString("datas");
+			if (Type.equals(GET_SUCCESS_RESULT)) {
+
+				GetDataList(Data);
+			}
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+	}
+
+	private void GetDataList(String data) {
+		// TODO Auto-generated method stub
+		JSONArray jArray = null;
+		Editor edit = PreALLChannel.edit();
+		try {
+			jArray = new JSONArray(data);
+			JSONObject json_data = null;
+			for (int i = 0; i < jArray.length(); i++) {
+				json_data = jArray.getJSONObject(i);
+				try {
+					edit.putString("AC_keyid" + i, json_data.getString("keyid"));
+
+				} catch (Exception e) {
+					// TODO: handle exception
+					edit.putString("AC_keyid" + i, "No");
+
+				}
+				try {
+					edit.putString("AC_name" + i, json_data.getString("node_name"));
+
+				} catch (Exception e) {
+					edit.putString("AC_name" + i, "No");
+
+					// TODO: handle exception
+				}
+				try {
+					edit.putString("AC_sign" + i, json_data.getString("node_sign"));
+
+				} catch (Exception e) {
+					// TODO: handle exception
+					edit.putString("AC_sign" + i, "No");
+				}
+				try {
+					edit.putString("AC_url" + i, json_data.getString("linkAddress"));
+
+				} catch (Exception e) {
+					// TODO: handle exception
+					edit.putString("AC_url" + i, "No");
+
+				}
+
+			}
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		edit.commit();
 	}
 
 	private void JumpPageToMainPage() {
@@ -175,6 +275,7 @@ public class LoginActivity extends Activity implements OnClickListener {
 		// TODO Auto-generated method stub
 		PreUserInfo = getSharedPreferences("UserInfo", Context.MODE_PRIVATE);
 		PreAccount = getSharedPreferences("Account", Context.MODE_PRIVATE);
+		PreALLChannel = getSharedPreferences("ALLChannel", Context.MODE_PRIVATE);
 		ImageFinish = (ImageView) findViewById(R.id.image_finish);
 		EditAccount = (EditText) findViewById(R.id.edit_account);
 		EditPassword = (EditText) findViewById(R.id.edit_password);

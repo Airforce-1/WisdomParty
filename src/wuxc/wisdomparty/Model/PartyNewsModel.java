@@ -4,6 +4,24 @@ public class PartyNewsModel {
 	private String Title;
 	private String Detail;
 	private String Time;
+	private String Author;
+	private String Id;
+
+	public String getAuthor() {
+		return Author;
+	}
+
+	public void setAuthor(String author) {
+		Author = author;
+	}
+
+	public String getId() {
+		return Id;
+	}
+
+	public void setId(String id) {
+		Id = id;
+	}
 
 	public String getTitle() {
 		return Title;
