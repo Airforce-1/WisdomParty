@@ -94,14 +94,14 @@ public class YouthTopOneFragment extends Fragment implements OnClickListener {
 		// TODO Auto-generated method stub
 		switch (v.getId()) {
 		case R.id.two_one_text:
-			Intent intent = new Intent();
-			intent.setClass(getActivity(), SpecialDetailActivity.class);
-			Bundle bundle = new Bundle();
-			bundle.putString("Title","标题");
-			bundle.putString("Time", "2016-10-31");
-			bundle.putString("Name", "名字");
-			intent.putExtras(bundle);
-			startActivity(intent);
+//			Intent intent = new Intent();
+//			intent.setClass(getActivity(), SpecialDetailActivity.class);
+//			Bundle bundle = new Bundle();
+//			bundle.putString("Title","标题");
+//			bundle.putString("Time", "2016-10-31");
+//			bundle.putString("Name", "名字");
+//			intent.putExtras(bundle);
+//			startActivity(intent);
 
 			break;
 

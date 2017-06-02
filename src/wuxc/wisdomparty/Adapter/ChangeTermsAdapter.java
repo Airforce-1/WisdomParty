@@ -60,7 +60,7 @@ public class ChangeTermsAdapter extends ArrayAdapter<ChangeTermsModel> {
 		TextView TextTitle = viewCache.getTextTitle();
 		TextTitle.setText("" + imageAndText.getTitle());
 		TextView TextNumber = viewCache.getTextNumber();
-		TextNumber.setText("≤Œ”Î(" + imageAndText.getNumber() + ")");
+		TextNumber.setText(   imageAndText.getNumber()  );
 		TextView TextIsSelecting = viewCache.getTextIsSelecting();
 		TextView TextIsSelected = viewCache.getTextIsSelected();
 		if (imageAndText.isSelecting()) {

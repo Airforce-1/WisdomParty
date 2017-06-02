@@ -125,10 +125,129 @@
         </LinearLayout>
     </RelativeLayout>
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="10dp" />
+
+    <LinearLayout
+        android:id="@+id/lin_dynamic"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:background="#ffffff"
+        android:orientation="horizontal" >
+
+        <ImageView
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginBottom="15dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="15dp"
+            android:layout_marginTop="15dp"
+            android:src="@drawable/dynamic" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginRight="15dp"
+            android:orientation="vertical" >
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="19dp"
+                android:layout_marginTop="10dp"
+                android:orientation="horizontal" >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical"
+                    android:text="网上药店"
+                    android:textColor="#000000"
+                    android:textSize="@dimen/member_transform_size"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/text_dynamic_time"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical|right"
+                    android:textColor="#9c9c9c"
+                    android:textSize="@dimen/member_text_size" />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/text_dynamic_detail"
+                android:layout_width="match_parent"
+                android:layout_height="35dp"
+                android:layout_marginTop="4dp"
+                android:gravity="center_vertical"
+                android:maxLines="2"
+                android:text="网上药店，新型购药模式，让医疗更便捷"
+                android:textColor="#9c9c9c"
+                android:textSize="@dimen/member_text_size" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="10dp" />
+
+    <LinearLayout
+        android:id="@+id/lin_appearance"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:background="#ffffff"
+        android:orientation="horizontal" >
+
+        <ImageView
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginBottom="15dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="15dp"
+            android:layout_marginTop="15dp"
+            android:src="@drawable/appearance" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginRight="15dp"
+            android:orientation="vertical" >
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="19dp"
+                android:layout_marginTop="20dp"
+                android:orientation="horizontal" >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical"
+                    android:text="养生专栏"
+                    android:textColor="#000000"
+                    android:textSize="@dimen/member_transform_size"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/text_appearance_detail"
+                android:layout_width="match_parent"
+                android:layout_height="22dp"
+                android:layout_marginTop="8dp"
+                android:gravity="center_vertical"
+                android:maxLines="1"
+                android:text="提供养生信息，提倡健康生活"
+                android:textColor="#9c9c9c"
+                android:textSize="@dimen/member_text_size" />
+        </LinearLayout>
+    </LinearLayout>
+
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:scrollbars="none" >
+        android:scrollbars="none"
+        android:visibility="gone" >
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -455,14 +574,16 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="10dp"
-                android:background="@color/background_grey" />
+                android:background="@color/background_grey"
+                android:visibility="gone" />
 
             <ListView
                 android:id="@+id/list_data"
                 android:layout_width="match_parent"
                 android:layout_height="100dp"
                 android:divider="#00000000"
-                android:scrollbars="none" >
+                android:scrollbars="none"
+                android:visibility="gone" >
             </ListView>
 
             <TextView
@@ -472,7 +593,8 @@
                 android:layout_below="@id/line1"
                 android:gravity="center"
                 android:textColor="@color/member_transform_stroke"
-                android:textSize="@dimen/member_text_size" />
+                android:textSize="@dimen/member_text_size"
+                android:visibility="gone" />
         </LinearLayout>
     </ScrollView>
 

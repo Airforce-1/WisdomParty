@@ -70,14 +70,14 @@ public class InterPartyOnlineActivity extends Activity implements OnClickListene
 			finish();
 			break;
 		case R.id.btn_inter_confirm:
-			// if (CanConfirm) {
+			 if (CanConfirm) {
 			Intent intent = new Intent();
 			intent.setClass(getApplicationContext(), InterPartyOnlineDetailActivity.class);
 			startActivity(intent);
-			// } else {
-			// Toast.makeText(getApplicationContext(), "Çë×ĞÏ¸ÔÄ¶ÁÈëµ³ĞûÊÄ´Ê£¡",
-			// Toast.LENGTH_SHORT).show();
-			// }
+			 } else {
+			 Toast.makeText(getApplicationContext(), "Çë×ĞÏ¸ÔÄ¶ÁÈëµ³ĞûÊÄ´Ê£¡",
+			 Toast.LENGTH_SHORT).show();
+			 }
 
 			break;
 		default:

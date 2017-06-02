@@ -62,9 +62,9 @@ public class MedicalShopAdapter extends ArrayAdapter<MedicalShopModel> {
 		// Load the image and set it on the ImageView
 		String imageUrl = imageAndText.getImageUrl();
 		ImageView imageView = viewCache.getImageHeadimg();
-		imageView.setTag(URLcontainer.urlip + imageUrl);
+		imageView.setTag(URLcontainer.urlip +URLcontainer.GetFile + imageUrl);
 		Log.e("imageUrl", imageUrl);
-		if (imageUrl.equals(imageurl)) {
+		if (imageUrl.equals(imageurl)||imageUrl.equals("null")) {
 			imageView.setImageResource(R.drawable.special_list_headimg);
 		} else {
 			try {
@@ -73,7 +73,7 @@ public class MedicalShopAdapter extends ArrayAdapter<MedicalShopModel> {
 				Bitmap bm1 = null;
 				bm1 = getBitmapByPath(temppath);
 				if (bm1 == null) {
-					imageUrl = URLcontainer.urlip + imageUrl;
+					imageUrl = URLcontainer.urlip +URLcontainer.GetFile + imageUrl;
 					Log.e("imageUrl", imageUrl);
 					Drawable cachedImage = ImageLoader.loadDrawable(imageUrl, new ImageCallback() {
 						public void imageLoaded(Drawable imageDrawable, String imageUrl) {

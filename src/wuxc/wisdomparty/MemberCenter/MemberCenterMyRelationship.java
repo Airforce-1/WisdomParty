@@ -86,7 +86,7 @@ public class MemberCenterMyRelationship extends Activity
 		setonclicklistener();
 		setheadtextview();
 		GetData();
-		Toast.makeText(getApplicationContext(), "正在加载数据", Toast.LENGTH_SHORT).show();
+//		Toast.makeText(getApplicationContext(), "正在加载数据", Toast.LENGTH_SHORT).show();
 
 	}
 

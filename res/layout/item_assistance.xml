@@ -14,7 +14,8 @@
             android:id="@+id/rela_half"
             android:layout_width="match_parent"
             android:layout_height="60dp" >
-            <ImageView
+
+            <ImageView
                 android:id="@+id/image_background"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -33,6 +34,7 @@
                     android:layout_height="match_parent"
                     android:layout_marginLeft="20dp"
                     android:gravity="center"
+                    android:singleLine="true"
                     android:text="村小的音乐梦想"
                     android:textColor="#ffffff"
                     android:textSize="@dimen/member_transform_size" />
@@ -43,7 +45,8 @@
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
                     android:layout_marginRight="20dp"
-                    android:orientation="horizontal" >
+                    android:orientation="horizontal"
+                    android:visibility="gone" >
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -109,7 +112,8 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
-                    android:orientation="horizontal" >
+                    android:orientation="horizontal"
+                    android:visibility="gone" >
 
                     <TextView
                         android:layout_width="wrap_content"

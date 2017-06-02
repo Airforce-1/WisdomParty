@@ -103,7 +103,8 @@ public class MemberCenterMyActivity extends Activity implements OnTouchListener,
 		PreUserInfo = getSharedPreferences("UserInfo", Context.MODE_PRIVATE);
 		ReadTicket();
 		GetData();
-		Toast.makeText(getApplicationContext(), "正在加载数据", Toast.LENGTH_SHORT).show();
+		// Toast.makeText(getApplicationContext(), "正在加载数据",
+		// Toast.LENGTH_SHORT).show();
 
 	}
 
@@ -150,11 +151,11 @@ public class MemberCenterMyActivity extends Activity implements OnTouchListener,
 				for (int i = 0; i < jArray.length(); i++) {
 					json_data = jArray.getJSONObject(i);
 					Log.e("json_data", "" + json_data);
-					JSONObject jsonObject = json_data.getJSONObject("data");
+					// JSONObject jsonObject = json_data.getJSONObject("data");
 					MyActivityModel listinfo = new MyActivityModel();
 
-					listinfo.setTime(jsonObject.getString("createTime"));
-					listinfo.setTitle(jsonObject.getString("title"));
+					listinfo.setTime(json_data.getString("createtime"));
+					listinfo.setTitle(json_data.getString("title"));
 					listinfo.setMark("00");
 
 					list.add(listinfo);
@@ -203,7 +204,13 @@ public class MemberCenterMyActivity extends Activity implements OnTouchListener,
 		// TODO Auto-generated method stub
 		final ArrayList ArrayValues = new ArrayList();
 		ArrayValues.add(new BasicNameValuePair("ticket", ticket));
-		ArrayValues.add(new BasicNameValuePair("applyType", applyType + ""));
+		if (applyType == 0) {
+			ArrayValues.add(new BasicNameValuePair("applyType", ""));
+
+		} else {
+			ArrayValues.add(new BasicNameValuePair("applyType", applyType + ""));
+
+		}
 		ArrayValues.add(new BasicNameValuePair("curPage", "" + curPage));
 		ArrayValues.add(new BasicNameValuePair("pageSize", "" + pageSize));
 		new Thread(new Runnable() { // 开启线程上传文件

@@ -91,7 +91,7 @@ public class MemberCenterMyPost extends Activity
 		PreUserInfo = getSharedPreferences("UserInfo", Context.MODE_PRIVATE);
 		ReadTicket();
 		GetData();
-		Toast.makeText(getApplicationContext(), "正在加载数据", Toast.LENGTH_SHORT).show();
+//		Toast.makeText(getApplicationContext(), "正在加载数据", Toast.LENGTH_SHORT).show();
 
 	}
 
@@ -390,14 +390,14 @@ public class MemberCenterMyPost extends Activity
 	@Override
 	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 		// TODO Auto-generated method stub
-		MyPostModel data = list.get(position - 1);
-		Intent intent = new Intent();
-		intent.setClass(getApplicationContext(), webview.class);
-		Bundle bundle = new Bundle();
-		bundle.putString("url", data.getUrl());
-
-		intent.putExtras(bundle);
-		startActivity(intent);
+//		MyPostModel data = list.get(position - 1);
+//		Intent intent = new Intent();
+//		intent.setClass(getApplicationContext(), webview.class);
+//		Bundle bundle = new Bundle();
+//		bundle.putString("url", data.getUrl());
+//
+//		intent.putExtras(bundle);
+//		startActivity(intent);
 	}
 
 	@Override
@@ -418,7 +418,7 @@ public class MemberCenterMyPost extends Activity
 				dialog.dismiss();
 				MyPostModel data = list.get(integer);
 				deletekeyid(data.getKeyid());
-				list.remove(integer);
+				list.remove(integer-1);
 				mAdapter.notifyDataSetChanged();
 			}
 		});

@@ -3,9 +3,18 @@ package wuxc.wisdomparty.ChildFragment;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.http.message.BasicNameValuePair;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import com.umeng.socialize.utils.Log;
+
 import android.R.color;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
@@ -27,6 +36,9 @@ import android.widget.Toast;
 import single.wuxc.wisdomparty.R;
 import wuxc.wisdomparty.Adapter.StudyArticleAdapter;
 import wuxc.wisdomparty.Adapter.StudyVideoAadapter;
+import wuxc.wisdomparty.Internet.GetChannelByKey;
+import wuxc.wisdomparty.Internet.HttpGetData;
+import wuxc.wisdomparty.Model.StudyArticleModel;
 import wuxc.wisdomparty.Model.StudyArticleModel;
 import wuxc.wisdomparty.Model.StudyVideoModel;
 import wuxc.wisdomparty.PartyManage.StudyArticleDetailActivity;
@@ -55,6 +67,28 @@ public class MainPublicPageStudyFragment extends Fragment
 	private int type = 0;// 0=article 1=video
 	private TextView TextArticle;
 	private TextView TextVideo;
+	private String ticket;
+	private String chn;
+	private String userPhoto;
+	private String LoginId;
+	private SharedPreferences PreUserInfo;// 存储个人信息
+	private SharedPreferences PreALLChannel;// 存储所用频道信息
+	private static final String GET_SUCCESS_RESULT = "success";
+	private static final String GET_FAIL_RESULT = "fail";
+	private static final int GET_DUE_DATA = 6;
+
+	public Handler uiHandler = new Handler() {
+		@Override
+		public void handleMessage(Message msg) {
+			switch (msg.what) {
+			case GET_DUE_DATA:
+				GetDataDueData(msg.obj);
+				break;
+			default:
+				break;
+			}
+		}
+	};
 
 	@Override
 	public void onAttach(Activity activity) {
@@ -76,7 +110,10 @@ public class MainPublicPageStudyFragment extends Fragment
 		initview(view);
 		setonclicklistener();
 		setheadtextview();
-		getdatalist(curPage);
+		PreUserInfo = getActivity().getSharedPreferences("UserInfo", Context.MODE_PRIVATE);
+		PreALLChannel = getActivity().getSharedPreferences("ALLChannel", Context.MODE_PRIVATE);
+		ReadTicket();
+		GetData();
 		return view;
 	}
 
@@ -138,6 +175,121 @@ public class MainPublicPageStudyFragment extends Fragment
 			}
 
 		}
+
+	}
+
+	protected void GetDataDueData(Object obj) {
+
+		// TODO Auto-generated method stub
+		String Type = null;
+		String Data = null;
+		String pager = null;
+		try {
+			JSONObject demoJson = new JSONObject(obj.toString());
+			Type = demoJson.getString("type");
+			pager = demoJson.getString("pager");
+			Data = demoJson.getString("datas");
+			if (Type.equals(GET_SUCCESS_RESULT)) {
+				GetPager(pager);
+				GetDataList(Data, curPage);
+			} else if (Type.equals(GET_FAIL_RESULT)) {
+				Toast.makeText(getActivity(), "服务器数据失败", Toast.LENGTH_SHORT).show();
+			} else {
+				Toast.makeText(getActivity(), "数据格式校验失败", Toast.LENGTH_SHORT).show();
+			}
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+	}
+
+	private void GetDataList(String data, int arg) {
+		text_list_title.setVisibility(View.GONE);
+		;
+		if (arg == 1) {
+			list.clear();
+		}
+		JSONArray jArray = null;
+		try {
+			jArray = new JSONArray(data);
+			JSONObject json_data = null;
+			if (jArray.length() == 0) {
+//			/	Toast.makeText(getActivity(), "无数据", Toast.LENGTH_SHORT).show();
+
+			} else {
+				for (int i = 0; i < jArray.length(); i++) {
+					json_data = jArray.getJSONObject(i);
+					Log.e("json_data", "" + json_data);
+					// JSONObject jsonObject = json_data.getJSONObject("data");
+					StudyArticleModel listinfo = new StudyArticleModel();
+
+					listinfo.setTime(json_data.getString("createtime"));
+					listinfo.setTitle(json_data.getString("title"));
+					listinfo.setBackGround(json_data.getString("sacleImage"));
+					listinfo.setDetail(json_data.getString("content"));
+
+					list.add(listinfo);
+
+				}
+			}
+
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		if (arg == 1) {
+			go();
+		} else {
+			mAdapter.notifyDataSetChanged();
+		}
+
+	}
+
+	private void GetPager(String pager) {
+		// TODO Auto-generated method stub
+		try {
+			JSONObject demoJson = new JSONObject(pager);
+
+			totalPage = demoJson.getInt("totalPage");
+
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+	}
+
+	private void ReadTicket() {
+		// TODO Auto-generated method stub
+		ticket = PreUserInfo.getString("ticket", "");
+		userPhoto = PreUserInfo.getString("userPhoto", "");
+		LoginId = PreUserInfo.getString("userName", "");
+	}
+
+	private void GetData() {
+		// TODO Auto-generated method stub
+
+		// TODO Auto-generated method stub
+		final ArrayList ArrayValues = new ArrayList();
+		ArrayValues.add(new BasicNameValuePair("ticket", ticket));
+		ArrayValues.add(new BasicNameValuePair("chn", "zxxx"));
+		ArrayValues.add(new BasicNameValuePair("curPage", "" + curPage));
+		ArrayValues.add(new BasicNameValuePair("pageSize", "" + pageSize));
+		new Thread(new Runnable() { // 开启线程上传文件
+			@Override
+			public void run() {
+				String DueData = "";
+				DueData = HttpGetData.GetData("api/cms/channel/channleListData", ArrayValues);
+				Message msg = new Message();
+				msg.obj = DueData;
+				msg.what = GET_DUE_DATA;
+				uiHandler.sendMessage(msg);
+			}
+		}).start();
 
 	}
 
@@ -213,7 +365,7 @@ public class MainPublicPageStudyFragment extends Fragment
 			} else {
 				curPage = 1;
 				Toast.makeText(getActivity(), "正在刷新study", Toast.LENGTH_SHORT).show();
-				getdatalist(curPage);
+				GetData();
 			}
 			int temp = 1;
 			temp = (lastItemIndex) % pageSize;
@@ -224,7 +376,7 @@ public class MainPublicPageStudyFragment extends Fragment
 					Toast.makeText(getActivity(), " 没有更多了", Toast.LENGTH_SHORT).show();
 					// // listinfoagain();
 				} else {
-					getdatalist(curPage);
+					GetData();
 					Toast.makeText(getActivity(), "正在加载下一页", Toast.LENGTH_SHORT).show();
 				}
 

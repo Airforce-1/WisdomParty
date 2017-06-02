@@ -13,7 +13,7 @@
             android:layout_width="match_parent"
             android:layout_height="95dp"
             android:layout_centerVertical="true"
-            android:layout_marginRight="70dp"
+            android:layout_marginRight="20dp"
             android:background="@drawable/shape_5_grey"
             android:orientation="vertical" >
 
@@ -59,6 +59,7 @@
             android:layout_height="match_parent"
             android:layout_alignParentRight="true"
             android:gravity="center"
+            android:visibility="gone"
             android:orientation="vertical" >
 
             <ImageView

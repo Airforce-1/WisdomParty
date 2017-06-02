@@ -24,7 +24,7 @@
                 android:gravity="center_vertical"
                 android:maxLines="2"
                 android:textColor="#000000"
-                android:textSize="@dimen/member_transform_size"
+                android:textSize="14dp"
                 android:textStyle="bold" />
 
             <TextView

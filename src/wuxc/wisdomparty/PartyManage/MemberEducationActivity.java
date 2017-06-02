@@ -85,10 +85,10 @@ public class MemberEducationActivity extends FragmentActivity implements OnClick
 		showlabelchange();
 		showbtntext();
 		fragments.clear();
-		initfragment(10);
+		initfragment(1);
 		fragmentManager = this.getSupportFragmentManager();
 		viewPager = (Childviewpaper) findViewById(R.id.viewPager);
-		viewPager.setOffscreenPageLimit(10);
+		viewPager.setOffscreenPageLimit(1);
 		viewPager.setOnPageChangeListener(new twoMyOnPageChangeListener());
 		viewPager.setAdapter(new twoMyPagerAdapter());
 	}

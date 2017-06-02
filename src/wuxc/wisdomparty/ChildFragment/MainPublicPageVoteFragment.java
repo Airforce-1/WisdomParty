@@ -3,8 +3,15 @@ package wuxc.wisdomparty.ChildFragment;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.http.message.BasicNameValuePair;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.Handler;
@@ -33,6 +40,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 import single.wuxc.wisdomparty.R;
 import wuxc.wisdomparty.Adapter.VoteAdapter;
+import wuxc.wisdomparty.Internet.GetChannelByKey;
+import wuxc.wisdomparty.Internet.HttpGetData;
+import wuxc.wisdomparty.Model.VoteModel;
 import wuxc.wisdomparty.Model.VoteModel;
 import wuxc.wisdomparty.PartyManage.ChangeTermsDetailActivity;
 import wuxc.wisdomparty.layout.Childviewpaper;
@@ -66,21 +76,28 @@ public class MainPublicPageVoteFragment extends Fragment
 	private String[] Title = { "公平公正 自律自觉", "习大大的讲话2", "习大大的讲话3", "习大大的讲话4", "习大大的讲话5", "习大大的讲话6", "习大大的讲话7", "习大大的讲话8",
 			"习大大的讲话9", "习大大的讲话10" };
 	private TextView TextTitle;
-	private Handler uiHandler = new Handler() {
-		@Override
-		public void handleMessage(Message msg1) {
-			switch (msg1.what) {
-			case 0:
-				getdatalist();
-				break;
+	private String ticket;
+	private String chn;
+	private String userPhoto;
+	private String LoginId;
+	private SharedPreferences PreUserInfo;// 存储个人信息
+	private SharedPreferences PreALLChannel;// 存储所用频道信息
+	private static final String GET_SUCCESS_RESULT = "success";
+	private static final String GET_FAIL_RESULT = "fail";
+	private static final int GET_DUE_DATA = 6;
 
+	public Handler uiHandler = new Handler() {
+		@Override
+		public void handleMessage(Message msg) {
+			switch (msg.what) {
+			case GET_DUE_DATA:
+				GetDataDueData(msg.obj);
+				break;
 			default:
 				break;
-
 			}
 		}
 	};
-
 	@Override
 	public void onAttach(Activity activity) {
 		super.onAttach(activity);
@@ -112,8 +129,122 @@ public class MainPublicPageVoteFragment extends Fragment
 		initdot(NumberPicture);
 		godotchange(0);// 显示第一个逗点为绿色
 		setheadtextview();
-		getdatalist(curPage);
+		PreUserInfo = getActivity().getSharedPreferences("UserInfo", Context.MODE_PRIVATE);
+		PreALLChannel = getActivity().getSharedPreferences("ALLChannel", Context.MODE_PRIVATE);
+		ReadTicket();
+		GetData();
 		return view;
+	}
+	protected void GetDataDueData(Object obj) {
+
+		// TODO Auto-generated method stub
+		String Type = null;
+		String Data = null;
+		String pager = null;
+		try {
+			JSONObject demoJson = new JSONObject(obj.toString());
+			Type = demoJson.getString("type");
+			pager = demoJson.getString("pager");
+			Data = demoJson.getString("datas");
+			if (Type.equals(GET_SUCCESS_RESULT)) {
+				GetPager(pager);
+				GetDataList(Data, curPage);
+			} else if (Type.equals(GET_FAIL_RESULT)) {
+				Toast.makeText(getActivity(), "服务器数据失败", Toast.LENGTH_SHORT).show();
+			} else {
+				Toast.makeText(getActivity(), "数据格式校验失败", Toast.LENGTH_SHORT).show();
+			}
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+	}
+
+	private void GetDataList(String data, int arg) {
+		 
+		if (arg == 1) {
+			list.clear();
+		}
+		JSONArray jArray = null;
+		try {
+			jArray = new JSONArray(data);
+			JSONObject json_data = null;
+			if (jArray.length() == 0) {
+//				Toast.makeText(getActivity(), "无数据", Toast.LENGTH_SHORT).show();
+
+			} else {
+				for (int i = 0; i < jArray.length(); i++) {
+					json_data = jArray.getJSONObject(i);
+					Log.e("json_data", "" + json_data);
+//					JSONObject jsonObject = json_data.getJSONObject("data");
+					VoteModel listinfo = new VoteModel();
+					listinfo.setImageUrl(json_data.getString("sacleImage"));
+					listinfo.setTitle(json_data.getString("title"));
+					listinfo.setDetail(json_data.getString("content"));
+					list.add(listinfo);
+
+				}
+			}
+
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		if (arg == 1) {
+			go();
+		} else {
+			mAdapter.notifyDataSetChanged();
+		}
+
+	}
+
+	private void GetPager(String pager) {
+		// TODO Auto-generated method stub
+		try {
+			JSONObject demoJson = new JSONObject(pager);
+
+			totalPage = demoJson.getInt("totalPage");
+
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+	}
+
+	private void ReadTicket() {
+		// TODO Auto-generated method stub
+		ticket = PreUserInfo.getString("ticket", "");
+		userPhoto = PreUserInfo.getString("userPhoto", "");
+		LoginId = PreUserInfo.getString("userName", "");
+	}
+
+	private void GetData() {
+		// TODO Auto-generated method stub
+
+		// TODO Auto-generated method stub
+		final ArrayList ArrayValues = new ArrayList();
+		ArrayValues.add(new BasicNameValuePair("ticket", ticket));
+		chn = GetChannelByKey.GetSign(PreALLChannel, "网上投票");
+		ArrayValues.add(new BasicNameValuePair("chn", chn));
+		ArrayValues.add(new BasicNameValuePair("curPage", "" + curPage));
+		ArrayValues.add(new BasicNameValuePair("pageSize", "" + pageSize));
+		new Thread(new Runnable() { // 开启线程上传文件
+			@Override
+			public void run() {
+				String DueData = "";
+				DueData = HttpGetData.GetData("api/cms/channel/channleListData", ArrayValues);
+				Message msg = new Message();
+				msg.obj = DueData;
+				msg.what = GET_DUE_DATA;
+				uiHandler.sendMessage(msg);
+			}
+		}).start();
+
 	}
 
 	private void initdot(int numpic) {
@@ -321,7 +452,7 @@ public class MainPublicPageVoteFragment extends Fragment
 			} else {
 				curPage = 1;
 				Toast.makeText(getActivity(), "正在刷新vote", Toast.LENGTH_SHORT).show();
-				getdatalist(curPage);
+			GetData();
 			}
 			int temp = 1;
 			temp = (lastItemIndex) % pageSize;
@@ -332,7 +463,7 @@ public class MainPublicPageVoteFragment extends Fragment
 					Toast.makeText(getActivity(), " 没有更多了", Toast.LENGTH_SHORT).show();
 					// // listinfoagain();
 				} else {
-					getdatalist(curPage);
+				GetData();
 					Toast.makeText(getActivity(), "正在加载下一页", Toast.LENGTH_SHORT).show();
 				}
 
@@ -359,15 +490,17 @@ public class MainPublicPageVoteFragment extends Fragment
 	@Override
 	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 		// TODO Auto-generated method stub
-		VoteModel data = list.get(position - 1);
-		Intent intent = new Intent();
-		intent.setClass(getActivity(), ChangeTermsDetailActivity.class);
-		Bundle bundle = new Bundle();
-		bundle.putString("StartTime", "开始时间：2016.12.23 04:40:23");
-		bundle.putString("EndTime", "结束时间：2016.12.29 04:40:23");
-		bundle.putString("Title", data.getTitle());
-		intent.putExtras(bundle);
-		startActivity(intent);
+//		VoteModel data = list.get(position - 1);
+//		Intent intent = new Intent();
+//		intent.setClass(getActivity(), ChangeTermsDetailActivity.class);
+//		Bundle bundle = new Bundle();
+//		bundle.putString("StartTime", "开始时间：2016.12.23 04:40:23");
+//		bundle.putString("EndTime", "结束时间：2016.12.29 04:40:23");
+//		bundle.putString("Title", data.getTitle());
+//		intent.putExtras(bundle);
+//		startActivity(intent);
+		Toast.makeText(getActivity(), "已结束", Toast.LENGTH_SHORT).show();
+		
 	}
 
 	@Override

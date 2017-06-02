@@ -36,7 +36,9 @@
             android:layout_alignParentRight="true"
             android:layout_marginRight="@dimen/top_imageview_distance"
             android:layout_marginTop="@dimen/top_imageview_distance"
-            android:src="@drawable/fund_detail" />
+            android:src="@drawable/fund_detail"
+            android:visibility="gone" />
+
     </RelativeLayout>
 
     <LinearLayout

@@ -352,7 +352,6 @@ public class SpecialDetailActivity extends Activity implements OnClickListener, 
 			finish();
 			break;
 		case R.id.btn_answer:
-
 			break;
 		case R.id.text_warning:
 			curPage++;

@@ -17,7 +17,8 @@
             android:layout_height="@dimen/top_imageview_height"
             android:layout_marginLeft="@dimen/top_imageview_distance"
             android:layout_marginTop="@dimen/top_imageview_distance"
-            android:src="@drawable/homepage_search" />
+            android:src="@drawable/homepage_search"
+            android:visibility="gone" />
 
         <TextView
             android:layout_width="match_parent"
@@ -34,8 +35,7 @@
             android:id="@+id/image_inform"
             android:layout_width="@dimen/top_imageview_height"
             android:layout_height="@dimen/top_imageview_height"
-            android:layout_alignParentRight="true"
-            android:layout_marginRight="50dp"
+            android:layout_marginLeft="@dimen/top_imageview_distance"
             android:layout_marginTop="@dimen/top_imageview_distance"
             android:src="@drawable/inform" />
 

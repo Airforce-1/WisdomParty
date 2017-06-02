@@ -34,13 +34,15 @@
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:background="#ffffff"
-        android:scrollbars="none" >
+        android:scrollbars="none"
+        android:visibility="gone" >
 
         <LinearLayout
             android:id="@+id/lin"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:orientation="horizontal" >
+            android:orientation="horizontal"
+            android:visibility="gone" >
 
             <LinearLayout
                 android:id="@+id/lin_label1"

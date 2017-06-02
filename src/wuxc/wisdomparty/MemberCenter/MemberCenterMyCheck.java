@@ -105,7 +105,8 @@ public class MemberCenterMyCheck extends Activity implements OnTouchListener, On
 		TextClass.setText(StrClass);
 		changeclass(IntClass);
 		GetData();
-		Toast.makeText(getApplicationContext(), "正在加载数据", Toast.LENGTH_SHORT).show();
+		// Toast.makeText(getApplicationContext(), "正在加载数据",
+		// Toast.LENGTH_SHORT).show();
 
 	}
 
@@ -157,7 +158,7 @@ public class MemberCenterMyCheck extends Activity implements OnTouchListener, On
 					listinfo.setMoney("审批中");
 				}
 				listinfo.setMonth(jsonObject.getString("name"));
-				listinfo.setTime(jsonObject.getString("updatetime"));
+				listinfo.setTime(jsonObject.getString("createtime"));
 				list.add(listinfo);
 
 			}
@@ -208,7 +209,7 @@ public class MemberCenterMyCheck extends Activity implements OnTouchListener, On
 			if (Type.equals(GET_SUCCESS_RESULT)) {
 				GetPager(pager);
 				GetDataList(Data, curPage);
-			}else if (Type.equals("fail")) {
+			} else if (Type.equals("fail")) {
 				Toast.makeText(getApplicationContext(), "服务器数据失败", Toast.LENGTH_SHORT).show();
 			} else {
 				Toast.makeText(getApplicationContext(), "数据格式校验失败", Toast.LENGTH_SHORT).show();

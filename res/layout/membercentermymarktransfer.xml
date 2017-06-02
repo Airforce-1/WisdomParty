@@ -204,12 +204,14 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/lin_transfer"
                 android:layout_centerHorizontal="true"
-                android:orientation="horizontal" >
+                android:orientation="horizontal"
+                android:visibility="gone" >
 
                 <ImageView
                     android:layout_width="16dp"
                     android:layout_height="16dp"
-                    android:src="@drawable/transfer_detail" />
+                    android:src="@drawable/transfer_detail"
+                    android:visibility="gone" />
 
                 <TextView
                     android:layout_width="match_parent"
@@ -217,7 +219,8 @@
                     android:gravity="center_vertical"
                     android:text="查看转换规则"
                     android:textColor="@color/member_transform_stroke"
-                    android:textSize="@dimen/member_text_size" />
+                    android:textSize="@dimen/member_text_size"
+                    android:visibility="gone" />
             </LinearLayout>
         </RelativeLayout>
     </LinearLayout>

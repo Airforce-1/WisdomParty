@@ -87,7 +87,7 @@ public class MemberCenterMySelect extends Activity implements OnTouchListener, O
 		PreUserInfo = getSharedPreferences("UserInfo", Context.MODE_PRIVATE);
 		ReadTicket();
 		GetData();
-		Toast.makeText(getApplicationContext(), "正在加载数据", Toast.LENGTH_SHORT).show();
+//		Toast.makeText(getApplicationContext(), "正在加载数据", Toast.LENGTH_SHORT).show();
 
 	}
 
@@ -134,11 +134,11 @@ public class MemberCenterMySelect extends Activity implements OnTouchListener, O
 				for (int i = 0; i < jArray.length(); i++) {
 					json_data = jArray.getJSONObject(i);
 					Log.e("json_data", "" + json_data);
-					JSONObject jsonObject = json_data.getJSONObject("data");
+//					JSONObject jsonObject = json_data.getJSONObject("data");
 					MydueModel listinfo = new MydueModel();
 
-					listinfo.setTime(jsonObject.getString("createtime"));
-					listinfo.setMonth(jsonObject.getString("title"));
+					listinfo.setTime(json_data.getString("createtime"));
+					listinfo.setMonth(json_data.getString("title"));
 					listinfo.setMoney("22");
 					list.add(listinfo);
 

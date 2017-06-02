@@ -3,11 +3,22 @@ package wuxc.wisdomparty.MemberCenter;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.http.message.BasicNameValuePair;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import com.umeng.socialize.utils.Log;
+
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
@@ -23,6 +34,8 @@ import android.widget.Toast;
 import single.wuxc.wisdomparty.R;
 import wuxc.wisdomparty.Adapter.MyReBackAdapter;
 import wuxc.wisdomparty.Adapter.MyReBackAdapter.Callback;
+import wuxc.wisdomparty.Internet.HttpGetData;
+import wuxc.wisdomparty.Model.MyReBackModel;
 import wuxc.wisdomparty.Model.MyReBackModel;
 
 public class MemberCenterMyReBack extends Activity
@@ -42,6 +55,22 @@ public class MemberCenterMyReBack extends Activity
 	private int curPage = 1;
 	private final static int RATIO = 2;
 	private TextView headTextView = null;
+	private String ticket;
+	private SharedPreferences PreUserInfo;// 存储个人信息
+	private static final String GET_SUCCESS_RESULT = "success";
+	private static final int GET_DUE_DATA = 6;
+	public Handler uiHandler = new Handler() {
+		@Override
+		public void handleMessage(Message msg) {
+			switch (msg.what) {
+			case GET_DUE_DATA:
+				GetDataDueData(msg.obj);
+				break;
+			default:
+				break;
+			}
+		}
+	};
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -52,7 +81,116 @@ public class MemberCenterMyReBack extends Activity
 		initview();
 		setonclicklistener();
 		setheadtextview();
-		getdatalist(curPage);
+		GetData();
+	}
+
+	protected void GetDataDueData(Object obj) {
+
+		// TODO Auto-generated method stub
+		String Type = null;
+		String Data = null;
+		String pager = null;
+		try {
+			JSONObject demoJson = new JSONObject(obj.toString());
+			Type = demoJson.getString("type");
+			pager = demoJson.getString("pager");
+			Data = demoJson.getString("datas");
+			if (Type.equals(GET_SUCCESS_RESULT)) {
+				GetPager(pager);
+				GetDataList(Data, curPage);
+			} else if (Type.equals("fail")) {
+				Toast.makeText(getApplicationContext(), "服务器数据失败", Toast.LENGTH_SHORT).show();
+			} else {
+				Toast.makeText(getApplicationContext(), "数据格式校验失败", Toast.LENGTH_SHORT).show();
+			}
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+	}
+
+	private void GetDataList(String data, int arg) {
+
+		if (arg == 1) {
+			list.clear();
+		}
+		JSONArray jArray = null;
+		try {
+			jArray = new JSONArray(data);
+			JSONObject json_data = null;
+			if (jArray.length() == 0) {
+				Toast.makeText(getApplicationContext(), "无数据", Toast.LENGTH_SHORT).show();
+
+			} else {
+				for (int i = 0; i < jArray.length(); i++) {
+					json_data = jArray.getJSONObject(i);
+					Log.e("json_data", "" + json_data);
+					JSONObject jsonObject = json_data.getJSONObject("data");
+					MyReBackModel listinfo = new MyReBackModel();
+					// listinfo.setDetail(jsonObject.getString("ctype"));
+					// listinfo.setChange("" + jsonObject.getString("score"));
+					listinfo.setTime(jsonObject.getString("createTime"));
+					listinfo.setTitle(jsonObject.getString("topicContent"));
+					 listinfo.setReBack(jsonObject.getString("content"));
+					list.add(listinfo);
+
+				}
+			}
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		if (arg == 1) {
+			go();
+		} else {
+			mAdapter.notifyDataSetChanged();
+		}
+
+	}
+
+	private void GetPager(String pager) {
+		// TODO Auto-generated method stub
+		try {
+			JSONObject demoJson = new JSONObject(pager);
+
+			totalPage = demoJson.getInt("totalPage");
+
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+	}
+
+	private void ReadTicket() {
+		// TODO Auto-generated method stub
+		ticket = PreUserInfo.getString("ticket", null);
+	}
+
+	private void GetData() {
+		// TODO Auto-generated method stub
+
+		// TODO Auto-generated method stub
+		final ArrayList ArrayValues = new ArrayList();
+		ArrayValues.add(new BasicNameValuePair("ticket", ticket));
+		ArrayValues.add(new BasicNameValuePair("curPage", "" + curPage));
+		ArrayValues.add(new BasicNameValuePair("pageSize", "" + pageSize));
+		new Thread(new Runnable() { // 开启线程上传文件
+			@Override
+			public void run() {
+				String DueData = "";
+				DueData = HttpGetData.GetData("api/bbs/topicReply/getListJsonData", ArrayValues);
+				Message msg = new Message();
+				msg.obj = DueData;
+				msg.what = GET_DUE_DATA;
+				uiHandler.sendMessage(msg);
+			}
+		}).start();
+
 	}
 
 	private void getdatalist(int arg) {
@@ -108,6 +246,8 @@ public class MemberCenterMyReBack extends Activity
 		// TODO Auto-generated method stub
 		ImageBack = (ImageView) findViewById(R.id.image_back);
 		ListData = (ListView) findViewById(R.id.list_data);
+		PreUserInfo = getSharedPreferences("UserInfo", Context.MODE_PRIVATE);
+		ReadTicket();
 	}
 
 	private void setonclicklistener() {
@@ -173,7 +313,7 @@ public class MemberCenterMyReBack extends Activity
 			} else {
 				curPage = 1;
 				Toast.makeText(getApplicationContext(), "正在刷新", Toast.LENGTH_SHORT).show();
-				getdatalist(curPage);
+				GetData();
 			}
 			int temp = 1;
 			temp = (lastItemIndex) % pageSize;
@@ -184,7 +324,7 @@ public class MemberCenterMyReBack extends Activity
 					Toast.makeText(getApplicationContext(), " 没有更多了", Toast.LENGTH_SHORT).show();
 					// // listinfoagain();
 				} else {
-					getdatalist(curPage);
+					GetData();
 					Toast.makeText(getApplicationContext(), "正在加载下一页", Toast.LENGTH_SHORT).show();
 				}
 

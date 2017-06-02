@@ -42,7 +42,7 @@
                     android:singleLine="true"
                     android:text="@string/member_discussion"
                     android:textColor="@color/member_transform_black"
-                    android:textSize="@dimen/member_transform_size" />
+                    android:textSize="14dp" />
 
                 <TextView
                     android:id="@+id/party_address"
@@ -53,7 +53,7 @@
                     android:singleLine="true"
                     android:text="@string/member_discussion"
                     android:textColor="@color/member_transform_grey"
-                    android:textSize="@dimen/member_text_size" />
+                    android:textSize="12dp" />
 
                 <TextView
                     android:id="@+id/party_phonenumber"
@@ -64,7 +64,7 @@
                     android:singleLine="true"
                     android:text="@string/member_discussion"
                     android:textColor="@color/member_transform_grey"
-                    android:textSize="@dimen/member_text_size" />
+                    android:textSize="12dp" />
             </LinearLayout>
 
             <LinearLayout

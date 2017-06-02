@@ -173,8 +173,10 @@ public class StartLogoActivity extends Activity {
 			e.printStackTrace();
 		}
 		edit.commit();
-//		Log.e("GetChannelByKey.GetSign", GetChannelByKey.GetSign(PreALLChannel, "暖心工程"));
-//		Log.e("GetChannelByKey.GetUrl", GetChannelByKey.GetUrl(PreALLChannel, "考试须知"));
+		// Log.e("GetChannelByKey.GetSign",
+		// GetChannelByKey.GetSign(PreALLChannel, "暖心工程"));
+		// Log.e("GetChannelByKey.GetUrl", GetChannelByKey.GetUrl(PreALLChannel,
+		// "考试须知"));
 	}
 
 	public void GetDataDetailFromLoginResultData(Object obj) {
@@ -261,7 +263,7 @@ public class StartLogoActivity extends Activity {
 
 	private void GetAllData() {
 		// TODO Auto-generated method stub
-
+		Log.e("GetAllData", "GetAllData");
 		// TODO Auto-generated method stub
 		final ArrayList ArrayValues = new ArrayList();
 		ArrayValues.add(new BasicNameValuePair("ticket", ticket));

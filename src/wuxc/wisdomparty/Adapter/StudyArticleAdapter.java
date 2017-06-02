@@ -14,7 +14,7 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Environment;
 import android.util.DisplayMetrics;
-import android.util.Log;
+//import android.util.//Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -67,9 +67,9 @@ public class StudyArticleAdapter extends ArrayAdapter<StudyArticleModel> {
 		// Load the image and set it on the ImageView
 		String imageUrl = imageAndText.getBackGround();
 		ImageView imageView = viewCache.getImageBackGround();
-		imageView.setTag(URLcontainer.urlip + imageUrl);
-		Log.e("imageUrl", imageUrl);
-		if (imageUrl.equals(imageurl)) {
+		imageView.setTag(URLcontainer.urlip +URLcontainer.GetFile + imageUrl);
+		//Log.e("imageUrl", imageUrl);
+		if (imageUrl.equals(imageurl)||imageUrl.equals("null")) {
 			imageView.setImageResource(R.drawable.article);
 		} else {
 			try {
@@ -78,8 +78,8 @@ public class StudyArticleAdapter extends ArrayAdapter<StudyArticleModel> {
 				Bitmap bm1 = null;
 				bm1 = getBitmapByPath(temppath);
 				if (bm1 == null) {
-					imageUrl = URLcontainer.urlip + imageUrl;
-					Log.e("imageUrl", imageUrl);
+					imageUrl = URLcontainer.urlip +URLcontainer.GetFile + imageUrl;
+					//Log.e("imageUrl", imageUrl);
 					Drawable cachedImage = ImageLoader.loadDrawable(imageUrl, new ImageCallback() {
 						public void imageLoaded(Drawable imageDrawable, String imageUrl) {
 							ImageView imageViewByTag = (ImageView) listView.findViewWithTag(imageUrl);

@@ -204,7 +204,7 @@ public class InterPartyOnlineDetailActivity extends Activity implements OnClickL
 			attachment_classify = demoJson.getString("classify");
 			attachment_fileName = demoJson.getString("fileName");
 			attachment_filePath = demoJson.getString("filePath");
-			attachment_key = demoJson.getString("key");
+			attachment_key = demoJson.getString("par_keyid");
 			attachment_par_keyid = demoJson.getString("par_keyid");
 			attachment_pathType = demoJson.getString("pathType");
 			attachment_scalePath = demoJson.getString("scalePath");
@@ -322,7 +322,7 @@ public class InterPartyOnlineDetailActivity extends Activity implements OnClickL
 				Toast.makeText(getApplicationContext(), "免冠照未上传", Toast.LENGTH_SHORT).show();
 			} else {
 
-				Toast.makeText(getApplicationContext(), "加入党组织", Toast.LENGTH_SHORT).show();
+				Toast.makeText(getApplicationContext(), "等待审批", Toast.LENGTH_SHORT).show();
 
 				final ArrayList ArrayValues = new ArrayList();
 				ArrayValues.add(new BasicNameValuePair("modelSign", "LINE_PARTY"));
@@ -342,27 +342,27 @@ public class InterPartyOnlineDetailActivity extends Activity implements OnClickL
 				ArrayValues.add(new BasicNameValuePair("line_party.residence", StrLocation));
 				ArrayValues.add(new BasicNameValuePair("line_party.specialty", StrSpecial));
 
-				ArrayValues.add(new BasicNameValuePair("attacement.operateFlag", "1"));
-				ArrayValues.add(new BasicNameValuePair("attacement.ext", photo_ext));
-				ArrayValues.add(new BasicNameValuePair("attacement.scalePath", photo_scalePath));
-				ArrayValues.add(new BasicNameValuePair("attacement.classify", photo_classify));
-				ArrayValues.add(new BasicNameValuePair("attacement.fileName", photo_fileName));
-				ArrayValues.add(new BasicNameValuePair("attacement.par_keyid", photo_par_keyid));
-				ArrayValues.add(new BasicNameValuePair("attacement.size", photo_size));
-				ArrayValues.add(new BasicNameValuePair("attacement.filePath", photo_filePath));
-				ArrayValues.add(new BasicNameValuePair("attacement.pathType", photo_pathType));
-				ArrayValues.add(new BasicNameValuePair("attacement.key", photo_key));
-
-				ArrayValues.add(new BasicNameValuePair("attacement.operateFlag", "1"));
-				ArrayValues.add(new BasicNameValuePair("attacement.ext", attachment_ext));
-				ArrayValues.add(new BasicNameValuePair("attacement.scalePath", attachment_scalePath));
-				ArrayValues.add(new BasicNameValuePair("attacement.classify", attachment_classify));
-				ArrayValues.add(new BasicNameValuePair("attacement.fileName", attachment_fileName));
-				ArrayValues.add(new BasicNameValuePair("attacement.par_keyid", attachment_par_keyid));
-				ArrayValues.add(new BasicNameValuePair("attacement.size", attachment_size));
-				ArrayValues.add(new BasicNameValuePair("attacement.filePath", attachment_filePath));
-				ArrayValues.add(new BasicNameValuePair("attacement.pathType", attachment_pathType));
-				ArrayValues.add(new BasicNameValuePair("attacement.key", attachment_key));
+//				ArrayValues.add(new BasicNameValuePair("attacement.operateFlag", "1"));
+//				ArrayValues.add(new BasicNameValuePair("attacement.ext", photo_ext));
+//				ArrayValues.add(new BasicNameValuePair("attacement.scalePath", photo_scalePath));
+//				ArrayValues.add(new BasicNameValuePair("attacement.classify", photo_classify));
+//				ArrayValues.add(new BasicNameValuePair("attacement.fileName", photo_fileName));
+//				ArrayValues.add(new BasicNameValuePair("attacement.par_keyid", photo_par_keyid));
+//				ArrayValues.add(new BasicNameValuePair("attacement.size", photo_size));
+//				ArrayValues.add(new BasicNameValuePair("attacement.filePath", photo_filePath));
+//				ArrayValues.add(new BasicNameValuePair("attacement.pathType", photo_pathType));
+//				ArrayValues.add(new BasicNameValuePair("attacement.key", photo_key));
+//
+//				ArrayValues.add(new BasicNameValuePair("attacement.operateFlag", "1"));
+//				ArrayValues.add(new BasicNameValuePair("attacement.ext", attachment_ext));
+//				ArrayValues.add(new BasicNameValuePair("attacement.scalePath", attachment_scalePath));
+//				ArrayValues.add(new BasicNameValuePair("attacement.classify", attachment_classify));
+//				ArrayValues.add(new BasicNameValuePair("attacement.fileName", attachment_fileName));
+//				ArrayValues.add(new BasicNameValuePair("attacement.par_keyid", attachment_par_keyid));
+//				ArrayValues.add(new BasicNameValuePair("attacement.size", attachment_size));
+//				ArrayValues.add(new BasicNameValuePair("attacement.filePath", attachment_filePath));
+//				ArrayValues.add(new BasicNameValuePair("attacement.pathType", attachment_pathType));
+//				ArrayValues.add(new BasicNameValuePair("attacement.key", attachment_key));
 				new Thread(new Runnable() { // 开启线程上传文件
 					@Override
 					public void run() {

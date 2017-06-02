@@ -151,7 +151,7 @@ public class MainPublicPagePartyFragment extends Fragment
 	}
 
 	private void GetDataList(String data, int arg) {
-
+		text_list_title.setVisibility(View.GONE);;
 		if (arg == 1) {
 			list.clear();
 		}
@@ -166,14 +166,14 @@ public class MainPublicPagePartyFragment extends Fragment
 				for (int i = 0; i < jArray.length(); i++) {
 					json_data = jArray.getJSONObject(i);
 					Log.e("json_data", "" + json_data);
-					JSONObject jsonObject = json_data.getJSONObject("data");
+//					JSONObject jsonObject = json_data.getJSONObject("data");
 					PartyNewsModel listinfo = new PartyNewsModel();
 
-					listinfo.setTime(jsonObject.getString("createtime"));
-					listinfo.setTitle(jsonObject.getString("title"));
-					listinfo.setAuthor(jsonObject.getString("author"));
-					listinfo.setDetail(jsonObject.getString("content"));
-					listinfo.setId(jsonObject.getString("keyid"));
+					listinfo.setTime(json_data.getString("createtime"));
+					listinfo.setTitle(json_data.getString("title"));
+					listinfo.setAuthor(json_data.getString("author"));
+					listinfo.setDetail(json_data.getString("content"));
+					listinfo.setId(json_data.getString("keyid"));
 					list.add(listinfo);
 
 				}

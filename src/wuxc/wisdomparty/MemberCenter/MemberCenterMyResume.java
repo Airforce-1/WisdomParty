@@ -151,6 +151,17 @@ public class MemberCenterMyResume extends Activity implements OnClickListener {
 					// TODO: handle exception
 					StrPhoneNumber = "无数据";
 				}
+				try {
+					StrPartyAge = demoJsondata.getString("other2");
+				} catch (Exception e) {
+					// TODO: handle exception
+					StrPartyAge = "无数据";
+				}try {
+					StrIfParty = demoJsondata.getString("memberLevelDesc");
+				} catch (Exception e) {
+					// TODO: handle exception
+					StrIfParty = "无数据";
+				}
 				settext();
 			} else if (Type.equals(GET_FAIL_RESULT)) {
 				Toast.makeText(getApplicationContext(), "服务器数据失败", Toast.LENGTH_SHORT).show();
@@ -194,8 +205,8 @@ public class MemberCenterMyResume extends Activity implements OnClickListener {
 		TextSex.setText(StrSex);
 		TextPhoneNumber.setText(StrPhoneNumber);
 		TextAddress.setText(StrAddress);
-		TextIfParty.setText("正在加载");
-		TextPartyAge.setText("正在加载");
+		TextIfParty.setText(StrIfParty);
+		TextPartyAge.setText(StrPartyAge);
 		TextMotto.setText(StrMotto);
 	}
 

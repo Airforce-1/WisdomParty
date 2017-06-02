@@ -322,7 +322,8 @@
                 android:layout_height="match_parent"
                 android:layout_weight="2"
                 android:gravity="center_vertical"
-                android:orientation="horizontal" >
+                android:orientation="horizontal"
+                android:visibility="gone" >
 
                 <ImageView
                     android:layout_width="20dp"

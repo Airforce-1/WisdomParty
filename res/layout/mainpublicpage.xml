@@ -15,7 +15,8 @@
             android:layout_height="@dimen/top_imageview_height"
             android:layout_marginLeft="@dimen/top_imageview_distance"
             android:layout_marginTop="@dimen/top_imageview_distance"
-            android:src="@drawable/homepage_search" />
+            android:src="@drawable/homepage_search"
+            android:visibility="gone" />
 
         <TextView
             android:layout_width="match_parent"
@@ -35,7 +36,8 @@
             android:layout_alignParentRight="true"
             android:layout_marginRight="@dimen/top_imageview_distance"
             android:layout_marginTop="@dimen/top_imageview_distance"
-            android:src="@drawable/homepage_setting" />
+            android:src="@drawable/homepage_setting"
+            android:visibility="gone" />
     </RelativeLayout>
 
     <LinearLayout

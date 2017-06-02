@@ -31,7 +31,7 @@ public class GuidePageActivity extends FragmentActivity implements OnClickListen
 	private Childviewpaper ViewPaper;
 	public List<Fragment> Fragments = new ArrayList<Fragment>();
 	private FragmentManager FragmentManager;
-	private int NumberPicture = 4;
+	private int NumberPicture = 3;
 	private SharedPreferences PreGuidePage;// 用于确定是否是第一次登录
 	private TextView TextFinish;
 

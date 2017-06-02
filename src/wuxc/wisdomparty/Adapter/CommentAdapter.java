@@ -59,7 +59,7 @@ public class CommentAdapter extends ArrayAdapter<CommentModel> {
 		ImageView imageView = viewCache.getRoundImageview();
 		imageView.setTag(URLcontainer.urlip + URLcontainer.GetFile + imageUrl);
 		Log.e("imageUrl", imageUrl);
-		if (imageUrl.equals(imageurl)) {
+		if (imageUrl.equals(imageurl)||imageUrl.equals("null")||imageUrl.equals("null")) {
 			imageView.setImageResource(R.drawable.item_headimg);
 		} else {
 			try {
