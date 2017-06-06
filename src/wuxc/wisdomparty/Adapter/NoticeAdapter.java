@@ -47,11 +47,11 @@ public class NoticeAdapter extends ArrayAdapter<NoticeModel> {
 		Time.setText(imageAndText.getTime());
 		TextView TextRead = viewCache.getTextRead();
 		if (imageAndText.getReadState() == 1) {
-			TextRead.setText("已读");
+			TextRead.setText("查看");
 			TextRead.setTextColor(Color.BLACK);
 		} else {
-			TextRead.setText("未读");
-			TextRead.setTextColor(Color.RED);
+			TextRead.setText("查看");
+			TextRead.setTextColor(Color.BLACK);
 		}
 		return rowView;
 	}

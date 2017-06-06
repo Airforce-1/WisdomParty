@@ -115,6 +115,7 @@ public class EmployeeProjectFragment extends Fragment implements OnTouchListener
 		GetData();
 		return view;
 	}
+
 	protected void GetDataDueData(Object obj) {
 
 		// TODO Auto-generated method stub
@@ -153,7 +154,8 @@ public class EmployeeProjectFragment extends Fragment implements OnTouchListener
 			jArray = new JSONArray(data);
 			JSONObject json_data = null;
 			if (jArray.length() == 0) {
-//			/	Toast.makeText(getActivity(), "无数据", Toast.LENGTH_SHORT).show();
+				// / Toast.makeText(getActivity(), "无数据",
+				// Toast.LENGTH_SHORT).show();
 
 			} else {
 				for (int i = 0; i < jArray.length(); i++) {
@@ -162,7 +164,7 @@ public class EmployeeProjectFragment extends Fragment implements OnTouchListener
 					// JSONObject jsonObject = json_data.getJSONObject("data");
 					AssistanceModel listinfo = new AssistanceModel();
 
-//					listinfo.setTime(json_data.getString("createtime"));
+					listinfo.setNumber(json_data.getString("createtime"));
 					listinfo.setTitle(json_data.getString("title"));
 					listinfo.setBackGround(json_data.getString("sacleImage"));
 					listinfo.setDetail(json_data.getString("content"));
@@ -229,8 +231,6 @@ public class EmployeeProjectFragment extends Fragment implements OnTouchListener
 		}).start();
 
 	}
-
-	 
 
 	private void setheadtextview() {
 		headTextView = new TextView(getActivity());
@@ -381,7 +381,8 @@ public class EmployeeProjectFragment extends Fragment implements OnTouchListener
 		intent.setClass(getActivity(), AssistanceDetailActivity.class);
 		Bundle bundle = new Bundle();
 		bundle.putString("Title", data.getTitle());
-		bundle.putString("Time", "2016-11-30");
+		bundle.putString("Time", data.getNumber());
+		bundle.putString("content", data.getDetail());
 		intent.putExtras(bundle);
 		startActivity(intent);
 	}

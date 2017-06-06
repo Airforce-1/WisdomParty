@@ -120,6 +120,7 @@ public class MemberPartyDuesActivity extends Activity implements OnClickListener
 	private static final int GET_MONTH_RESULT_DATA = 1;
 	private static final String GET_SUCCESS_RESULT = "success";
 	private String Months = null;
+	private double salary = 0;
 	public Handler uiHandler = new Handler() {
 		@Override
 		public void handleMessage(Message msg) {
@@ -178,6 +179,10 @@ public class MemberPartyDuesActivity extends Activity implements OnClickListener
 			JSONObject demoJson = new JSONObject(data);
 			Name = demoJson.getString("name");
 			months = demoJson.getString("months");
+			salary = demoJson.getDouble("salary");
+			for (int i = 0; i < 12; i++) {
+				money[i] = salary;
+			}
 			Months = months;
 			TextName.setText("ÐÕÃû£º" + Name);
 			GetMonth(months);

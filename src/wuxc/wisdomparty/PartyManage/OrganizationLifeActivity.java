@@ -36,6 +36,7 @@ import wuxc.wisdomparty.Adapter.RewardsAdapter;
 import wuxc.wisdomparty.Internet.GetChannelByKey;
 import wuxc.wisdomparty.Internet.HttpGetData;
 import wuxc.wisdomparty.Model.RewardsModel;
+import wuxc.wisdomparty.add.orgDetailActivity;
 import wuxc.wisdomparty.Model.RewardsModel;
 
 public class OrganizationLifeActivity extends Activity
@@ -370,7 +371,7 @@ public class OrganizationLifeActivity extends Activity
 		// TODO Auto-generated method stub
 		RewardsModel data = list.get(position - 1);
 		Intent intent = new Intent();
-		intent.setClass(getApplicationContext(), RewardsDetailActivity.class);
+		intent.setClass(getApplicationContext(), orgDetailActivity.class);
 		Bundle bundle = new Bundle();
 		bundle.putString("detail", data.getDetail());
 		bundle.putString("Title", data.getTitle());

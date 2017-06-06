@@ -390,14 +390,14 @@ public class MemberCenterMyPost extends Activity
 	@Override
 	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 		// TODO Auto-generated method stub
-//		MyPostModel data = list.get(position - 1);
-//		Intent intent = new Intent();
-//		intent.setClass(getApplicationContext(), webview.class);
-//		Bundle bundle = new Bundle();
-//		bundle.putString("url", data.getUrl());
-//
-//		intent.putExtras(bundle);
-//		startActivity(intent);
+		MyPostModel data = list.get(position - 1);
+		Intent intent = new Intent();
+		intent.setClass(getApplicationContext(), webview.class);
+		Bundle bundle = new Bundle();
+		bundle.putString("url", data.getUrl());
+
+		intent.putExtras(bundle);
+		startActivity(intent);
 	}
 
 	@Override

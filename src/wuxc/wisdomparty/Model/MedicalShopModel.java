@@ -5,6 +5,23 @@ public class MedicalShopModel {
 
 	private String Title;
 	private String Detail;
+private String url;
+private String time;
+	public String getTime() {
+	return time;
+}
+
+public void setTime(String time) {
+	this.time = time;
+}
+
+	public String getUrl() {
+	return url;
+}
+
+public void setUrl(String url) {
+	this.url = url;
+}
 
 	public String getDetail() {
 		return Detail;

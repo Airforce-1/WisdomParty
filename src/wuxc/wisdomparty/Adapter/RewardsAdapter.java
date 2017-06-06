@@ -70,7 +70,7 @@ public class RewardsAdapter extends ArrayAdapter<RewardsModel> {
 		imageView.setTag(URLcontainer.urlip +URLcontainer.GetFile +URLcontainer.GetFile+ imageUrl);
 		Log.e("imageUrl", imageUrl);
 		if (imageUrl.equals(imageurl)||imageUrl.equals("null")) {
-			imageView.setImageResource(R.drawable.knbz);
+			imageView.setImageResource(R.drawable.cotent);
 		} else {
 			try {
 				String imageName1 = getBitName(imageUrl);
@@ -89,7 +89,7 @@ public class RewardsAdapter extends ArrayAdapter<RewardsModel> {
 						}
 					});
 					if (cachedImage == null) {
-						imageView.setImageResource(R.drawable.knbz);
+						imageView.setImageResource(R.drawable.cotent);
 					} else {
 						Drawable d = cachedImage; // xxx根据自己的情况获取drawable
 

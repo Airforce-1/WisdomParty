@@ -303,6 +303,7 @@ public class MemberEducationOneFragment extends Fragment
 					listinfo.setTime(json_data.getString("createtime"));
 					listinfo.setTitle(json_data.getString("title"));
 					listinfo.setImageUrl(json_data.getString("sacleImage"));
+					listinfo.setContent(json_data.getString("content"));
 					list.add(listinfo);
 
 				}
@@ -376,6 +377,7 @@ public class MemberEducationOneFragment extends Fragment
 		Bundle bundle = new Bundle();
 		bundle.putString("Title",   data.getTitle());
 		bundle.putString("Time",  data.getTime());
+		bundle.putString("content",  data.getContent());
 		intent.putExtras(bundle);
 		startActivity(intent);
 	}

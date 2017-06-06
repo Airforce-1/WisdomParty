@@ -295,6 +295,7 @@ public class ChangeTermsActivity extends Activity implements OnClickListener, On
 					ChangeTermsModel listinfo = new ChangeTermsModel();
 					listinfo.setSelecting(false);
 					listinfo.setSelected(false);
+					listinfo.setId(json_data.getString("parKeyid"));
 					// listinfo.setTitle("学部主任的选举" + arg);
 					listinfo.setNumber(json_data.getString("createtime"));
 					// listinfo.setTime(json_data.getString("createtime"));
@@ -374,18 +375,19 @@ public class ChangeTermsActivity extends Activity implements OnClickListener, On
 	@Override
 	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 		// TODO Auto-generated method stub
-		// ChangeTermsModel data = list.get(position - 1);
-		// Intent intent = new Intent();
-		// intent.setClass(getApplicationContext(),
-		// ChangeTermsDetailActivity.class);
-		// Bundle bundle = new Bundle();
-		// bundle.putString("StartTime", "开始时间：2016.12.23 04:40:23");
-		// bundle.putString("EndTime", "结束时间：2016.12.29 04:40:23");
-		// bundle.putString("Title", data.getTitle());
-		// intent.putExtras(bundle);
-		// startActivity(intent);
+		ChangeTermsModel data = list.get(position - 1);
+		Intent intent = new Intent();
+		intent.setClass(getApplicationContext(), ChangeTermsDetailActivity.class);
+		Bundle bundle = new Bundle();
+		bundle.putString("StartTime", "开始时间：2016.12.23 04:40:23");
+		bundle.putString("EndTime", "结束时间：2016.12.29 04:40:23");
+		bundle.putString("Title", data.getTitle());
+		bundle.putString("ID", data.getId());
+		intent.putExtras(bundle);
+		startActivity(intent);
 
-		Toast.makeText(getApplicationContext(), "已结束", Toast.LENGTH_SHORT).show();
+		// Toast.makeText(getApplicationContext(), "已结束",
+		// Toast.LENGTH_SHORT).show();
 
 	}
 

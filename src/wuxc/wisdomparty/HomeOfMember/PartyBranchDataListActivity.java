@@ -317,6 +317,7 @@ public class PartyBranchDataListActivity extends Activity implements OnClickList
 				bundle.putString("BranchName", BranchName);
 				bundle.putString("BranchAddress", BranchAddress);
 				bundle.putString("Name", Name);
+				bundle.putString("ToId", data.getId());
 				bundle.putString("BranchIntoName", data.getPartyName());
 				bundle.putString("BranchIntoAddress", data.getPartyAddress());
 				intent.putExtras(bundle);

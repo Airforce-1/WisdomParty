@@ -142,7 +142,6 @@ public class HomeOfEmployeeActivity extends FragmentActivity implements OnClickL
 	private void setonclicklistener() {
 		// TODO Auto-generated method stub
 		ImageBack.setOnClickListener(this);
-
 		TextParty.setOnClickListener(this);
 		TextInform.setOnClickListener(this);
 		TextStudy.setOnClickListener(this);

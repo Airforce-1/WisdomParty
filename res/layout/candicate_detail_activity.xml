@@ -24,7 +24,7 @@
             android:layout_marginRight="@dimen/top_height"
             android:gravity="center"
             android:singleLine="true"
-            android:text="候选人信息"
+            android:text="选项信息"
             android:textColor="@color/text_white"
             android:textSize="@dimen/text_size" />
     </RelativeLayout>
@@ -84,7 +84,8 @@
                             android:layout_width="wrap_content"
                             android:layout_height="16dp"
                             android:layout_marginBottom="2dp"
-                            android:src="@drawable/small_symbol" />
+                            android:src="@drawable/small_symbol"
+                            android:visibility="gone" />
 
                         <TextView
                             android:id="@+id/text_party_member"
@@ -92,7 +93,8 @@
                             android:layout_height="wrap_content"
                             android:singleLine="true"
                             android:text="共产党员"
-                            android:textSize="@dimen/member_transform_size" />
+                            android:textSize="@dimen/member_transform_size"
+                            android:visibility="gone" />
                     </LinearLayout>
 
                     <RelativeLayout
@@ -132,7 +134,7 @@
                 android:layout_height="45dp"
                 android:layout_marginLeft="20dp"
                 android:gravity="center_vertical"
-                android:text="个人资料"
+                android:text="简介"
                 android:textColor="#000000"
                 android:textSize="@dimen/big_text"
                 android:textStyle="bold" />

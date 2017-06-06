@@ -81,7 +81,7 @@ public class NoticeDatalistActivity extends Activity implements OnTouchListener,
 		setonclicklistener();
 		setheadtextview();
 		GetData();
-		Toast.makeText(getApplicationContext(), "正在加载数据", Toast.LENGTH_SHORT).show();
+//		Toast.makeText(getApplicationContext(), "正在加载数据", Toast.LENGTH_SHORT).show();
 	}
 
 	protected void GetDataNoticeData(Object obj) {

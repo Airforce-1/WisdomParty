@@ -437,18 +437,18 @@ public class MemberCenterMyCollect extends Activity implements OnTouchListener, 
 	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 		// TODO Auto-generated method stub
 		if (TYPE == 1) {
-//			CollectModel data = list.get(position - 1);
-//			Intent intent = new Intent();
-//			intent.setClass(getApplicationContext(), webview.class);
-//			Bundle bundle = new Bundle();
-//			bundle.putString("url", data.getUrl());
+			CollectModel data = list.get(position - 1);
+			Intent intent = new Intent();
+			intent.setClass(getApplicationContext(), webview.class);
+			Bundle bundle = new Bundle();
+			bundle.putString("url", data.getUrl());
 //			// bundle.putString("Time", "2016-11-23");
 //			// bundle.putString("Name", "小李");
 //			// bundle.putString("PageTitle", "收藏详情");
 //			// bundle.putString("Detail",
 //			// "中国共产主义青年团，简称共青团，原名中国社会主义青年团，是中国共产党领导的一个由信仰共产主义的中国青年组成的群众性组织。共青团中央委员会受中共中央委员会领导，共青团的地方各级组织受同级党的委员会领导，同时受共青团上级组织领导。1922年5月，团的第一次代表大会在广州举行，正式成立中国社会主义青年团，1925年1月26日改称中国共产主义青年团。1959年5月4日共青团中央颁布共青团团徽。");
-//			intent.putExtras(bundle);
-//			startActivity(intent);
+			intent.putExtras(bundle);
+			startActivity(intent);
 		} else {
 			CollectModel data = list.get(position - 1);
 			if (data.isIsselected()) {

@@ -302,13 +302,13 @@ public class MemberPartyBranchActivity extends Activity implements OnClickListen
 	@Override
 	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 		// TODO Auto-generated method stub
-		PartyBranchDataListModel data = list.get((Page - 1) * 6 + position);
-		Intent intent = new Intent();
-		intent.setClass(getApplicationContext(), MemberPartyBranchDetailActivity.class);
-		Bundle bundle = new Bundle();
-		bundle.putString("Name", data.getPartyName());
-		intent.putExtras(bundle);
-		startActivity(intent);
+//		PartyBranchDataListModel data = list.get((Page - 1) * 6 + position);
+//		Intent intent = new Intent();
+//		intent.setClass(getApplicationContext(), MemberPartyBranchDetailActivity.class);
+//		Bundle bundle = new Bundle();
+//		bundle.putString("Name", data.getPartyName());
+//		intent.putExtras(bundle);
+//		startActivity(intent);
 	}
 
 }

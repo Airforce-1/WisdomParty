@@ -38,6 +38,7 @@ import wuxc.wisdomparty.Internet.HttpGetData;
 import wuxc.wisdomparty.Internet.URLcontainer;
 import wuxc.wisdomparty.Model.MyPublishModel;
 import wuxc.wisdomparty.Model.MyPublishModel;
+import wuxc.wisdomparty.Model.MyPublishModel;
 
 public class MemberCenterMyPublish extends Activity
 		implements OnClickListener, OnTouchListener, OnItemClickListener, Callback {
@@ -134,10 +135,8 @@ public class MemberCenterMyPublish extends Activity
 //					listinfo.setDetail(jsonObject.getString("ctype"));
 //					listinfo.setChange("" + jsonObject.getString("score"));
 					listinfo.setTime(jsonObject.getString("createTime"));
-					listinfo.setBigTime("È¥Äê");
-					listinfo.setTitle(jsonObject.getString("content"));
-					
-					
+					listinfo.setTitle(jsonObject.getString("user_name"));
+					 listinfo.setBigTime(jsonObject.getString("content"));
 					list.add(listinfo);
 
 				}
@@ -371,6 +370,15 @@ public class MemberCenterMyPublish extends Activity
 		// bundle.putString("Title", data.getTitle());
 		// intent.putExtras(bundle);
 		// startActivity(intent);
+		MyPublishModel data = list.get(position - 1);
+		Intent intent = new Intent();
+		intent.setClass(getApplicationContext(), MemberCenterMyReBackDetail.class);
+		Bundle bundle = new Bundle();
+		bundle.putString("Reback", data.getBigTime());
+		bundle.putString("Time", data.getTime());
+		bundle.putString("Title", data.getTitle());
+		intent.putExtras(bundle);
+		startActivity(intent);
 	}
 
 	@Override

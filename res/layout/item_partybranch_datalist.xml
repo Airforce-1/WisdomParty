@@ -38,8 +38,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:layout_weight="3"
-                    android:gravity="top"
-                    android:singleLine="true"
+                    android:gravity="center_vertical"
                     android:text="@string/member_discussion"
                     android:textColor="@color/member_transform_black"
                     android:textSize="14dp" />
@@ -53,7 +52,8 @@
                     android:singleLine="true"
                     android:text="@string/member_discussion"
                     android:textColor="@color/member_transform_grey"
-                    android:textSize="12dp" />
+                    android:textSize="12dp"
+                    android:visibility="gone" />
 
                 <TextView
                     android:id="@+id/party_phonenumber"
@@ -64,7 +64,8 @@
                     android:singleLine="true"
                     android:text="@string/member_discussion"
                     android:textColor="@color/member_transform_grey"
-                    android:textSize="12dp" />
+                    android:textSize="12dp"
+                    android:visibility="gone" />
             </LinearLayout>
 
             <LinearLayout

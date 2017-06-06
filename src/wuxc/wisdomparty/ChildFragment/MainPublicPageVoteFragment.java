@@ -180,6 +180,7 @@ public class MainPublicPageVoteFragment extends Fragment
 					Log.e("json_data", "" + json_data);
 //					JSONObject jsonObject = json_data.getJSONObject("data");
 					VoteModel listinfo = new VoteModel();
+					listinfo.setId(json_data.getString("parKeyid"));
 					listinfo.setImageUrl(json_data.getString("sacleImage"));
 					listinfo.setTitle(json_data.getString("title"));
 					listinfo.setDetail(json_data.getString("content"));
@@ -490,16 +491,17 @@ public class MainPublicPageVoteFragment extends Fragment
 	@Override
 	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 		// TODO Auto-generated method stub
-//		VoteModel data = list.get(position - 1);
-//		Intent intent = new Intent();
-//		intent.setClass(getActivity(), ChangeTermsDetailActivity.class);
-//		Bundle bundle = new Bundle();
-//		bundle.putString("StartTime", "开始时间：2016.12.23 04:40:23");
-//		bundle.putString("EndTime", "结束时间：2016.12.29 04:40:23");
-//		bundle.putString("Title", data.getTitle());
-//		intent.putExtras(bundle);
-//		startActivity(intent);
-		Toast.makeText(getActivity(), "已结束", Toast.LENGTH_SHORT).show();
+		VoteModel data = list.get(position - 1);
+		Intent intent = new Intent();
+		intent.setClass(getActivity(), ChangeTermsDetailActivity.class);
+		Bundle bundle = new Bundle();
+		bundle.putString("StartTime", "开始时间：2016.12.23 04:40:23");
+		bundle.putString("EndTime", "结束时间：2016.12.29 04:40:23");
+		bundle.putString("Title", data.getTitle());
+		bundle.putString("ID", data.getId());
+		intent.putExtras(bundle);
+		startActivity(intent);
+//		Toast.makeText(getActivity(), "已结束", Toast.LENGTH_SHORT).show();
 		
 	}
 

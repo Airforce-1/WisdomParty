@@ -5,6 +5,15 @@ public class VolunteerModel {
 
 	private String Title;
 	private String Detail;
+	private String time;
+
+	public String getTime() {
+		return time;
+	}
+
+	public void setTime(String time) {
+		this.time = time;
+	}
 
 	public String getDetail() {
 		return Detail;

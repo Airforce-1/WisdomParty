@@ -84,8 +84,8 @@ public class SpecialDetailActivity extends Activity implements OnClickListener, 
 		public void handleMessage(Message msg) {
 			switch (msg.what) {
 			case 0:
-				GetData();
-				Toast.makeText(getApplicationContext(), "正在加载数据", Toast.LENGTH_SHORT).show();
+//				GetData();
+//				Toast.makeText(getApplicationContext(), "正在加载数据", Toast.LENGTH_SHORT).show();
 
 				break;
 			case GET_DUE_DATA:

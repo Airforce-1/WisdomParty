@@ -108,7 +108,7 @@ public class MemberCenterMyResume extends Activity implements OnClickListener {
 		GetHeadPic();
 		settext();
 		GetData();
-		Toast.makeText(getApplicationContext(), "正在加载数据", Toast.LENGTH_SHORT).show();
+//		Toast.makeText(getApplicationContext(), "正在加载数据", Toast.LENGTH_SHORT).show();
 
 	}
 

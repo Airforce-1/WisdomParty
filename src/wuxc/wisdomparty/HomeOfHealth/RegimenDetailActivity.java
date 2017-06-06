@@ -34,6 +34,7 @@ import single.wuxc.wisdomparty.R;
 import wuxc.wisdomparty.Adapter.CommentAdapter;
 import wuxc.wisdomparty.HomeOfMember.CommentDetailActivity;
 import wuxc.wisdomparty.Model.CommentModel;
+import wuxc.wisdomparty.add.orgDetailActivity;
 import wuxc.wisdomparty.layout.dialogfour;
 
 public class RegimenDetailActivity extends Activity implements OnClickListener, OnItemClickListener {
@@ -392,11 +393,11 @@ public class RegimenDetailActivity extends Activity implements OnClickListener, 
 		// TODO Auto-generated method stub
 		CommentModel data = list.get(position);
 		Intent intent = new Intent();
-		intent.setClass(getApplicationContext(), CommentDetailActivity.class);
+		intent.setClass(getApplicationContext(), orgDetailActivity.class);
 		Bundle bundle = new Bundle();
-		bundle.putString("Name", data.getName());
+		bundle.putString("Title", data.getName());
 		bundle.putString("Time", data.getTime());
-		bundle.putString("Comment", data.getComment());
+		bundle.putString("content", data.getComment());
 		intent.putExtras(bundle);
 		startActivity(intent);
 	}

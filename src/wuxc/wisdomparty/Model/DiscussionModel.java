@@ -7,6 +7,14 @@ public class DiscussionModel {
 	private String BrowseNumber;
 	private String AnswerNumber;
 	private String Time;
+private String content;
+	public String getContent() {
+	return content;
+}
+
+public void setContent(String content) {
+	this.content = content;
+}
 
 	public String getRoundUrl() {
 		return RoundUrl;

@@ -365,7 +365,7 @@ public class MemberCenterMyReBack extends Activity
 	@Override
 	public void click(View v) {
 		// TODO Auto-generated method stub
-		Toast.makeText(MemberCenterMyReBack.this, "删除第" + (Integer) v.getTag() + "条", Toast.LENGTH_SHORT).show();
+//		Toast.makeText(MemberCenterMyReBack.this, "删除第" + (Integer) v.getTag() + "条", Toast.LENGTH_SHORT).show();
 	}
 
 }

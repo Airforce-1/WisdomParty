@@ -24,7 +24,7 @@
             android:layout_marginRight="@dimen/top_height"
             android:gravity="center"
             android:singleLine="true"
-            android:text="回帖详情"
+            android:text="详情"
             android:textColor="@color/text_white"
             android:textSize="@dimen/text_size" />
     </RelativeLayout>
@@ -69,7 +69,6 @@
                 android:layout_marginRight="15dp"
                 android:gravity="center_vertical"
                 android:text="话题：党的建设话题：党的建设话题：党的建设话题：党的建设话题：党的建设话题：党的建设话题：党的建设话题：党的建设话题：党的建设话题：党的建设话题：党的建设话题：党的建设话题：党的建设话题：党的建设话题：党的建设话题：党的建设话题：党的建设话题：党的建设话题：党的建设"
-                android:textColor="@color/member_transform_stroke"
                 android:textSize="@dimen/member_transform_size" />
         </LinearLayout>
     </ScrollView>

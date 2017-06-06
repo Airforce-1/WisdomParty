@@ -38,7 +38,7 @@ public class StudyArticleDetailActivity extends Activity implements OnClickListe
 	private Boolean IsGreat = false;
 	private UMImage image = null;
 	private String Tag = "";
-
+private String content="";
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
@@ -53,6 +53,7 @@ public class StudyArticleDetailActivity extends Activity implements OnClickListe
 
 		Title = bundle.getString("Title");
 		Time = bundle.getString("Time");
+		content=bundle.getString("content");
 		settext();
 		ShowCollectAndGreat();
 	}
@@ -61,8 +62,7 @@ public class StudyArticleDetailActivity extends Activity implements OnClickListe
 		// TODO Auto-generated method stub
 		TextTime.setText(Time);
 		TextTitle.setText(Title);
-		TextDetail.setText(
-				"随着甘肃省“加强安全法制保障安全生产”知识竞赛落下帷幕，三个月的封闭集训画上了圆满的句号。回顾过去，有挑灯夜读，不弃功于寸阴的坚持；有放下书本，脑袋发懵、遥遥无期时的迷茫；也有齐心协力，十指包拳力千斤的无畏。三个月里增长的不仅仅是知识，更是面对挑战、面对压力、面对机会时的责任、担当和信念。");
+		TextDetail.setText(content);
 
 	}
 

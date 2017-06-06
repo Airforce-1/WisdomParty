@@ -22,7 +22,7 @@ public class MemberEducationDetailActivity extends Activity implements OnClickLi
 	private TextView TextNextEducation;
 	private String Time;
 	private String Title;
-
+private String content="";
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
@@ -34,16 +34,23 @@ public class MemberEducationDetailActivity extends Activity implements OnClickLi
 
 		Title = bundle.getString("Title");
 		Time = bundle.getString("Time");
+		try {
+			content = bundle.getString("content");
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		
 		initview();
 		setonclicklistener();
-		TextTime.setText("日期：" + Time);
+		TextTime.setText(Time);
 		TextTitle.setText(Title);
-		TextAuthor.setText("作者：超级管理员");
-		TextReadNumber.setText("访问量：2341");
-		TextDetail.setText(ToDBC(
-				"第十八届中央政治局常委15日与中外记者见面。中共中央总书记习近平说，人民是历史的创造者，群众是真正的英雄。人民群众是我们力量的源泉。我们深深知道：每个人的力量是有限的，但只要我们万众一心，众志成城，就没有克服不了的困难；每个人的工作时间是有限的，但全心全意为人民服务是无限的。 习近平说，责任重于泰山，事业任重道远。我们一定要始终与人民心心相印、与人民同甘共苦、与人民团结奋斗，夙夜在公，勤勉工作，努力向历史、向人民交一份合格的答卷。 习近平对记者们说，中国需要更多地了解世界，世界也需要更多地了解中国。希望你们今后要继续为增进中国与世界各国的相互了解作出努力和贡献。来源： 新华"));
-		TextLastEducation.setText("点击查看上一篇");
-		TextNextEducation.setText("点击查看下一篇");
+		TextDetail.setText(content);
+//		TextAuthor.setText("作者：超级管理员");
+//		TextReadNumber.setText("访问量：2341");
+//		TextDetail.setText(ToDBC(
+//				"第十八届中央政治局常委15日与中外记者见面。中共中央总书记习近平说，人民是历史的创造者，群众是真正的英雄。人民群众是我们力量的源泉。我们深深知道：每个人的力量是有限的，但只要我们万众一心，众志成城，就没有克服不了的困难；每个人的工作时间是有限的，但全心全意为人民服务是无限的。 习近平说，责任重于泰山，事业任重道远。我们一定要始终与人民心心相印、与人民同甘共苦、与人民团结奋斗，夙夜在公，勤勉工作，努力向历史、向人民交一份合格的答卷。 习近平对记者们说，中国需要更多地了解世界，世界也需要更多地了解中国。希望你们今后要继续为增进中国与世界各国的相互了解作出努力和贡献。来源： 新华"));
+//		TextLastEducation.setText("点击查看上一篇");
+//		TextNextEducation.setText("点击查看下一篇");
 	}
 
 	private void initview() {

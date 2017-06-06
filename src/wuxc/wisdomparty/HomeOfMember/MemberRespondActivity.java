@@ -34,6 +34,7 @@ import wuxc.wisdomparty.Adapter.PartyRespondAdapter;
 import wuxc.wisdomparty.Internet.GetChannelByKey;
 import wuxc.wisdomparty.Internet.HttpGetData;
 import wuxc.wisdomparty.Model.RespondModel;
+import wuxc.wisdomparty.add.orgDetailActivity;
 import wuxc.wisdomparty.Model.RespondModel;
 
 public class MemberRespondActivity extends Activity implements OnTouchListener, OnClickListener, OnItemClickListener {
@@ -292,6 +293,7 @@ public class MemberRespondActivity extends Activity implements OnTouchListener, 
 					listinfo.setTime(json_data.getString("createtime"));
 					listinfo.setTitle(json_data.getString("title"));
 					listinfo.setImageUrl(json_data.getString("sacleImage"));
+					listinfo.setCONT(json_data.getString("content"));
 					// listinfo.setBackGround(json_data.getString("sacleImage"));
 					// listinfo.setDetail(json_data.getString("content"));
 					// listinfo.setTime("2016-12-14");
@@ -369,9 +371,11 @@ public class MemberRespondActivity extends Activity implements OnTouchListener, 
 		// TODO Auto-generated method stub
 		RespondModel data = list.get(position - 1);
 		Intent intent = new Intent();
-		intent.setClass(getApplicationContext(), RespondDetailActivity.class);
+		intent.setClass(getApplicationContext(), orgDetailActivity.class);
 		Bundle bundle = new Bundle();
-		bundle.putString("Title", position + data.getTitle());
+		bundle.putString("Title", data.getTitle());
+		bundle.putString("Time", data.getTime());
+		bundle.putString("detail", data.getCONT());
 		intent.putExtras(bundle);
 		startActivity(intent);
 	}

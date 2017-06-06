@@ -5,6 +5,24 @@ public class CandicateModel {
 	private double Scale;
 	private String Number;
 	private String Name;
+	private String Id;
+	private String Remark;
+
+	public String getRemark() {
+		return Remark;
+	}
+
+	public void setRemark(String remark) {
+		Remark = remark;
+	}
+
+	public String getId() {
+		return Id;
+	}
+
+	public void setId(String id) {
+		Id = id;
+	}
 
 	public String getImageUrl() {
 		return ImageUrl;

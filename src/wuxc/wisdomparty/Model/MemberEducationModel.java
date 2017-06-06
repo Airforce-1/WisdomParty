@@ -4,6 +4,14 @@ public class MemberEducationModel {
 	private String ImageUrl;
 	private String title;
 	private String Time;
+private String content;
+	public String getContent() {
+	return content;
+}
+
+public void setContent(String content) {
+	this.content = content;
+}
 
 	public String getImageUrl() {
 		return ImageUrl;

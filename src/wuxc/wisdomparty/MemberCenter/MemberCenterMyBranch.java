@@ -90,7 +90,7 @@ public class MemberCenterMyBranch extends Activity implements OnClickListener {
 		PreUserInfo = getSharedPreferences("UserInfo", Context.MODE_PRIVATE);
 		ReadTicket();
 		GetData();
-		Toast.makeText(getApplicationContext(), "正在加载数据", Toast.LENGTH_SHORT).show();
+//		Toast.makeText(getApplicationContext(), "正在加载数据", Toast.LENGTH_SHORT).show();
 
 	}
 

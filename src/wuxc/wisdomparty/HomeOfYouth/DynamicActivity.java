@@ -38,6 +38,7 @@ import wuxc.wisdomparty.Internet.GetChannelByKey;
 import wuxc.wisdomparty.Internet.HttpGetData;
 import wuxc.wisdomparty.Model.RewardsModel;
 import wuxc.wisdomparty.PartyManage.RewardsDetailActivity;
+import wuxc.wisdomparty.add.orgDetailActivity;
 import wuxc.wisdomparty.Model.RewardsModel;
 
 public class DynamicActivity extends Activity implements OnTouchListener, OnClickListener, OnItemClickListener {
@@ -84,7 +85,7 @@ public class DynamicActivity extends Activity implements OnTouchListener, OnClic
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
-		setContentView(R.layout.organization_life_activity);
+		setContentView(R.layout.organization_life_activity2);
 		initview();
 		setonclicklistener();
 		setheadtextview();
@@ -374,7 +375,7 @@ public class DynamicActivity extends Activity implements OnTouchListener, OnClic
 		// TODO Auto-generated method stub
 		RewardsModel data = list.get(position - 1);
 		Intent intent = new Intent();
-		intent.setClass(getApplicationContext(), RewardsDetailActivity.class);
+		intent.setClass(getApplicationContext(), orgDetailActivity.class);
 		Bundle bundle = new Bundle();
 		bundle.putString("detail", data.getDetail());
 		bundle.putString("Title", data.getTitle());

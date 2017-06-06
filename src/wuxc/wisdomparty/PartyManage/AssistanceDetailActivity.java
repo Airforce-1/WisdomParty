@@ -34,7 +34,7 @@ public class AssistanceDetailActivity extends Activity implements OnClickListene
 	private String Title;
 	private UMImage image = null;
 	private String Tag = "";
-
+private String content;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
@@ -49,10 +49,10 @@ public class AssistanceDetailActivity extends Activity implements OnClickListene
 
 		Title = bundle.getString("Title");
 		Time = bundle.getString("Time");
+		content=bundle.getString("content");
 		TextTitle.setText(Title);
-		TextAuthorAandTime.setText("作者：超级管理员" + "    " + Time);
-		TextDetail.setText(ToDBC(
-				"杨润贵一行查看了黄洞村村委会办公场所，详细了解该村的农业生产、党建、卫生、村庄规划、活动场所等各方面情况，并走进贫困户家中，与困难群众谈心，了解他们的生产生活，为贫困户送上慰问物品和慰问金，要求驻村工作组和镇村干部重点关心伤残人士，落实保障措施，让他们感受到党和政府的关怀和温暖。座谈会上，柳城镇相关负责人、驻村第一书记及黄洞村负责人分别作了工作汇报。据了解，粤财驻村工作组已为全村39户贫困户共124人完成建档立卡工作，因地制宜地形成了精准帮扶的工作思路。为有效缓解农民群众因病致贫、因病返贫的现象发生，工作组还为黄洞村村民购买了2017年新型农村合作医疗保险。"));
+		TextAuthorAandTime.setText( Time);
+		TextDetail.setText(ToDBC(content));
 
 	}
 

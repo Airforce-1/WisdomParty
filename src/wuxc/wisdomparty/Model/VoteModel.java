@@ -4,6 +4,14 @@ public class VoteModel {
 	private String ImageUrl;
 	private String Title;
 	private String Detail;
+private String Id;
+	public String getId() {
+	return Id;
+}
+
+public void setId(String id) {
+	Id = id;
+}
 
 	public String getImageUrl() {
 		return ImageUrl;

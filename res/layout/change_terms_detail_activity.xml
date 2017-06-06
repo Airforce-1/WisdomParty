@@ -24,7 +24,7 @@
             android:layout_marginRight="@dimen/top_height"
             android:gravity="center"
             android:singleLine="true"
-            android:text="选举详情"
+            android:text="详情"
             android:textColor="@color/text_white"
             android:textSize="@dimen/text_size" />
     </RelativeLayout>
@@ -61,7 +61,6 @@
                 android:background="@color/member_transform_stroke" />
 
             <TextView
-               
                 android:layout_width="match_parent"
                 android:layout_height="25dp"
                 android:layout_marginLeft="10dp"
@@ -70,7 +69,8 @@
                 android:text="选举时间："
                 android:textColor="#000000"
                 android:textSize="@dimen/member_transform_size"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                android:visibility="gone" />
 
             <TextView
                 android:id="@+id/text_start_time"
@@ -82,10 +82,11 @@
                 android:text="选举时间："
                 android:textColor="@color/member_transform_stroke"
                 android:textSize="@dimen/member_transform_size"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                android:visibility="gone" />
 
             <TextView
-                 android:id="@+id/text_end_time"
+                android:id="@+id/text_end_time"
                 android:layout_width="match_parent"
                 android:layout_height="25dp"
                 android:layout_marginLeft="10dp"
@@ -94,13 +95,15 @@
                 android:text="选举时间："
                 android:textColor="@color/member_transform_stroke"
                 android:textSize="@dimen/member_transform_size"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                android:visibility="gone" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:layout_marginTop="10dp"
-                android:background="@color/member_transform_stroke" />
+                android:background="@color/member_transform_stroke"
+                android:visibility="gone" />
 
             <ListView
                 android:id="@+id/list_data"

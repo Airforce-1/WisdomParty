@@ -66,7 +66,7 @@ public class NoticeDetailActivity extends Activity implements OnClickListener {
 		TextFrom = (TextView) findViewById(R.id.text_from);
 		TextTime = (TextView) findViewById(R.id.text_time);
 		GetNoticeDataDetail();
-		Toast.makeText(getApplicationContext(), "正在加载数据", Toast.LENGTH_SHORT).show();
+//		Toast.makeText(getApplicationContext(), "正在加载数据", Toast.LENGTH_SHORT).show();
 	}
 
 	protected void GetDataNoticeData(Object obj) {

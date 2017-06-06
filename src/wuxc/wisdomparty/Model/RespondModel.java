@@ -4,6 +4,14 @@ public class RespondModel {
 	private String ImageUrl;
 	private String Title;
 	private String Time;
+private String CONT;
+	public String getCONT() {
+	return CONT;
+}
+
+public void setCONT(String cONT) {
+	CONT = cONT;
+}
 
 	public String getImageUrl() {
 		return ImageUrl;

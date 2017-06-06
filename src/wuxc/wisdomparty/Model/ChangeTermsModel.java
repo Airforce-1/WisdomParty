@@ -5,6 +5,15 @@ public class ChangeTermsModel {
 	private String Number;
 	private boolean isSelecting;
 	private boolean isSelected;
+	private String Id;
+
+	public String getId() {
+		return Id;
+	}
+
+	public void setId(String id) {
+		Id = id;
+	}
 
 	public String getTitle() {
 		return Title;

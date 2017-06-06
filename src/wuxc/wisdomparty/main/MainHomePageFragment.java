@@ -170,9 +170,9 @@ public class MainHomePageFragment extends MainBaseFragment implements OnItemClic
 			startActivity(intent_notice);
 			break;
 		case R.id.text_test:
-			Intent intent_test = new Intent();
-			intent_test.setClass(getActivity(), LoginActivity.class);
-			startActivity(intent_test);
+//			Intent intent_test = new Intent();
+//			intent_test.setClass(getActivity(), LoginActivity.class);
+//			startActivity(intent_test);
 			break;
 		default:
 			break;
