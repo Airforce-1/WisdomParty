@@ -5,6 +5,8 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import android.app.Activity;
 import android.graphics.Bitmap;
@@ -62,9 +64,9 @@ public class SpecialAdapter extends ArrayAdapter<SpecialModel> {
 		// Load the image and set it on the ImageView
 		String imageUrl = imageAndText.getImageUrl();
 		ImageView imageView = viewCache.getImageHeadimg();
-		imageView.setTag(URLcontainer.urlip +URLcontainer.GetFile + imageUrl);
+		imageView.setTag(URLcontainer.urlip + URLcontainer.GetFile + imageUrl);
 		Log.e("imageUrl", imageUrl);
-		if (imageUrl.equals(imageurl)||imageUrl.equals("null")) {
+		if (imageUrl.equals(imageurl) || imageUrl.equals("null")) {
 			imageView.setImageResource(R.drawable.special_list_headimg);
 		} else {
 			try {
@@ -73,7 +75,7 @@ public class SpecialAdapter extends ArrayAdapter<SpecialModel> {
 				Bitmap bm1 = null;
 				bm1 = getBitmapByPath(temppath);
 				if (bm1 == null) {
-					imageUrl = URLcontainer.urlip +URLcontainer.GetFile + imageUrl;
+					imageUrl = URLcontainer.urlip + URLcontainer.GetFile + imageUrl;
 					Log.e("imageUrl", imageUrl);
 					Drawable cachedImage = ImageLoader.loadDrawable(imageUrl, new ImageCallback() {
 						public void imageLoaded(Drawable imageDrawable, String imageUrl) {
@@ -111,8 +113,35 @@ public class SpecialAdapter extends ArrayAdapter<SpecialModel> {
 		TextView TextTime = viewCache.getTextTime();
 		TextTime.setText("" + imageAndText.getTime());
 		TextView TextDetail = viewCache.getTextDetail();
-		TextDetail.setText("" + imageAndText.getDetail());
+		TextDetail.setText("" + gethan(imageAndText.getDetail()));
 		return rowView;
+	}
+
+	public static String gethan(String args) {// 获取汉字，去除格式
+
+//		Pattern p = null;
+//		Matcher m = null;
+//		String value = null;
+//		p = Pattern.compile("([/u4e00-/u9fa5]+)");
+//		m = p.matcher(args);
+//		while (m.find() && value.length() < 50) {
+//			value = m.group(0);
+//
+//		}
+		 StringBuffer bf = new StringBuffer();//用于追加子串
+	      
+	     char[] chars = args.toCharArray(); 
+	        for (int i = 0;i < 400;i++){
+	            if(chars[i]> 127){
+	//汉字是两个字节,判断汉字可以如下:第一个字节大于127并且第二个字节也
+	//大于127,则是汉字,否则不是. 
+//	 System.out.println(chars[i] + "---ASCII--- " + Integer.toHexString(chars[i])); //可以打印出ASCII码
+//	               System.out.println(chars[i]);
+	               bf.append(chars[i]);
+	              }
+	           }
+
+		return bf.toString();
 	}
 
 	public Bitmap getBitmapByPath(String fileName) {

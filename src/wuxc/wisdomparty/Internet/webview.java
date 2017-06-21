@@ -9,6 +9,7 @@ import android.view.View.OnClickListener;
 import android.view.Window;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
+import android.webkit.WebSettings.LayoutAlgorithm;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ImageView;
@@ -40,7 +41,9 @@ public class webview extends Activity implements OnClickListener {
 			}
 
 		});
-
+//		WebView.getSettings().setLayoutAlgorithm(LayoutAlgorithm.SINGLE_COLUMN);
+//		WebView.getSettings().setLoadWithOverviewMode(true);
+		
 		WebView.setWebViewClient(new WebViewClient() {
 			@Override
 			public void onPageFinished(WebView view, String url) {
@@ -61,8 +64,17 @@ public class webview extends Activity implements OnClickListener {
 		});
 		WebSettings settings = WebView.getSettings();
 		settings.setJavaScriptEnabled(true);
+		settings.setUseWideViewPort(true); 
+		settings.setLoadWithOverviewMode(true); 
+		settings.setTextSize(WebSettings.TextSize.LARGEST);
 	}
-
+	@Override
+	protected void onPause ()
+	{
+		WebView.reload ();
+	 
+	    super.onPause ();
+	}
 	@Override
 	public void onClick(View v) {
 		// TODO Auto-generated method stub

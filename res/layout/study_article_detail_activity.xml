@@ -174,7 +174,9 @@
                         android:layout_marginRight="10dp"
                         android:gravity="center_vertical"
                         android:text="实现中华民族伟大复兴是一项光荣而艰巨的事业,需要一代又一代中国人共同为之努力。空谈误国,实干兴邦。”xx总书记语重心长的讲话,是对全党8300多万党员和各级领导干部的警示和要求。全面建成小康社会的蓝图，靠什么绘就？13亿人的“美丽中国”梦，靠什么实现？在新的历史起点上，党以什么样的精神状态持续奋斗，事关成败，至关重要。"
-                        android:textSize="@dimen/member_transform_size" />
+                        android:textSize="@dimen/member_transform_size"
+                        android:visibility="gone" />
+                    
                 </ScrollView>
             </LinearLayout>
         </LinearLayout>

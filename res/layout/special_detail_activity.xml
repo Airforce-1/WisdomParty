@@ -30,148 +30,149 @@
             android:textSize="@dimen/text_size" />
     </RelativeLayout>
 
+    <WebView
+        android:id="@+id/webview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scrollbarSize="0dip"
+        android:scrollbars="none" />
+
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent" >
+        android:layout_height="match_parent"
+        android:visibility="gone" >
 
-        <ScrollView
-            android:id="@+id/scrolllayout"
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginBottom="50dp"
-            android:scrollbars="none" >
+            android:layout_height="match_parent" >
 
-            <RelativeLayout
+            <TextView
+                android:id="@+id/text_title"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" >
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:gravity="center_vertical"
+                android:textColor="#000000"
+                android:textSize="@dimen/text_size"
+                android:textStyle="bold" />
 
-                <TextView
-                    android:id="@+id/text_title"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginRight="20dp"
-                    android:gravity="center_vertical"
-                    android:textColor="#000000"
-                    android:textSize="@dimen/text_size"
-                    android:textStyle="bold" />
+            <LinearLayout
+                android:id="@+id/lin_position"
+                android:layout_width="match_parent"
+                android:layout_height="35dp"
+                android:layout_below="@id/text_title"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:orientation="horizontal" >
+
+                <wuxc.wisdomparty.layout.RoundImageView
+                    android:id="@+id/round_headimg"
+                    android:layout_width="70dp"
+                    android:layout_height="70dp"
+                    android:src="@drawable/item_headimg"
+                    android:visibility="gone" >
+                </wuxc.wisdomparty.layout.RoundImageView>
 
                 <LinearLayout
-                    android:id="@+id/lin_position"
                     android:layout_width="match_parent"
-                    android:layout_height="35dp"
-                    android:layout_below="@id/text_title"
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginRight="20dp"
-                    android:orientation="horizontal" >
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="10dp"
+                    android:orientation="vertical" >
 
-                    <wuxc.wisdomparty.layout.RoundImageView
-                        android:id="@+id/round_headimg"
-                        android:layout_width="70dp"
-                        android:layout_height="70dp"
-                        android:src="@drawable/item_headimg"
-                        android:visibility="gone" >
-                    </wuxc.wisdomparty.layout.RoundImageView>
-
-                    <LinearLayout
+                    <TextView
+                        android:id="@+id/text_name"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_marginLeft="10dp"
-                        android:orientation="vertical" >
+                        android:layout_height="35dp"
+                        android:gravity="center_vertical"
+                        android:textSize="@dimen/member_transform_size"
+                        android:visibility="gone" />
 
-                        <TextView
-                            android:id="@+id/text_name"
-                            android:layout_width="match_parent"
-                            android:layout_height="35dp"
-                            android:gravity="center_vertical"
-                            android:textSize="@dimen/member_transform_size"
-                            android:visibility="gone" />
-
-                        <TextView
-                            android:id="@+id/text_time"
-                            android:layout_width="match_parent"
-                            android:layout_height="35dp"
-                            android:gravity="center_vertical"
-                            android:textColor="@color/member_transform_stroke"
-                            android:textSize="@dimen/member_transform_size" />
-                    </LinearLayout>
+                    <TextView
+                        android:id="@+id/text_time"
+                        android:layout_width="match_parent"
+                        android:layout_height="35dp"
+                        android:gravity="center_vertical"
+                        android:textColor="@color/member_transform_stroke"
+                        android:textSize="@dimen/member_transform_size" />
                 </LinearLayout>
+            </LinearLayout>
 
-                <TextView
-                    android:id="@+id/text_position5"
-                    android:layout_width="match_parent"
-                    android:layout_height="15dp"
-                    android:layout_below="@id/lin_position"
-                    android:gravity="center_vertical"
-                    android:textColor="#000000"
-                    android:textSize="@dimen/text_size"
-                    android:textStyle="bold" />
+            <TextView
+                android:id="@+id/text_position5"
+                android:layout_width="match_parent"
+                android:layout_height="15dp"
+                android:layout_below="@id/lin_position"
+                android:gravity="center_vertical"
+                android:textColor="#000000"
+                android:textSize="@dimen/text_size"
+                android:textStyle="bold" />
 
-                <ImageView
-                    android:id="@+id/image_pic"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/text_position5"
-                    android:src="@drawable/special_top_pic" />
+            <ImageView
+                android:id="@+id/image_pic"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/text_position5"
+                android:src="@drawable/special_top_pic" />
 
-                <TextView
-                    android:id="@+id/text_position"
-                    android:layout_width="match_parent"
-                    android:layout_height="15dp"
-                    android:layout_below="@id/image_pic"
-                    android:gravity="center_vertical"
-                    android:textColor="#000000"
-                    android:textSize="@dimen/text_size"
-                    android:textStyle="bold" />
+            <TextView
+                android:id="@+id/text_position"
+                android:layout_width="match_parent"
+                android:layout_height="15dp"
+                android:layout_below="@id/image_pic"
+                android:gravity="center_vertical"
+                android:textColor="#000000"
+                android:textSize="@dimen/text_size"
+                android:textStyle="bold" />
 
-                <TextView
-                    android:id="@+id/text_detail"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/text_position"
-                    android:layout_marginBottom="20dp"
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginRight="20dp"
-                    android:gravity="center_vertical"
-                    android:text="中共党史是中国共产党历史的简称。是中国共产党从1921年7月1日成立以来整个发展过程的全部历史。主要包括中国共产党历次代表大会的情况、党章的不断完善过程、党在各个不同时期的组织建设和发展状况、党领导全国各族人民进行革命和建设的发展历程和全部史实的记载。"
-                    android:textSize="@dimen/member_transform_size" />
+            <TextView
+                android:id="@+id/text_detail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/text_position"
+                android:layout_marginBottom="20dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:gravity="center_vertical"
+                android:text="中共党史是中国共产党历史的简称。是中国共产党从1921年7月1日成立以来整个发展过程的全部历史。主要包括中国共产党历次代表大会的情况、党章的不断完善过程、党在各个不同时期的组织建设和发展状况、党领导全国各族人民进行革命和建设的发展历程和全部史实的记载。"
+                android:textSize="@dimen/member_transform_size"
+                android:visibility="gone" />
 
-                <TextView
-                    android:id="@+id/line"
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:layout_below="@id/text_detail"
-                    android:background="@color/member_transform_stroke"
-                    android:visibility="gone" />
+            <TextView
+                android:id="@+id/line"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_below="@id/text_detail"
+                android:background="@color/member_transform_stroke"
+                android:visibility="gone" />
 
-                <ListView
-                    android:id="@+id/list_data"
-                    android:layout_width="match_parent"
-                    android:layout_height="100dp"
-                    android:layout_below="@id/line"
-                    android:scrollbars="none"
-                    android:visibility="gone" >
-                </ListView>
+            <ListView
+                android:id="@+id/list_data"
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:layout_below="@id/line"
+                android:scrollbars="none"
+                android:visibility="gone" >
+            </ListView>
 
-                <TextView
-                    android:id="@+id/line1"
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:layout_below="@id/list_data"
-                    android:background="@color/member_transform_stroke"
-                    android:visibility="gone" />
+            <TextView
+                android:id="@+id/line1"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_below="@id/list_data"
+                android:background="@color/member_transform_stroke"
+                android:visibility="gone" />
 
-                <TextView
-                    android:id="@+id/text_warning"
-                    android:layout_width="match_parent"
-                    android:layout_height="40dp"
-                    android:layout_below="@id/line1"
-                    android:gravity="center"
-                    android:textColor="@color/member_transform_stroke"
-                    android:textSize="@dimen/member_text_size"
-                    android:visibility="gone" />
-            </RelativeLayout>
-        </ScrollView>
+            <TextView
+                android:id="@+id/text_warning"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_below="@id/line1"
+                android:gravity="center"
+                android:textColor="@color/member_transform_stroke"
+                android:textSize="@dimen/member_text_size"
+                android:visibility="gone" />
+        </RelativeLayout>
 
         <RelativeLayout
             android:layout_width="match_parent"

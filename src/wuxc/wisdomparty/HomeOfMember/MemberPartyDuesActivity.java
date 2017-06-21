@@ -7,12 +7,14 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import com.alipay.sdk.pay.demo.PayDemoActivity;
 import com.umeng.socialize.utils.Log;
 
 import android.R.integer;
 import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
@@ -44,6 +46,8 @@ public class MemberPartyDuesActivity extends Activity implements OnClickListener
 	private ImageView ImageBack;
 	private Button BtnSearch;
 	private Button BtnPay;
+	private String idnumber;
+	private String name;
 	private EditText EditIDNumber;
 	private RelativeLayout RelativeResult;
 	private LinearLayout LinResult;
@@ -121,6 +125,14 @@ public class MemberPartyDuesActivity extends Activity implements OnClickListener
 	private static final String GET_SUCCESS_RESULT = "success";
 	private String Months = null;
 	private double salary = 0;
+	private String rechargeresult = "";
+	private boolean canwrite = true;
+	private String orderId = "";
+	private static final int GET_DUE_DATA = 9;
+	private String Month = "";
+	private final static int GO_CHANGE_HEADIMG = 8;
+
+	private static final String GET_FAIL_RESULT = "fail";
 	public Handler uiHandler = new Handler() {
 		@Override
 		public void handleMessage(Message msg) {
@@ -129,7 +141,9 @@ public class MemberPartyDuesActivity extends Activity implements OnClickListener
 			case GET_MONTH_RESULT_DATA:
 				GetDataDetailFromMonth(msg.obj);
 				break;
-
+			case GET_DUE_DATA:
+				GetDataDueData(msg.obj);
+				break;
 			default:
 				break;
 			}
@@ -147,6 +161,38 @@ public class MemberPartyDuesActivity extends Activity implements OnClickListener
 		setlayoutheight();
 		setinitview();
 
+	}
+
+	protected void GetDataDueData(Object obj) {
+
+		// TODO Auto-generated method stub
+		String Type = null;
+		String Data = "";
+		try {
+			JSONObject demoJson = new JSONObject(obj.toString());
+			Type = demoJson.getString("type");
+
+			if (Type.equals(GET_SUCCESS_RESULT)) {
+				orderId = "";
+				orderId = demoJson.getString("orderId");
+				totalpay = demoJson.getDouble("payMoney");
+				if (!orderId.equals("")) {
+					rechargeresult = "success";
+				} else {
+					rechargeresult = "";
+				}
+				showalert();
+			} else if (Type.equals(GET_FAIL_RESULT)) {
+				Toast.makeText(getApplicationContext(), "服务器数据失败", Toast.LENGTH_SHORT).show();
+			} else {
+				Toast.makeText(getApplicationContext(), "数据格式校验失败", Toast.LENGTH_SHORT).show();
+			}
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
 	}
 
 	protected void GetDataDetailFromMonth(Object obj) {
@@ -173,18 +219,18 @@ public class MemberPartyDuesActivity extends Activity implements OnClickListener
 
 	private void GetDetailData(String data) {
 		// TODO Auto-generated method stub
-		String Name = null;
+
 		String months = null;
 		try {
 			JSONObject demoJson = new JSONObject(data);
-			Name = demoJson.getString("name");
+			name = demoJson.getString("name");
 			months = demoJson.getString("months");
 			salary = demoJson.getDouble("salary");
 			for (int i = 0; i < 12; i++) {
 				money[i] = salary;
 			}
 			Months = months;
-			TextName.setText("姓名：" + Name);
+			TextName.setText("姓名：" + name);
 			GetMonth(months);
 		} catch (JSONException e) {
 			// TODO Auto-generated catch block
@@ -544,13 +590,16 @@ public class MemberPartyDuesActivity extends Activity implements OnClickListener
 			if (monthstring.equals("")) {
 				Toast.makeText(getApplicationContext(), "您未选择要支付的月份", Toast.LENGTH_SHORT).show();
 
-			} else {
+			} else if (canwrite) {
 				showAlertDialog();
+			} else {
+				Toast.makeText(getApplicationContext(), "请勿重复提交", Toast.LENGTH_SHORT).show();
+
 			}
 
 			break;
 		case R.id.btn_search:
-			String idnumber = EditIDNumber.getText().toString();
+			idnumber = EditIDNumber.getText().toString();
 			if (idnumber.equals("") || idnumber == null) {
 				Toast.makeText(getApplicationContext(), "证件号不可为空", Toast.LENGTH_SHORT).show();
 			} else {
@@ -585,6 +634,25 @@ public class MemberPartyDuesActivity extends Activity implements OnClickListener
 		}).start();
 	}
 
+	private void showalert() {
+		// TODO Auto-generated method stub
+		if (rechargeresult.equals("success")) {
+			Intent intent1 = new Intent();
+			intent1.setClass(this, PayDemoActivity.class);
+			Bundle bundle11 = new Bundle();
+			bundle11.putString("rechargemoney", "" + totalpay);
+			bundle11.putString("orderId", orderId);
+			intent1.putExtras(bundle11);
+			startActivity(intent1);
+
+			canwrite = true;
+		} else {
+
+			canwrite = true;
+			Toast.makeText(getApplicationContext(), "订单写入失败，请重试", Toast.LENGTH_SHORT).show();
+		}
+	}
+
 	public void showAlertDialog() {
 
 		dialogtwo.Builder builder = new dialogtwo.Builder(this);
@@ -593,7 +661,7 @@ public class MemberPartyDuesActivity extends Activity implements OnClickListener
 		builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
 			public void onClick(DialogInterface dialog, int which) {
 				dialog.dismiss();
-
+				GetData();
 			}
 		});
 
@@ -604,6 +672,34 @@ public class MemberPartyDuesActivity extends Activity implements OnClickListener
 		});
 
 		builder.create().show();
+
+	}
+
+	private void GetData() {
+		// TODO Auto-generated method stub
+
+		// TODO Auto-generated method stub
+		final ArrayList ArrayValues = new ArrayList();
+		ArrayValues.add(new BasicNameValuePair("ticket", ticket));
+		ArrayValues.add(new BasicNameValuePair("rechargeMoneyDto.platformCode", "003"));
+		ArrayValues.add(new BasicNameValuePair("rechargeMoneyDto.ext1", idnumber));
+		ArrayValues.add(new BasicNameValuePair("rechargeMoneyDto.ext2", Month));
+		Log.d("Month", "" + Month);
+		ArrayValues.add(new BasicNameValuePair("rechargeMoneyDto.title",
+				name + "由平台代缴" + inityear + "年" + monthstring + "普通党费"));
+		ArrayValues.add(new BasicNameValuePair("rechargeMoneyDto.classify", "PARY_FARE"));
+		ArrayValues.add(new BasicNameValuePair("rechargeMoneyDto.payMoney", "" + totalpay));
+		new Thread(new Runnable() { // 开启线程上传文件
+			@Override
+			public void run() {
+				String DueData = "";
+				DueData = HttpGetData.GetData("api/shop/recharge/generateRecharge", ArrayValues);
+				Message msg = new Message();
+				msg.obj = DueData;
+				msg.what = GET_DUE_DATA;
+				uiHandler.sendMessage(msg);
+			}
+		}).start();
 
 	}
 
@@ -620,10 +716,12 @@ public class MemberPartyDuesActivity extends Activity implements OnClickListener
 		// TODO Auto-generated method stub
 		double result = 0;
 		monthstring = "";
+		Month = "";
 		for (int i = 0; i < 12; i++) {
 			if (condition[i] == 1) {
 				result = result + money[i];
 				monthstring = monthstring + (i + 1) + "、";
+				Month = Month + (inityear + STR_MONTH[i]) + ",";
 			}
 
 		}
@@ -632,6 +730,11 @@ public class MemberPartyDuesActivity extends Activity implements OnClickListener
 			monthstring = "";
 			for (int i = 0; i < b.length - 1; i++) {
 				monthstring = monthstring + b[i];
+			}
+			String c[] = Month.split("");
+			Month = "";
+			for (int i = 0; i < c.length - 1; i++) {
+				Month = Month + c[i];
 			}
 		}
 

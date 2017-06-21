@@ -71,12 +71,12 @@ public class StartLogoActivity extends Activity {
 		PreGuidePage = getSharedPreferences("GuidePage", Context.MODE_PRIVATE);
 		PreALLChannel = getSharedPreferences("ALLChannel", Context.MODE_PRIVATE);
 		ReadGuidePage();
-		// if (GuidePage == 0) {
-		// Intent intent = new Intent();
-		// intent.setClass(getApplicationContext(), GuidePageActivity.class);
-		// startActivity(intent);
-		// finish();
-		// } else {
+		 if (GuidePage == 0) {
+		 Intent intent = new Intent();
+		 intent.setClass(getApplicationContext(), GuidePageActivity.class);
+		 startActivity(intent);
+		 finish();
+		 } else {
 		ReadAccount();
 		if (LoginId == null || LoginId.equals("")) {
 			Intent intent = new Intent();
@@ -100,7 +100,7 @@ public class StartLogoActivity extends Activity {
 			}).start();
 
 		}
-		// }
+		 }
 	}
 
 	protected void GetDataDetailData(Object obj) {

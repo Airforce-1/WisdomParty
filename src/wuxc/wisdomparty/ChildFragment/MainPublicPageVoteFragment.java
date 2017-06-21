@@ -98,6 +98,7 @@ public class MainPublicPageVoteFragment extends Fragment
 			}
 		}
 	};
+
 	@Override
 	public void onAttach(Activity activity) {
 		super.onAttach(activity);
@@ -135,6 +136,7 @@ public class MainPublicPageVoteFragment extends Fragment
 		GetData();
 		return view;
 	}
+
 	protected void GetDataDueData(Object obj) {
 
 		// TODO Auto-generated method stub
@@ -163,7 +165,7 @@ public class MainPublicPageVoteFragment extends Fragment
 	}
 
 	private void GetDataList(String data, int arg) {
-		 
+
 		if (arg == 1) {
 			list.clear();
 		}
@@ -172,13 +174,14 @@ public class MainPublicPageVoteFragment extends Fragment
 			jArray = new JSONArray(data);
 			JSONObject json_data = null;
 			if (jArray.length() == 0) {
-//				Toast.makeText(getActivity(), "无数据", Toast.LENGTH_SHORT).show();
+				// Toast.makeText(getActivity(), "无数据",
+				// Toast.LENGTH_SHORT).show();
 
 			} else {
 				for (int i = 0; i < jArray.length(); i++) {
 					json_data = jArray.getJSONObject(i);
 					Log.e("json_data", "" + json_data);
-//					JSONObject jsonObject = json_data.getJSONObject("data");
+					// JSONObject jsonObject = json_data.getJSONObject("data");
 					VoteModel listinfo = new VoteModel();
 					listinfo.setId(json_data.getString("parKeyid"));
 					listinfo.setImageUrl(json_data.getString("sacleImage"));
@@ -452,8 +455,9 @@ public class MainPublicPageVoteFragment extends Fragment
 				ListData.setPadding(0, -100, 0, 0);
 			} else {
 				curPage = 1;
-				Toast.makeText(getActivity(), "正在刷新vote", Toast.LENGTH_SHORT).show();
-			GetData();
+				// Toast.makeText(getActivity(), "正在刷新vote",
+				// Toast.LENGTH_SHORT).show();
+				GetData();
 			}
 			int temp = 1;
 			temp = (lastItemIndex) % pageSize;
@@ -464,7 +468,7 @@ public class MainPublicPageVoteFragment extends Fragment
 					Toast.makeText(getActivity(), " 没有更多了", Toast.LENGTH_SHORT).show();
 					// // listinfoagain();
 				} else {
-				GetData();
+					GetData();
 					Toast.makeText(getActivity(), "正在加载下一页", Toast.LENGTH_SHORT).show();
 				}
 
@@ -501,8 +505,8 @@ public class MainPublicPageVoteFragment extends Fragment
 		bundle.putString("ID", data.getId());
 		intent.putExtras(bundle);
 		startActivity(intent);
-//		Toast.makeText(getActivity(), "已结束", Toast.LENGTH_SHORT).show();
-		
+		// Toast.makeText(getActivity(), "已结束", Toast.LENGTH_SHORT).show();
+
 	}
 
 	@Override

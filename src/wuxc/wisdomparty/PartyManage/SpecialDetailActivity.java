@@ -10,6 +10,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import com.alipay.android.phone.mrpc.core.ab;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -23,6 +25,8 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnTouchListener;
 import android.view.Window;
+import android.webkit.WebChromeClient;
+import android.webkit.WebView;
 import android.widget.AbsListView;
 import android.widget.AbsListView.OnScrollListener;
 import android.widget.AdapterView;
@@ -76,6 +80,7 @@ public class SpecialDetailActivity extends Activity implements OnClickListener, 
 	private String chn;
 	private String userPhoto;
 	private String LoginId;
+	private WebView webView;
 	private static final String GET_SUCCESS_RESULT = "success";
 	private static final String GET_FAIL_RESULT = "fail";
 	private static final int GET_DUE_DATA = 6;
@@ -84,8 +89,9 @@ public class SpecialDetailActivity extends Activity implements OnClickListener, 
 		public void handleMessage(Message msg) {
 			switch (msg.what) {
 			case 0:
-//				GetData();
-//				Toast.makeText(getApplicationContext(), "正在加载数据", Toast.LENGTH_SHORT).show();
+				// GetData();
+				// Toast.makeText(getApplicationContext(), "正在加载数据",
+				// Toast.LENGTH_SHORT).show();
 
 				break;
 			case GET_DUE_DATA:
@@ -122,7 +128,16 @@ public class SpecialDetailActivity extends Activity implements OnClickListener, 
 		setlistheight(0);
 		settext();
 		starttimedelay();
+		String html = "<html>" + "<body>" + "<table>" + "<tr>" + "<td>成都天府</td>" + "</tr>" + "</table>" + "</body>"
+				+ "</html>";
+		webView = (android.webkit.WebView) findViewById(R.id.webview);
+//		StringBuilder sb = new StringBuilder();
+//		sb.append(detail);
+//		webView.loadUrl("http://ww.baidu.com");
+		webView.getSettings().setJavaScriptEnabled(true);
+		 webView.setWebChromeClient(new WebChromeClient());
 
+		webView.loadDataWithBaseURL(null, detail, "text/html", "utf-8", null);
 	}
 
 	protected void GetDataDueData(Object obj) {
