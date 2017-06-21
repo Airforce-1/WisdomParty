@@ -29,6 +29,7 @@ import wuxc.wisdomparty.Cache.SpecialCache;
 import wuxc.wisdomparty.Internet.ImageLoader;
 import wuxc.wisdomparty.Internet.ImageLoader.ImageCallback;
 import wuxc.wisdomparty.Internet.URLcontainer;
+import wuxc.wisdomparty.Internet.getcha;
 import wuxc.wisdomparty.Model.SpecialModel;;
 
 public class SpecialAdapter extends ArrayAdapter<SpecialModel> {
@@ -113,35 +114,8 @@ public class SpecialAdapter extends ArrayAdapter<SpecialModel> {
 		TextView TextTime = viewCache.getTextTime();
 		TextTime.setText("" + imageAndText.getTime());
 		TextView TextDetail = viewCache.getTextDetail();
-		TextDetail.setText("" + gethan(imageAndText.getDetail()));
+		TextDetail.setText( getcha.gethan(imageAndText.getDetail()));
 		return rowView;
-	}
-
-	public static String gethan(String args) {// 获取汉字，去除格式
-
-//		Pattern p = null;
-//		Matcher m = null;
-//		String value = null;
-//		p = Pattern.compile("([/u4e00-/u9fa5]+)");
-//		m = p.matcher(args);
-//		while (m.find() && value.length() < 50) {
-//			value = m.group(0);
-//
-//		}
-		 StringBuffer bf = new StringBuffer();//用于追加子串
-	      
-	     char[] chars = args.toCharArray(); 
-	        for (int i = 0;i < 400;i++){
-	            if(chars[i]> 127){
-	//汉字是两个字节,判断汉字可以如下:第一个字节大于127并且第二个字节也
-	//大于127,则是汉字,否则不是. 
-//	 System.out.println(chars[i] + "---ASCII--- " + Integer.toHexString(chars[i])); //可以打印出ASCII码
-//	               System.out.println(chars[i]);
-	               bf.append(chars[i]);
-	              }
-	           }
-
-		return bf.toString();
 	}
 
 	public Bitmap getBitmapByPath(String fileName) {

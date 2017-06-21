@@ -33,6 +33,7 @@ import wuxc.wisdomparty.Internet.GetChannelByKey;
 import wuxc.wisdomparty.Internet.HttpGetData;
 import wuxc.wisdomparty.Adapter.DiscussionAdapter;
 import wuxc.wisdomparty.Model.DiscussionModel;
+import wuxc.wisdomparty.PartyManage.AssistanceDetailActivity;
 import wuxc.wisdomparty.add.orgDetailActivity;
 import wuxc.wisdomparty.Model.DiscussionModel;
 import wuxc.wisdomparty.Model.DiscussionModel;
@@ -381,7 +382,7 @@ public class MemberDiscussionActivity extends Activity
 		// TODO Auto-generated method stub
 		DiscussionModel data = list.get(position - 1);
 		Intent intent = new Intent();
-		intent.setClass(getApplicationContext(), orgDetailActivity.class);
+		intent.setClass(getApplicationContext(), AssistanceDetailActivity.class);
 		Bundle bundle = new Bundle();
 		bundle.putString("content", data.getContent());
 		bundle.putString("Time", data.getTime());

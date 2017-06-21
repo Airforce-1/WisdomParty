@@ -27,6 +27,7 @@ import wuxc.wisdomparty.Cache.VoteCache;
 import wuxc.wisdomparty.Internet.ImageLoader;
 import wuxc.wisdomparty.Internet.ImageLoader.ImageCallback;
 import wuxc.wisdomparty.Internet.URLcontainer;
+import wuxc.wisdomparty.Internet.getcha;
 import wuxc.wisdomparty.Model.VoteModel;;
 
 public class VoteAdapter extends ArrayAdapter<VoteModel> {
@@ -68,9 +69,9 @@ public class VoteAdapter extends ArrayAdapter<VoteModel> {
 		// Load the image and set it on the ImageView
 		String imageUrl = imageAndText.getImageUrl();
 		ImageView imageView = viewCache.getImageHeadimg();
-		imageView.setTag(URLcontainer.urlip +URLcontainer.GetFile + imageUrl);
+		imageView.setTag(URLcontainer.urlip + URLcontainer.GetFile + imageUrl);
 		Log.e("imageUrl", imageUrl);
-		if (imageUrl.equals(imageurl)||imageUrl.equals("null")) {
+		if (imageUrl.equals(imageurl) || imageUrl.equals("null")) {
 			imageView.setImageResource(R.drawable.vote);
 		} else {
 			try {
@@ -79,7 +80,7 @@ public class VoteAdapter extends ArrayAdapter<VoteModel> {
 				Bitmap bm1 = null;
 				bm1 = getBitmapByPath(temppath);
 				if (bm1 == null) {
-					imageUrl = URLcontainer.urlip +URLcontainer.GetFile + imageUrl;
+					imageUrl = URLcontainer.urlip + URLcontainer.GetFile + imageUrl;
 					Log.e("imageUrl", imageUrl);
 					Drawable cachedImage = ImageLoader.loadDrawable(imageUrl, new ImageCallback() {
 						public void imageLoaded(Drawable imageDrawable, String imageUrl) {
@@ -113,7 +114,7 @@ public class VoteAdapter extends ArrayAdapter<VoteModel> {
 		TextView TextTitle = viewCache.getTextTitle();
 		TextTitle.setText("" + imageAndText.getTitle());
 		TextView TextDetail = viewCache.getTextDetail();
-		TextDetail.setText("" + imageAndText.getDetail());
+		TextDetail.setText("" + getcha.gethan(imageAndText.getDetail()));
 
 		return rowView;
 	}

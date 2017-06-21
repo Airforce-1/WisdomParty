@@ -27,6 +27,7 @@ import wuxc.wisdomparty.Cache.AssistanceCache;
 import wuxc.wisdomparty.Internet.ImageLoader;
 import wuxc.wisdomparty.Internet.ImageLoader.ImageCallback;
 import wuxc.wisdomparty.Internet.URLcontainer;
+import wuxc.wisdomparty.Internet.getcha;
 import wuxc.wisdomparty.Model.AssistanceModel;;
 
 public class AssistanceAdapter extends ArrayAdapter<AssistanceModel> {
@@ -111,7 +112,7 @@ public class AssistanceAdapter extends ArrayAdapter<AssistanceModel> {
 		TextView TextAim = viewCache.getTextAim();
 		TextAim.setText("" + imageAndText.getAim());
 		TextView TextDetail = viewCache.getTextDetail();
-		TextDetail.setText("" + imageAndText.getDetail());
+		TextDetail.setText("" + getcha.gethan(imageAndText.getDetail()));
 		RelativeLayout Half = viewCache.getRelaHalf();
 		RelativeLayout OneOfTen = viewCache.getRelaOneOfTen();
 		screenwidth = thisactivity.getWindow().getWindowManager().getDefaultDisplay().getWidth();

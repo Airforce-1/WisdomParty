@@ -164,7 +164,8 @@ public class MainPublicPageInformFragment extends Fragment
 			jArray = new JSONArray(data);
 			JSONObject json_data = null;
 			if (jArray.length() == 0) {
-//			/	Toast.makeText(getActivity(), "无数据", Toast.LENGTH_SHORT).show();
+				// / Toast.makeText(getActivity(), "无数据",
+				// Toast.LENGTH_SHORT).show();
 
 			} else {
 				for (int i = 0; i < jArray.length(); i++) {
@@ -390,7 +391,7 @@ public class MainPublicPageInformFragment extends Fragment
 		bundle.putString("Title", data.getTitle());
 		bundle.putString("detail", data.getDetail());
 		bundle.putString("Time", data.getTime());
-		bundle.putString("Name", "名字");
+		bundle.putString("Name", data.getAuthor());
 		intent.putExtras(bundle);
 		startActivity(intent);
 	}

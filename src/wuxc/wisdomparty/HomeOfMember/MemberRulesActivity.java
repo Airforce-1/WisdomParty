@@ -34,6 +34,7 @@ import wuxc.wisdomparty.Adapter.PartyRespondAdapter;
 import wuxc.wisdomparty.Internet.GetChannelByKey;
 import wuxc.wisdomparty.Internet.HttpGetData;
 import wuxc.wisdomparty.Model.RespondModel;
+import wuxc.wisdomparty.PartyManage.AssistanceDetailActivity;
 import wuxc.wisdomparty.add.orgDetailActivity;
 import wuxc.wisdomparty.Model.RespondModel;
 import wuxc.wisdomparty.Model.RespondModel;
@@ -371,11 +372,11 @@ public class MemberRulesActivity extends Activity implements OnTouchListener, On
 		// TODO Auto-generated method stub
 		RespondModel data = list.get(position - 1);
 		Intent intent = new Intent();
-		intent.setClass(getApplicationContext(), orgDetailActivity.class);
+		intent.setClass(getApplicationContext(), AssistanceDetailActivity.class);
 		Bundle bundle = new Bundle();
 		bundle.putString("Title", data.getTitle());
 		bundle.putString("Time", data.getTime());
-		bundle.putString("detail", data.getCONT());
+		bundle.putString("content", data.getCONT());
 		intent.putExtras(bundle);
 		startActivity(intent);
 	}

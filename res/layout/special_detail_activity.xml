@@ -30,6 +30,44 @@
             android:textSize="@dimen/text_size" />
     </RelativeLayout>
 
+    <TextView
+        android:id="@+id/text_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="10dp"
+        android:gravity="center"
+        android:textColor="#000000"
+        android:textSize="@dimen/text_size"
+        android:textStyle="bold" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="35dp"
+        android:layout_marginLeft="3dp"
+        android:layout_marginRight="3dp"
+        android:orientation="horizontal" >
+
+        <TextView
+            android:id="@+id/text_name"
+            android:layout_width="0dp"
+            android:layout_height="35dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:textSize="@dimen/member_transform_size" />
+
+        <TextView
+            android:id="@+id/text_time"
+            android:layout_width="0dp"
+            android:layout_height="35dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:textColor="@color/member_transform_stroke"
+            android:textSize="@dimen/member_transform_size" />
+    </LinearLayout>
+
     <WebView
         android:id="@+id/webview"
         android:layout_width="match_parent"
@@ -46,22 +84,10 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent" >
 
-            <TextView
-                android:id="@+id/text_title"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
-                android:gravity="center_vertical"
-                android:textColor="#000000"
-                android:textSize="@dimen/text_size"
-                android:textStyle="bold" />
-
             <LinearLayout
                 android:id="@+id/lin_position"
                 android:layout_width="match_parent"
                 android:layout_height="35dp"
-                android:layout_below="@id/text_title"
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
                 android:orientation="horizontal" >
@@ -73,29 +99,6 @@
                     android:src="@drawable/item_headimg"
                     android:visibility="gone" >
                 </wuxc.wisdomparty.layout.RoundImageView>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginLeft="10dp"
-                    android:orientation="vertical" >
-
-                    <TextView
-                        android:id="@+id/text_name"
-                        android:layout_width="match_parent"
-                        android:layout_height="35dp"
-                        android:gravity="center_vertical"
-                        android:textSize="@dimen/member_transform_size"
-                        android:visibility="gone" />
-
-                    <TextView
-                        android:id="@+id/text_time"
-                        android:layout_width="match_parent"
-                        android:layout_height="35dp"
-                        android:gravity="center_vertical"
-                        android:textColor="@color/member_transform_stroke"
-                        android:textSize="@dimen/member_transform_size" />
-                </LinearLayout>
             </LinearLayout>
 
             <TextView

@@ -11,6 +11,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.webkit.WebChromeClient;
+import android.webkit.WebView;
+import android.webkit.WebSettings.LayoutAlgorithm;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -34,7 +37,10 @@ public class AssistanceDetailActivity extends Activity implements OnClickListene
 	private String Title;
 	private UMImage image = null;
 	private String Tag = "";
-private String content;
+	private String content;
+
+	private WebView webView;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
@@ -49,10 +55,23 @@ private String content;
 
 		Title = bundle.getString("Title");
 		Time = bundle.getString("Time");
-		content=bundle.getString("content");
+		content = bundle.getString("content");
 		TextTitle.setText(Title);
-		TextAuthorAandTime.setText( Time);
+		TextAuthorAandTime.setText(Time);
 		TextDetail.setText(ToDBC(content));
+
+		TextAuthorAandTime.setText(Time);
+		String html = "<html>" + "<body>" + "<table>" + "<tr>" + "<td>成都天府</td>" + "</tr>" + "</table>" + "</body>"
+				+ "</html>";
+		webView = (android.webkit.WebView) findViewById(R.id.webview);
+		// StringBuilder sb = new StringBuilder();
+		// sb.append(detail);
+		// webView.loadUrl("http://ww.baidu.com");
+		webView.getSettings().setJavaScriptEnabled(true);
+		webView.setWebChromeClient(new WebChromeClient());
+		webView.getSettings().setLayoutAlgorithm(LayoutAlgorithm.SINGLE_COLUMN);
+
+		webView.loadDataWithBaseURL(null, content, "text/html", "utf-8", null);
 
 	}
 
@@ -62,7 +81,7 @@ private String content;
 		ImageBack = (ImageView) findViewById(R.id.image_back);
 		ImageShare = (ImageView) findViewById(R.id.image_share);
 		TextTitle = (TextView) findViewById(R.id.text_title);
-		TextAuthorAandTime = (TextView) findViewById(R.id.text_authorandtime);
+		TextAuthorAandTime = (TextView) findViewById(R.id.text_time);
 		TextDetail = (TextView) findViewById(R.id.text_detail);
 		BtnConfirm = (Button) findViewById(R.id.btn_confirm);
 

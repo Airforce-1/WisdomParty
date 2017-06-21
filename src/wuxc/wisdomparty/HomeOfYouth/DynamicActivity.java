@@ -37,6 +37,7 @@ import wuxc.wisdomparty.Adapter.RewardsAdapter;
 import wuxc.wisdomparty.Internet.GetChannelByKey;
 import wuxc.wisdomparty.Internet.HttpGetData;
 import wuxc.wisdomparty.Model.RewardsModel;
+import wuxc.wisdomparty.PartyManage.AssistanceDetailActivity;
 import wuxc.wisdomparty.PartyManage.RewardsDetailActivity;
 import wuxc.wisdomparty.add.orgDetailActivity;
 import wuxc.wisdomparty.Model.RewardsModel;
@@ -375,9 +376,9 @@ public class DynamicActivity extends Activity implements OnTouchListener, OnClic
 		// TODO Auto-generated method stub
 		RewardsModel data = list.get(position - 1);
 		Intent intent = new Intent();
-		intent.setClass(getApplicationContext(), orgDetailActivity.class);
+		intent.setClass(getApplicationContext(), AssistanceDetailActivity.class);
 		Bundle bundle = new Bundle();
-		bundle.putString("detail", data.getDetail());
+		bundle.putString("content", data.getDetail());
 		bundle.putString("Title", data.getTitle());
 		bundle.putString("Time", data.getTime());
 		intent.putExtras(bundle);

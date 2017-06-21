@@ -27,6 +27,7 @@ import wuxc.wisdomparty.Cache.PartyNewsCache;
 import wuxc.wisdomparty.Internet.ImageLoader;
 import wuxc.wisdomparty.Internet.ImageLoader.ImageCallback;
 import wuxc.wisdomparty.Internet.URLcontainer;
+import wuxc.wisdomparty.Internet.getcha;
 import wuxc.wisdomparty.Model.PartyNewsModel;;
 
 public class PartyNewsAdapter extends ArrayAdapter<PartyNewsModel> {
@@ -67,7 +68,7 @@ public class PartyNewsAdapter extends ArrayAdapter<PartyNewsModel> {
 		// Load the image and set it on the ImageView
 
 		TextView TextDetail = viewCache.getTextDetail();
-		TextDetail.setText(imageAndText.getDetail());
+		TextDetail.setText(getcha.gethan(imageAndText.getDetail()));
 		TextView TextTitle = viewCache.getTextTitle();
 		TextTitle.setText("" + imageAndText.getTitle());
 		TextView TextTime = viewCache.getTextTime();

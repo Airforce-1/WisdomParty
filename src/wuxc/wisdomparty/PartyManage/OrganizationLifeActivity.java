@@ -371,9 +371,9 @@ public class OrganizationLifeActivity extends Activity
 		// TODO Auto-generated method stub
 		RewardsModel data = list.get(position - 1);
 		Intent intent = new Intent();
-		intent.setClass(getApplicationContext(), orgDetailActivity.class);
+		intent.setClass(getApplicationContext(), AssistanceDetailActivity.class);
 		Bundle bundle = new Bundle();
-		bundle.putString("detail", data.getDetail());
+		bundle.putString("content", data.getDetail());
 		bundle.putString("Title", data.getTitle());
 		bundle.putString("Time", data.getTime());
 		intent.putExtras(bundle);

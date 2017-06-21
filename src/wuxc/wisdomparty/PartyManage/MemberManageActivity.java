@@ -368,11 +368,11 @@ public class MemberManageActivity extends Activity implements OnTouchListener, O
 		// TODO Auto-generated method stub
 		RespondModel data = list.get(position - 1);
 		Intent intent = new Intent();
-		intent.setClass(getApplicationContext(), MemberEducationDetailActivity.class);
+		intent.setClass(getApplicationContext(), AssistanceDetailActivity.class);
 		Bundle bundle = new Bundle();
-		bundle.putString("Title", position + data.getTitle());
-		bundle.putString("Time", position + data.getTime());
-		bundle.putString("content", position + data.getCONT());
+		bundle.putString("Title",  data.getTitle());
+		bundle.putString("Time",   data.getTime());
+		bundle.putString("content",   data.getCONT());
 		intent.putExtras(bundle);
 		startActivity(intent);
 	}

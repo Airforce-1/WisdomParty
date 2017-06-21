@@ -383,7 +383,7 @@ public class HomeOfVolunteerActivity extends Activity implements OnTouchListener
 		// TODO Auto-generated method stub
 		VolunteerModel data = list.get(position - 1);
 		Intent intent = new Intent();
-		intent.setClass(getApplicationContext(), orgDetailActivity.class);
+		intent.setClass(getApplicationContext(), AssistanceDetailActivity.class);
 		Bundle bundle = new Bundle();
 		bundle.putString("Title", data.getTitle());
 		bundle.putString("Time", data.getTime());

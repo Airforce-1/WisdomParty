@@ -42,6 +42,7 @@ import wuxc.wisdomparty.Internet.GetChannelByKey;
 import wuxc.wisdomparty.Internet.HttpGetData;
 import wuxc.wisdomparty.Model.MemberEducationModel;
 import wuxc.wisdomparty.Model.MemberEducationModel;
+import wuxc.wisdomparty.PartyManage.AssistanceDetailActivity;
 import wuxc.wisdomparty.PartyManage.MemberEducationDetailActivity;
 
 public class MemberEducationOneFragment extends Fragment
@@ -373,7 +374,7 @@ public class MemberEducationOneFragment extends Fragment
 		// TODO Auto-generated method stub
 		MemberEducationModel data = list.get(position - 1);
 		Intent intent = new Intent();
-		intent.setClass(getActivity(), MemberEducationDetailActivity.class);
+		intent.setClass(getActivity(), AssistanceDetailActivity.class);
 		Bundle bundle = new Bundle();
 		bundle.putString("Title",   data.getTitle());
 		bundle.putString("Time",  data.getTime());

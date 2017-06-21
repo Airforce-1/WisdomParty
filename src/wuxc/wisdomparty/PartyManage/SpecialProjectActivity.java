@@ -162,7 +162,7 @@ public class SpecialProjectActivity extends FragmentActivity
 					listinfo.setTitle(json_data.getString("title"));
 					listinfo.setImageUrl(json_data.getString("sacleImage"));
 					listinfo.setDetail(json_data.getString("content"));
-					listinfo.setNumber("23");
+					listinfo.setNumber(json_data.getString("author"));
 					// listinfo.setTime("2016-12-14");
 					// listinfo.setDetail(
 					// "此次专项检查的范围是招用农民工较多的建筑、制造、采矿、餐饮和其他中小型劳动密集型企业以及个体经济组织。检查内容包括：非公企业与劳动者签订劳动合同情况；按照工资支付有关规定支付职工工资情况；遵守最低工资规定及依法支付加班工资情况；依法参加社会保险和缴纳社会保险费情况；遵守禁止使用童工规定以及女职工和未成年工特殊劳动保护规定情况；其他遵守劳动保障法律法规的情况。"
@@ -443,7 +443,7 @@ public class SpecialProjectActivity extends FragmentActivity
 		bundle.putString("Title", data.getTitle());
 		bundle.putString("detail", data.getDetail());
 		bundle.putString("Time", data.getTime());
-		bundle.putString("Name", "名字");
+		bundle.putString("Name",data.getNumber());
 		intent.putExtras(bundle);
 		startActivity(intent);
 	}

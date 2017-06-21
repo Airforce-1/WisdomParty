@@ -29,6 +29,7 @@ import wuxc.wisdomparty.Cache.StudyArticleCache;
 import wuxc.wisdomparty.Internet.ImageLoader;
 import wuxc.wisdomparty.Internet.ImageLoader.ImageCallback;
 import wuxc.wisdomparty.Internet.URLcontainer;
+import wuxc.wisdomparty.Internet.getcha;
 import wuxc.wisdomparty.Model.StudyArticleModel;;
 
 public class StudyArticleAdapter extends ArrayAdapter<StudyArticleModel> {
@@ -114,7 +115,7 @@ public class StudyArticleAdapter extends ArrayAdapter<StudyArticleModel> {
 		TextView TextTitle = viewCache.getTextTitle();
 		TextTitle.setText("" + imageAndText.getTitle());
 		TextView TextDetail = viewCache.getTextDetail();
-		TextDetail.setText("" + imageAndText.getDetail());
+		TextDetail.setText("" + getcha.gethan(imageAndText.getDetail()));
 
 		screenwidth = thisactivity.getWindow().getWindowManager().getDefaultDisplay().getWidth();
 		DisplayMetrics mMetrics = new DisplayMetrics();

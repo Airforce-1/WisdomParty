@@ -41,6 +41,7 @@ import wuxc.wisdomparty.Internet.HttpGetData;
 import wuxc.wisdomparty.Model.StudyArticleModel;
 import wuxc.wisdomparty.Model.StudyArticleModel;
 import wuxc.wisdomparty.Model.StudyVideoModel;
+import wuxc.wisdomparty.PartyManage.AssistanceDetailActivity;
 import wuxc.wisdomparty.PartyManage.StudyArticleDetailActivity;
 import wuxc.wisdomparty.PartyManage.StudyArticleDetailActivity;
 import wuxc.wisdomparty.PartyManage.StudyVideoDetailActivity;
@@ -407,7 +408,7 @@ public class MainPublicPageStudyFragment extends Fragment
 		if (type == 0) {
 			StudyArticleModel data = list.get(position - 1);
 			Intent intent = new Intent();
-			intent.setClass(getActivity(), StudyArticleDetailActivity.class);
+			intent.setClass(getActivity(), AssistanceDetailActivity.class);
 			Bundle bundle = new Bundle();
 			bundle.putString("Title", data.getTitle());
 			bundle.putString("Time", data.getTime());

@@ -11,6 +11,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import single.wuxc.wisdomparty.R;
 import wuxc.wisdomparty.Cache.MyfundCache;
+import wuxc.wisdomparty.Internet.getcha;
 import wuxc.wisdomparty.Model.MyfundModel;;
 
 public class MyfundAdapter extends ArrayAdapter<MyfundModel> {
@@ -41,7 +42,7 @@ public class MyfundAdapter extends ArrayAdapter<MyfundModel> {
 		TextView TextChange = viewCache.getTextChange();
 		TextChange.setText(imageAndText.getChange());
 		TextView TextDetail = viewCache.getTextDetail();
-		TextDetail.setText(imageAndText.getDetail());
+		TextDetail.setText(getcha.gethan(imageAndText.getDetail()));
 		TextView Time = viewCache.getTextTime();
 		Time.setText(imageAndText.getTime());
 		return rowView;

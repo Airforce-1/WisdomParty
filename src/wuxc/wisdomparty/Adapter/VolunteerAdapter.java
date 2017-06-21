@@ -27,6 +27,7 @@ import wuxc.wisdomparty.Cache.VolunteerCache;
 import wuxc.wisdomparty.Internet.ImageLoader;
 import wuxc.wisdomparty.Internet.ImageLoader.ImageCallback;
 import wuxc.wisdomparty.Internet.URLcontainer;
+import wuxc.wisdomparty.Internet.getcha;
 import wuxc.wisdomparty.Model.VolunteerModel;;
 
 public class VolunteerAdapter extends ArrayAdapter<VolunteerModel> {
@@ -107,7 +108,7 @@ public class VolunteerAdapter extends ArrayAdapter<VolunteerModel> {
 		TextView TextTitle = viewCache.getTextTitle();
 		TextTitle.setText("" + imageAndText.getTitle());
 		TextView TextDetail = viewCache.getTextDetail();
-		TextDetail.setText("" + imageAndText.getDetail());
+		TextDetail.setText("" + getcha.gethan(imageAndText.getDetail()));
 		RelativeLayout Half = viewCache.getRelaHalf();
 		RelativeLayout OneOfTen = viewCache.getRelaOneOfTen();
 		screenwidth = thisactivity.getWindow().getWindowManager().getDefaultDisplay().getWidth();

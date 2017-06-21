@@ -27,6 +27,7 @@ import wuxc.wisdomparty.Cache.MedicalShopCache;
 import wuxc.wisdomparty.Internet.ImageLoader;
 import wuxc.wisdomparty.Internet.ImageLoader.ImageCallback;
 import wuxc.wisdomparty.Internet.URLcontainer;
+import wuxc.wisdomparty.Internet.getcha;
 import wuxc.wisdomparty.Model.MedicalShopModel;;
 
 public class MedicalShopAdapter extends ArrayAdapter<MedicalShopModel> {
@@ -109,7 +110,7 @@ public class MedicalShopAdapter extends ArrayAdapter<MedicalShopModel> {
 		TextTitle.setText("" + imageAndText.getTitle());
 
 		TextView TextDetail = viewCache.getTextDetail();
-		TextDetail.setText("" + imageAndText.getDetail());
+		TextDetail.setText("" + getcha.gethan(imageAndText.getDetail()));
 		return rowView;
 	}
 

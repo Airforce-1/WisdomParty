@@ -32,9 +32,9 @@
                 <TextView
                     android:id="@+id/text_title"
                     android:layout_width="match_parent"
-                    android:layout_height="40dp"
+                    android:layout_height="match_parent"
                     android:gravity="center_vertical"
-                 android:maxLines="2"
+                    android:maxLines="4"
                     android:text="标题"
                     android:textColor="#000000"
                     android:textSize="@dimen/member_transform_size"
@@ -48,12 +48,13 @@
                     android:maxLines="2"
                     android:text="详细详细详细详细详细详细详细详细详细详细详细详细详细详细详细详细详细详细详细"
                     android:textColor="@color/member_transform_stroke"
-                    android:textSize="@dimen/member_text_size" />
+                    android:textSize="@dimen/member_text_size"
+                    android:visibility="gone" />
 
                 <RelativeLayout
                     android:layout_width="match_parent"
-                    android:visibility="gone"
-                    android:layout_height="match_parent" >
+                    android:layout_height="match_parent"
+                    android:visibility="gone" >
 
                     <TextView
                         android:id="@+id/text_time"
@@ -69,8 +70,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:layout_alignParentRight="true"
-                        android:visibility="gone"
-                        android:orientation="horizontal" >
+                        android:orientation="horizontal"
+                        android:visibility="gone" >
 
                         <ImageView
                             android:layout_width="wrap_content"

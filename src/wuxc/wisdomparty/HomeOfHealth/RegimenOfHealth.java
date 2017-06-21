@@ -36,6 +36,7 @@ import wuxc.wisdomparty.Adapter.MedicalShopAdapter;
 import wuxc.wisdomparty.Internet.GetChannelByKey;
 import wuxc.wisdomparty.Internet.HttpGetData;
 import wuxc.wisdomparty.Model.MedicalShopModel;
+import wuxc.wisdomparty.PartyManage.AssistanceDetailActivity;
 import wuxc.wisdomparty.Model.MedicalShopModel;
 import wuxc.wisdomparty.add.orgDetailActivity;
 import wuxc.wisdomparty.Model.MedicalShopModel;
@@ -387,9 +388,9 @@ public class RegimenOfHealth extends Activity implements OnTouchListener, OnClic
 	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 		MedicalShopModel data = list.get(position - 1);
 		Intent intent = new Intent();
-		intent.setClass(getApplicationContext(), orgDetailActivity.class);
+		intent.setClass(getApplicationContext(), AssistanceDetailActivity.class);
 		Bundle bundle = new Bundle();
-		bundle.putString("detail", data.getDetail());
+		bundle.putString("content", data.getDetail());
 		bundle.putString("Title", data.getTitle());
 		bundle.putString("Time", data.getTime());
 		intent.putExtras(bundle);

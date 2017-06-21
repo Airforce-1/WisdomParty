@@ -26,6 +26,7 @@ import android.view.View.OnClickListener;
 import android.view.View.OnTouchListener;
 import android.view.Window;
 import android.webkit.WebChromeClient;
+import android.webkit.WebSettings.LayoutAlgorithm;
 import android.webkit.WebView;
 import android.widget.AbsListView;
 import android.widget.AbsListView.OnScrollListener;
@@ -128,6 +129,8 @@ public class SpecialDetailActivity extends Activity implements OnClickListener, 
 		setlistheight(0);
 		settext();
 		starttimedelay();
+		TextName.setText("作者："+Name);
+		TextTime.setText(Time);
 		String html = "<html>" + "<body>" + "<table>" + "<tr>" + "<td>成都天府</td>" + "</tr>" + "</table>" + "</body>"
 				+ "</html>";
 		webView = (android.webkit.WebView) findViewById(R.id.webview);
@@ -136,6 +139,7 @@ public class SpecialDetailActivity extends Activity implements OnClickListener, 
 //		webView.loadUrl("http://ww.baidu.com");
 		webView.getSettings().setJavaScriptEnabled(true);
 		 webView.setWebChromeClient(new WebChromeClient());
+		 webView.getSettings().setLayoutAlgorithm(LayoutAlgorithm.SINGLE_COLUMN);
 
 		webView.loadDataWithBaseURL(null, detail, "text/html", "utf-8", null);
 	}

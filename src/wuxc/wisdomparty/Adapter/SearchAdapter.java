@@ -27,6 +27,7 @@ import wuxc.wisdomparty.Cache.SearchCache;
 import wuxc.wisdomparty.Internet.ImageLoader;
 import wuxc.wisdomparty.Internet.ImageLoader.ImageCallback;
 import wuxc.wisdomparty.Internet.URLcontainer;
+import wuxc.wisdomparty.Internet.getcha;
 import wuxc.wisdomparty.Model.SearchModel;;
 
 public class SearchAdapter extends ArrayAdapter<SearchModel> {
@@ -111,7 +112,7 @@ public class SearchAdapter extends ArrayAdapter<SearchModel> {
 		TextView TextTime = viewCache.getTextTime();
 		TextTime.setText("" + imageAndText.getTime());
 		TextView TextDetail = viewCache.getTextDetail();
-		TextDetail.setText("" + imageAndText.getDetail());
+		TextDetail.setText("" + getcha.gethan(imageAndText.getDetail()));
 		return rowView;
 	}
 
