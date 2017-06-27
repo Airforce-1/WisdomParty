@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="single.wuxc.wisdomparty"
     android:versionCode="2"
-    android:versionName="2.0" >
+    android:versionName="2.1.8" >
 
     <uses-sdk
         android:minSdkVersion="8"

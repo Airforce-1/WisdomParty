@@ -204,7 +204,7 @@ public class MemberDiscussionActivity extends Activity
 		// TODO Auto-generated method stub
 		final ArrayList ArrayValues = new ArrayList();
 		ArrayValues.add(new BasicNameValuePair("ticket", ticket));
-		chn = GetChannelByKey.GetSign(PreALLChannel, "内部论坛");
+		chn = GetChannelByKey.GetSign(PreALLChannel, "内部论坛列表");
 		ArrayValues.add(new BasicNameValuePair("chn", chn));
 		ArrayValues.add(new BasicNameValuePair("curPage", "" + curPage));
 		ArrayValues.add(new BasicNameValuePair("pageSize", "" + pageSize));

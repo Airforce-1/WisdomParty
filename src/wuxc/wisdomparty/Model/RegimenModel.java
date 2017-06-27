@@ -5,7 +5,24 @@ public class RegimenModel {
 	private String Title;
 	private String Label;
 	private boolean collect;
-	private boolean great;
+	private boolean great;	private String link;
+	private boolean cont;
+
+	public String getLink() {
+		return link;
+	}
+
+	public void setLink(String link) {
+		this.link = link;
+	}
+
+	public boolean isCont() {
+		return cont;
+	}
+
+	public void setCont(boolean cont) {
+		this.cont = cont;
+	}
 	private String Collect;
 	private String Great;
 	private int Width;

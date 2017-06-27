@@ -8,7 +8,24 @@ public class DynamicModel {
 	private boolean great;
 	private int Width;
 	private int height;
+	private String link;
+	private boolean cont;
 
+	public String getLink() {
+		return link;
+	}
+
+	public void setLink(String link) {
+		this.link = link;
+	}
+
+	public boolean isCont() {
+		return cont;
+	}
+
+	public void setCont(boolean cont) {
+		this.cont = cont;
+	}
 	public int getWidth() {
 		return Width;
 	}

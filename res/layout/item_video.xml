@@ -62,7 +62,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="28dp"
                 android:layout_centerVertical="true"
-                android:layout_marginRight="140dp"
                 android:gravity="center"
                 android:singleLine="true"
                 android:text="暖心简介"
@@ -75,7 +74,8 @@
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
                 android:gravity="right"
-                android:orientation="horizontal" >
+                android:orientation="horizontal"
+                android:visibility="gone" >
 
                 <ImageView
                     android:layout_width="wrap_content"

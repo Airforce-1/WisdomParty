@@ -7,6 +7,14 @@ public class StudyVideoModel {
 	private String Time;
 	private String Title;
 	private String ImageUrl;
+	private String url;
+	public String getUrl() {
+		return url;
+	}
+
+	public void setUrl(String url) {
+		this.url = url;
+	}
 
 	public String getNumberCollect() {
 		return NumberCollect;

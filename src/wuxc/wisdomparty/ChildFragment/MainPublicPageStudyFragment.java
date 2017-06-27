@@ -8,8 +8,10 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import com.alipay.android.phone.mrpc.core.t;
 import com.umeng.socialize.utils.Log;
 
+import android.R.bool;
 import android.R.color;
 import android.app.Activity;
 import android.content.Context;
@@ -17,6 +19,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.Typeface;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -38,6 +41,8 @@ import wuxc.wisdomparty.Adapter.StudyArticleAdapter;
 import wuxc.wisdomparty.Adapter.StudyVideoAadapter;
 import wuxc.wisdomparty.Internet.GetChannelByKey;
 import wuxc.wisdomparty.Internet.HttpGetData;
+import wuxc.wisdomparty.Internet.URLcontainer;
+import wuxc.wisdomparty.Internet.webview;
 import wuxc.wisdomparty.Model.StudyArticleModel;
 import wuxc.wisdomparty.Model.StudyArticleModel;
 import wuxc.wisdomparty.Model.StudyVideoModel;
@@ -84,6 +89,9 @@ public class MainPublicPageStudyFragment extends Fragment
 			switch (msg.what) {
 			case GET_DUE_DATA:
 				GetDataDueData(msg.obj);
+				break;
+			case 20:
+				GetDataDueDatavideo(msg.obj);
 				break;
 			default:
 				break;
@@ -179,6 +187,86 @@ public class MainPublicPageStudyFragment extends Fragment
 
 	}
 
+	protected void GetDataDueDatavideo(Object obj) {
+
+		// TODO Auto-generated method stub
+		String Type = null;
+		String Data = null;
+		String pager = null;
+		try {
+			JSONObject demoJson = new JSONObject(obj.toString());
+			Type = demoJson.getString("type");
+			pager = demoJson.getString("pager");
+			Data = demoJson.getString("datas");
+			if (Type.equals(GET_SUCCESS_RESULT)) {
+				GetPager(pager);
+				GetDataListvideo(Data, curPage);
+			} else if (Type.equals(GET_FAIL_RESULT)) {
+				Toast.makeText(getActivity(), "服务器数据失败", Toast.LENGTH_SHORT).show();
+			} else {
+				Toast.makeText(getActivity(), "数据格式校验失败", Toast.LENGTH_SHORT).show();
+			}
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+	}
+
+	private void GetDataListvideo(String data, int arg) {
+		text_list_title.setVisibility(View.GONE);
+		;
+		if (arg == 1) {
+			listVideo.clear();
+		}
+		JSONArray jArray = null;
+		try {
+			jArray = new JSONArray(data);
+			JSONObject json_data = null;
+			if (jArray.length() == 0) {
+				// / Toast.makeText(getActivity(), "无数据",
+				// Toast.LENGTH_SHORT).show();
+
+			} else {
+				for (int i = 0; i < jArray.length(); i++) {
+					json_data = jArray.getJSONObject(i);
+					Log.e("json_data", "" + json_data);
+					// JSONObject jsonObject = json_data.getJSONObject("data");
+					StudyVideoModel listinfo = new StudyVideoModel();
+					listinfo.setTime(json_data.getString("createtime"));
+					listinfo.setTitle(json_data.getString("title"));
+					listinfo.setNumberCollect("12");
+					listinfo.setNumberGreat("23");
+
+					listinfo.setUrl(json_data.getString("otherLinks"));
+					try {
+						JSONArray jArray1 = new JSONArray(json_data.getString("sacleImage"));
+						JSONObject demoJson = jArray1.getJSONObject(0);
+						listinfo.setImageUrl(demoJson.getString("filePath"));
+
+					} catch (Exception e) {
+						// TODO: handle exception
+						listinfo.setImageUrl("");
+					}
+					listVideo.add(listinfo);
+
+				}
+			}
+
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		if (arg == 1) {
+			go();
+		} else {
+			mAdapter.notifyDataSetChanged();
+		}
+
+	}
+
 	protected void GetDataDueData(Object obj) {
 
 		// TODO Auto-generated method stub
@@ -231,7 +319,13 @@ public class MainPublicPageStudyFragment extends Fragment
 					listinfo.setTitle(json_data.getString("title"));
 					listinfo.setBackGround(json_data.getString("sacleImage"));
 					listinfo.setDetail(json_data.getString("content"));
-
+					listinfo.setCont(true);
+					if (json_data.getString("content").equals("") || json_data.getString("content") == null
+							|| json_data.getString("content").equals("null")) {
+						listinfo.setDetail(json_data.getString("source"));
+						listinfo.setCont(false);
+					}
+					listinfo.setLink(json_data.getString("otherLinks"));
 					list.add(listinfo);
 
 				}
@@ -278,7 +372,7 @@ public class MainPublicPageStudyFragment extends Fragment
 		// TODO Auto-generated method stub
 		final ArrayList ArrayValues = new ArrayList();
 		ArrayValues.add(new BasicNameValuePair("ticket", ticket));
-		ArrayValues.add(new BasicNameValuePair("chn", "zxxx"));
+		ArrayValues.add(new BasicNameValuePair("chn", "learnwz"));
 		ArrayValues.add(new BasicNameValuePair("curPage", "" + curPage));
 		ArrayValues.add(new BasicNameValuePair("pageSize", "" + pageSize));
 		new Thread(new Runnable() { // 开启线程上传文件
@@ -366,8 +460,14 @@ public class MainPublicPageStudyFragment extends Fragment
 				ListData.setPadding(0, -100, 0, 0);
 			} else {
 				curPage = 1;
-//				Toast.makeText(getActivity(), "正在刷新study", Toast.LENGTH_SHORT).show();
-				GetData();
+				// Toast.makeText(getActivity(), "正在刷新study",
+				// Toast.LENGTH_SHORT).show();
+				if (type == 1) {
+					getdatavideo();
+				} else {
+					GetData();
+				}
+
 			}
 			int temp = 1;
 			temp = (lastItemIndex) % pageSize;
@@ -378,7 +478,11 @@ public class MainPublicPageStudyFragment extends Fragment
 					Toast.makeText(getActivity(), " 没有更多了", Toast.LENGTH_SHORT).show();
 					// // listinfoagain();
 				} else {
-					GetData();
+					if (type == 1) {
+						getdatavideo();
+					} else {
+						GetData();
+					}
 					Toast.makeText(getActivity(), "正在加载下一页", Toast.LENGTH_SHORT).show();
 				}
 
@@ -406,25 +510,58 @@ public class MainPublicPageStudyFragment extends Fragment
 	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 		// TODO Auto-generated method stub
 		if (type == 0) {
+
 			StudyArticleModel data = list.get(position - 1);
-			Intent intent = new Intent();
-			intent.setClass(getActivity(), AssistanceDetailActivity.class);
-			Bundle bundle = new Bundle();
-			bundle.putString("Title", data.getTitle());
-			bundle.putString("Time", data.getTime());
-			bundle.putString("content", data.getDetail());
-			intent.putExtras(bundle);
-			startActivity(intent);
+			if (data.isCont()) {
+				Intent intent = new Intent();
+				intent.setClass(getActivity(), AssistanceDetailActivity.class);
+				Bundle bundle = new Bundle();
+				bundle.putString("Title", data.getTitle());
+				bundle.putString("Time", data.getTime());
+				bundle.putString("content", data.getDetail());
+				intent.putExtras(bundle);
+				startActivity(intent);
+			} else {
+				Intent intent = new Intent();
+				intent.setClass(getActivity(), webview.class);
+				Bundle bundle = new Bundle();
+				bundle.putString("url", data.getLink());
+				// // bundle.putString("Time", "2016-11-23");
+				// // bundle.putString("Name", "小李");
+				// // bundle.putString("PageTitle", "收藏详情");
+				// // bundle.putString("Detail",
+				// //
+				// "中国共产主义青年团，简称共青团，原名中国社会主义青年团，是中国共产党领导的一个由信仰共产主义的中国青年组成的群众性组织。共青团中央委员会受中共中央委员会领导，共青团的地方各级组织受同级党的委员会领导，同时受共青团上级组织领导。1922年5月，团的第一次代表大会在广州举行，正式成立中国社会主义青年团，1925年1月26日改称中国共产主义青年团。1959年5月4日共青团中央颁布共青团团徽。");
+				intent.putExtras(bundle);
+				startActivity(intent);
+			}
+
 		} else {
 			StudyVideoModel data = listVideo.get(position - 1);
-			Intent intent = new Intent();
-			intent.setClass(getActivity(), StudyVideoDetailActivity.class);
-			Bundle bundle = new Bundle();
-			bundle.putString("Title", data.getTitle());
-			bundle.putString("Time", data.getTime());
-			bundle.putString("TimeLong", data.getTime());
-			intent.putExtras(bundle);
-			startActivity(intent);
+			// Intent intent = new Intent();
+			// intent.setClass(getActivity(), webview.class);
+			// Bundle bundle = new Bundle();
+			// bundle.putString("url", data.getUrl());
+			// // // bundle.putString("Time", "2016-11-23");
+			// // // bundle.putString("Name", "小李");
+			// // // bundle.putString("PageTitle", "收藏详情");
+			// // // bundle.putString("Detail",
+			// // //
+			// //
+			// "中国共产主义青年团，简称共青团，原名中国社会主义青年团，是中国共产党领导的一个由信仰共产主义的中国青年组成的群众性组织。共青团中央委员会受中共中央委员会领导，共青团的地方各级组织受同级党的委员会领导，同时受共青团上级组织领导。1922年5月，团的第一次代表大会在广州举行，正式成立中国社会主义青年团，1925年1月26日改称中国共产主义青年团。1959年5月4日共青团中央颁布共青团团徽。");
+			// intent.putExtras(bundle);
+			// startActivity(intent);
+			try {
+				Intent intent = new Intent();
+				intent.setAction("android.intent.action.VIEW");
+				String path = data.getUrl();
+				Uri content_url = Uri.parse(path);
+				intent.setData(content_url);
+				startActivity(intent);
+			} catch (Exception e) {
+				// TODO: handle exception
+			}
+
 		}
 
 	}
@@ -480,14 +617,14 @@ public class MainPublicPageStudyFragment extends Fragment
 			break;
 		case R.id.text_article:
 			type = 0;
-			getdatalist(1);
+			GetData();
 			curPage = 1;
 			TextArticle.setTextColor(Color.RED);
 			TextVideo.setTextColor(Color.BLACK);
 			break;
 		case R.id.text_video:
 			type = 1;
-			getdatalist(1);
+			getdatavideo();
 			curPage = 1;
 			TextVideo.setTextColor(Color.RED);
 			TextArticle.setTextColor(Color.BLACK);
@@ -495,6 +632,26 @@ public class MainPublicPageStudyFragment extends Fragment
 		default:
 			break;
 		}
+	}
+
+	private void getdatavideo() {
+		// TODO Auto-generated method stub
+		final ArrayList ArrayValues = new ArrayList();
+		ArrayValues.add(new BasicNameValuePair("ticket", ticket));
+		ArrayValues.add(new BasicNameValuePair("chn", "sp"));
+		ArrayValues.add(new BasicNameValuePair("curPage", "" + curPage));
+		ArrayValues.add(new BasicNameValuePair("pageSize", "" + pageSize));
+		new Thread(new Runnable() { // 开启线程上传文件
+			@Override
+			public void run() {
+				String DueData = "";
+				DueData = HttpGetData.GetData("api/cms/channel/channleListData", ArrayValues);
+				Message msg = new Message();
+				msg.obj = DueData;
+				msg.what = 20;
+				uiHandler.sendMessage(msg);
+			}
+		}).start();
 	}
 
 }
