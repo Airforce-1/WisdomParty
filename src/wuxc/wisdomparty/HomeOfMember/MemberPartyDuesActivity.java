@@ -1,5 +1,6 @@
 package wuxc.wisdomparty.HomeOfMember;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 
 import org.apache.http.message.BasicNameValuePair;
@@ -739,7 +740,10 @@ public class MemberPartyDuesActivity extends Activity implements OnClickListener
 		}
 
 		totalpay = result;
-		TextTotalPay.setText("共计" + result + "元");
+
+		BigDecimal b = new BigDecimal(totalpay);
+		totalpay = b.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
+		TextTotalPay.setText("共计" + totalpay + "元");
 	}
 
 }

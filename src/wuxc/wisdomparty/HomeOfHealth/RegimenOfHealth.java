@@ -35,6 +35,7 @@ import single.wuxc.wisdomparty.R;
 import wuxc.wisdomparty.Adapter.MedicalShopAdapter;
 import wuxc.wisdomparty.Internet.GetChannelByKey;
 import wuxc.wisdomparty.Internet.HttpGetData;
+import wuxc.wisdomparty.Internet.webview;
 import wuxc.wisdomparty.Model.MedicalShopModel;
 import wuxc.wisdomparty.PartyManage.AssistanceDetailActivity;
 import wuxc.wisdomparty.Model.MedicalShopModel;
@@ -81,6 +82,7 @@ public class RegimenOfHealth extends Activity implements OnTouchListener, OnClic
 			}
 		}
 	};
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
@@ -95,6 +97,7 @@ public class RegimenOfHealth extends Activity implements OnTouchListener, OnClic
 		ReadTicket();
 		GetData();
 	}
+
 	protected void GetDataDueData(Object obj) {
 
 		// TODO Auto-generated method stub
@@ -138,22 +141,34 @@ public class RegimenOfHealth extends Activity implements OnTouchListener, OnClic
 			} else {
 				for (int i = 0; i < jArray.length(); i++) {
 					json_data = jArray.getJSONObject(i);
-				
+
 					// JSONObject jsonObject = json_data.getJSONObject("data");
 					MedicalShopModel listinfo = new MedicalShopModel();
 					// listinfo.setTitle("爱心助学");
 					listinfo.setImageUrl(json_data.getString("sacleImage"));
 					listinfo.setTitle(json_data.getString("title"));
 					listinfo.setDetail(json_data.getString("content"));
-					
-//					listinfo.setDetail(
-//							"陕西省委爱心助学陕西省委爱心助学陕西省委爱心助学陕西省委爱心助学陕西省委爱心助学陕西省委爱心助学陕西省委爱心助学陕西省委爱心助学陕西省委爱心助学陕西省委爱心助学陕西省委爱心助学陕西省委爱心助学");
+
+					// listinfo.setDetail(
+					// "陕西省委爱心助学陕西省委爱心助学陕西省委爱心助学陕西省委爱心助学陕西省委爱心助学陕西省委爱心助学陕西省委爱心助学陕西省委爱心助学陕西省委爱心助学陕西省委爱心助学陕西省委爱心助学陕西省委爱心助学");
 					// listinfo.setBackGround("");
-//					listinfo.setAim("12");
-//					listinfo.setNumber("3421");
-					 listinfo.setTime(json_data.getString("createtime"));
-//					listinfo.setTitle(json_data.getString("title"));
-//					listinfo.setBackGround(json_data.getString("sacleImage"));
+					// listinfo.setAim("12");
+					// listinfo.setNumber("3421");
+					listinfo.setTime(json_data.getString("createtime"));
+					listinfo.setCont(true);
+					try {
+						listinfo.setLink(json_data.getString("otherLinks"));
+						if (json_data.getString("content").equals("") || json_data.getString("content") == null
+								|| json_data.getString("content").equals("null")) {
+							listinfo.setDetail(json_data.getString("source"));
+							listinfo.setCont(false);
+						}
+
+					} catch (Exception e) {
+						// TODO: handle exception
+					}
+					// listinfo.setTitle(json_data.getString("title"));
+					// listinfo.setBackGround(json_data.getString("sacleImage"));
 					// listinfo.setDetail(json_data.getString("content"));
 					// listinfo.setTime("2016-12-14");
 					// listinfo.setDetail(
@@ -387,14 +402,29 @@ public class RegimenOfHealth extends Activity implements OnTouchListener, OnClic
 	@Override
 	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 		MedicalShopModel data = list.get(position - 1);
-		Intent intent = new Intent();
-		intent.setClass(getApplicationContext(), AssistanceDetailActivity.class);
-		Bundle bundle = new Bundle();
-		bundle.putString("content", data.getDetail());
-		bundle.putString("Title", data.getTitle());
-		bundle.putString("Time", data.getTime());
-		intent.putExtras(bundle);
-		startActivity(intent);
+		if (data.isCont()) {
+			Intent intent = new Intent();
+			intent.setClass(getApplicationContext(), AssistanceDetailActivity.class);
+			Bundle bundle = new Bundle();
+			bundle.putString("content", data.getDetail());
+			bundle.putString("Title", data.getTitle());
+			bundle.putString("Time", data.getTime());
+			intent.putExtras(bundle);
+			startActivity(intent);
+		} else {
+			Intent intent = new Intent();
+			intent.setClass(getApplicationContext(), webview.class);
+			Bundle bundle = new Bundle();
+			bundle.putString("url", data.getLink());
+			// // bundle.putString("Time", "2016-11-23");
+			// // bundle.putString("Name", "小李");
+			// // bundle.putString("PageTitle", "收藏详情");
+			// // bundle.putString("Detail",
+			// //
+			// "中国共产主义青年团，简称共青团，原名中国社会主义青年团，是中国共产党领导的一个由信仰共产主义的中国青年组成的群众性组织。共青团中央委员会受中共中央委员会领导，共青团的地方各级组织受同级党的委员会领导，同时受共青团上级组织领导。1922年5月，团的第一次代表大会在广州举行，正式成立中国社会主义青年团，1925年1月26日改称中国共产主义青年团。1959年5月4日共青团中央颁布共青团团徽。");
+			intent.putExtras(bundle);
+			startActivity(intent);
+		}
 	}
 
 }

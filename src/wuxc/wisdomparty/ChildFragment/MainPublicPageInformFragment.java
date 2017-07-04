@@ -182,12 +182,18 @@ public class MainPublicPageInformFragment extends Fragment
 					listinfo.setDetail(json_data.getString("content"));
 					listinfo.setId(json_data.getString("keyid"));
 					listinfo.setCont(true);
-					if (json_data.getString("content").equals("") || json_data.getString("content") == null
-							|| json_data.getString("content").equals("null")) {
-						listinfo.setDetail(json_data.getString("source"));
-						listinfo.setCont(false);
+					try {
+						listinfo.setLink(json_data.getString("otherLinks"));
+						if (json_data.getString("content").equals("") || json_data.getString("content") == null
+								|| json_data.getString("content").equals("null")) {
+							listinfo.setDetail(json_data.getString("source"));
+							listinfo.setCont(false);
+						}
+
+					} catch (Exception e) {
+						// TODO: handle exception
 					}
-					listinfo.setLink(json_data.getString("otherLinks"));
+
 					list.add(listinfo);
 
 				}

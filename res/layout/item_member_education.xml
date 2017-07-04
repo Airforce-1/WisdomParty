@@ -28,6 +28,7 @@
                     android:id="@+id/image_headimg"
                     android:layout_width="102dp"
                     android:layout_height="85dp"
+                    android:scaleType="centerCrop"
                     android:src="@drawable/rectangle_headimg" >
                 </ImageView>
 

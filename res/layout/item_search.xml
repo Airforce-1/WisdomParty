@@ -21,6 +21,7 @@
                 android:id="@+id/image_headimg"
                 android:layout_width="75dp"
                 android:layout_height="75dp"
+                android:scaleType="centerCrop"
                 android:src="@drawable/special_list_headimg" />
 
             <LinearLayout

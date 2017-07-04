@@ -4,31 +4,33 @@ public class VoteModel {
 	private String ImageUrl;
 	private String Title;
 	private String Detail;
-private String Id;	private String link;
-private boolean cont;
+	private String Id;
+	private String link;
+	private boolean cont;
 
-public String getLink() {
-	return link;
-}
+	public String getLink() {
+		return link;
+	}
 
-public void setLink(String link) {
-	this.link = link;
-}
+	public void setLink(String link) {
+		this.link = link;
+	}
 
-public boolean isCont() {
-	return cont;
-}
+	public boolean isCont() {
+		return cont;
+	}
 
-public void setCont(boolean cont) {
-	this.cont = cont;
-}
+	public void setCont(boolean cont) {
+		this.cont = cont;
+	}
+
 	public String getId() {
-	return Id;
-}
+		return Id;
+	}
 
-public void setId(String id) {
-	Id = id;
-}
+	public void setId(String id) {
+		Id = id;
+	}
 
 	public String getImageUrl() {
 		return ImageUrl;

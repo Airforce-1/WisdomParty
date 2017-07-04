@@ -35,6 +35,7 @@ import wuxc.wisdomparty.HomeOfVolunteer.VolunteerApplyActivity;
 import wuxc.wisdomparty.HomeOfVolunteer.VolunteerDetailActivity;
 import wuxc.wisdomparty.Internet.GetChannelByKey;
 import wuxc.wisdomparty.Internet.HttpGetData;
+import wuxc.wisdomparty.Internet.webview;
 import wuxc.wisdomparty.Model.VolunteerModel;
 import wuxc.wisdomparty.Model.VolunteerModel;
 import wuxc.wisdomparty.PartyManage.AssistanceDetailActivity;
@@ -67,7 +68,9 @@ public class HomeOfVolunteerActivity extends Activity implements OnTouchListener
 	private static final String GET_SUCCESS_RESULT = "success";
 	private static final String GET_FAIL_RESULT = "fail";
 	private static final int GET_DUE_DATA = 6;
-
+	private TextView TextArticle;
+	private TextView TextVideo;
+	private int type = 2;
 	public Handler uiHandler = new Handler() {
 		@Override
 		public void handleMessage(Message msg) {
@@ -88,6 +91,12 @@ public class HomeOfVolunteerActivity extends Activity implements OnTouchListener
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.home_volunteer_activity);
 		initview();
+		TextArticle = (TextView) findViewById(R.id.text_article);
+		TextVideo = (TextView) findViewById(R.id.text_video);
+		TextArticle.setTextColor(Color.RED);
+		TextVideo.setTextColor(Color.BLACK);
+		TextArticle.setOnClickListener(this);
+		TextVideo.setOnClickListener(this);
 		setonclicklistener();
 		setheadtextview();
 		PreUserInfo = getSharedPreferences("UserInfo", Context.MODE_PRIVATE);
@@ -105,10 +114,10 @@ public class HomeOfVolunteerActivity extends Activity implements OnTouchListener
 		try {
 			JSONObject demoJson = new JSONObject(obj.toString());
 			Type = demoJson.getString("type");
-			pager = demoJson.getString("pager");
+			// pager = demoJson.getString("pager");
 			Data = demoJson.getString("datas");
 			if (Type.equals(GET_SUCCESS_RESULT)) {
-				GetPager(pager);
+				GetPager(Data);
 				GetDataList(Data, curPage);
 			} else if (Type.equals(GET_FAIL_RESULT)) {
 				Toast.makeText(getApplicationContext(), "服务器数据失败", Toast.LENGTH_SHORT).show();
@@ -146,12 +155,24 @@ public class HomeOfVolunteerActivity extends Activity implements OnTouchListener
 					listinfo.setTitle(json_data.getString("title"));
 					listinfo.setBackGround(json_data.getString("sacleImage"));
 					listinfo.setDetail(json_data.getString("content"));
-					 listinfo.setTime(json_data.getString("createtime"));
+					listinfo.setTime(json_data.getString("createtime"));
 					// listinfo.setDetail(
 					// "此次专项检查的范围是招用农民工较多的建筑、制造、采矿、餐饮和其他中小型劳动密集型企业以及个体经济组织。检查内容包括：非公企业与劳动者签订劳动合同情况；按照工资支付有关规定支付职工工资情况；遵守最低工资规定及依法支付加班工资情况；依法参加社会保险和缴纳社会保险费情况；遵守禁止使用童工规定以及女职工和未成年工特殊劳动保护规定情况；其他遵守劳动保障法律法规的情况。"
 					// + arg);
 					// listinfo.setTitle("宁县开展非公企业党建工作专项督查活动" + arg);
 					// listinfo.setBackGround("");
+					listinfo.setCont(true);
+					try {
+						listinfo.setLink(json_data.getString("otherLinks"));
+						if (json_data.getString("content").equals("") || json_data.getString("content") == null
+								|| json_data.getString("content").equals("null")) {
+							listinfo.setDetail(json_data.getString("source"));
+							listinfo.setCont(false);
+						}
+
+					} catch (Exception e) {
+						// TODO: handle exception
+					}
 					list.add(listinfo);
 
 				}
@@ -197,16 +218,25 @@ public class HomeOfVolunteerActivity extends Activity implements OnTouchListener
 
 		// TODO Auto-generated method stub
 		final ArrayList ArrayValues = new ArrayList();
+		// ArrayValues.add(new BasicNameValuePair("ticket", ticket));
+		// chn = GetChannelByKey.GetSign(PreALLChannel, "志愿者之家");
+		// ArrayValues.add(new BasicNameValuePair("chn", chn));
+		// ArrayValues.add(new BasicNameValuePair("curPage", "" + curPage));
+		// ArrayValues.add(new BasicNameValuePair("pageSize", "" + pageSize));
 		ArrayValues.add(new BasicNameValuePair("ticket", ticket));
-		chn = GetChannelByKey.GetSign(PreALLChannel, "志愿者之家");
-		ArrayValues.add(new BasicNameValuePair("chn", chn));
+
+		// ArrayValues.add(new BasicNameValuePair("chn", "zxhd"));
+		ArrayValues.add(new BasicNameValuePair("applyType", "" + 3));
+		ArrayValues.add(new BasicNameValuePair("helpSType", "" + type));
+		ArrayValues.add(new BasicNameValuePair("modelSign", "KNDY_APPLY"));
 		ArrayValues.add(new BasicNameValuePair("curPage", "" + curPage));
 		ArrayValues.add(new BasicNameValuePair("pageSize", "" + pageSize));
+
 		new Thread(new Runnable() { // 开启线程上传文件
 			@Override
 			public void run() {
 				String DueData = "";
-				DueData = HttpGetData.GetData("api/cms/channel/channleListData", ArrayValues);
+				DueData = HttpGetData.GetData("api/pb/kndysq/listDataFront", ArrayValues);
 				Message msg = new Message();
 				msg.obj = DueData;
 				msg.what = GET_DUE_DATA;
@@ -293,7 +323,22 @@ public class HomeOfVolunteerActivity extends Activity implements OnTouchListener
 			intent1.setClass(getApplicationContext(), VolunteerApplyActivity.class);
 			startActivity(intent1);
 			break;
+		case R.id.text_article:
+			type = 2;
+			curPage = 1;
+			GetData();
 
+			TextArticle.setTextColor(Color.RED);
+			TextVideo.setTextColor(Color.BLACK);
+			break;
+		case R.id.text_video:
+			type = 1;
+			curPage = 1;
+			GetData();
+
+			TextVideo.setTextColor(Color.RED);
+			TextArticle.setTextColor(Color.BLACK);
+			break;
 		default:
 			break;
 		}
@@ -306,7 +351,7 @@ public class HomeOfVolunteerActivity extends Activity implements OnTouchListener
 		float tempyfoot = event.getY();
 		firstItemIndex = ListData.getFirstVisiblePosition();
 		lastItemIndex = ListData.getLastVisiblePosition();
-		// Toast.makeText(getActivity(), " lastItemIndex" +
+		// Toast.makeText(getApplicationContext(), " lastItemIndex" +
 		// lastItemIndex, Toast.LENGTH_SHORT).show();
 		switch (event.getAction()) {
 		case MotionEvent.ACTION_DOWN:
@@ -382,14 +427,29 @@ public class HomeOfVolunteerActivity extends Activity implements OnTouchListener
 	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 		// TODO Auto-generated method stub
 		VolunteerModel data = list.get(position - 1);
-		Intent intent = new Intent();
-		intent.setClass(getApplicationContext(), AssistanceDetailActivity.class);
-		Bundle bundle = new Bundle();
-		bundle.putString("Title", data.getTitle());
-		bundle.putString("Time", data.getTime());
-		bundle.putString("content", data.getDetail());
-		intent.putExtras(bundle);
-		startActivity(intent);
+		if (data.isCont()) {
+			Intent intent = new Intent();
+			intent.setClass(getApplicationContext(), AssistanceDetailActivity.class);
+			Bundle bundle = new Bundle();
+			bundle.putString("Title", data.getTitle());
+			bundle.putString("Time", data.getTime());
+			bundle.putString("content", data.getDetail());
+			intent.putExtras(bundle);
+			startActivity(intent);
+		} else {
+			Intent intent = new Intent();
+			intent.setClass(getApplicationContext(), webview.class);
+			Bundle bundle = new Bundle();
+			bundle.putString("url", data.getLink());
+			// // bundle.putString("Time", "2016-11-23");
+			// // bundle.putString("Name", "小李");
+			// // bundle.putString("PageTitle", "收藏详情");
+			// // bundle.putString("Detail",
+			// //
+			// "中国共产主义青年团，简称共青团，原名中国社会主义青年团，是中国共产党领导的一个由信仰共产主义的中国青年组成的群众性组织。共青团中央委员会受中共中央委员会领导，共青团的地方各级组织受同级党的委员会领导，同时受共青团上级组织领导。1922年5月，团的第一次代表大会在广州举行，正式成立中国社会主义青年团，1925年1月26日改称中国共产主义青年团。1959年5月4日共青团中央颁布共青团团徽。");
+			intent.putExtras(bundle);
+			startActivity(intent);
+		}
 	}
 
 }

@@ -7,31 +7,33 @@ public class DiscussionModel {
 	private String BrowseNumber;
 	private String AnswerNumber;
 	private String Time;
-private String content;	private String link;
-private boolean cont;
+	private String content;
+	private String link;
+	private boolean cont;
 
-public String getLink() {
-	return link;
-}
+	public String getLink() {
+		return link;
+	}
 
-public void setLink(String link) {
-	this.link = link;
-}
+	public void setLink(String link) {
+		this.link = link;
+	}
 
-public boolean isCont() {
-	return cont;
-}
+	public boolean isCont() {
+		return cont;
+	}
 
-public void setCont(boolean cont) {
-	this.cont = cont;
-}
+	public void setCont(boolean cont) {
+		this.cont = cont;
+	}
+
 	public String getContent() {
-	return content;
-}
+		return content;
+	}
 
-public void setContent(String content) {
-	this.content = content;
-}
+	public void setContent(String content) {
+		this.content = content;
+	}
 
 	public String getRoundUrl() {
 		return RoundUrl;

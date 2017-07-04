@@ -112,7 +112,7 @@ public class VolunteerAdapter extends ArrayAdapter<VolunteerModel> {
 		RelativeLayout Half = viewCache.getRelaHalf();
 		RelativeLayout OneOfTen = viewCache.getRelaOneOfTen();
 		screenwidth = thisactivity.getWindow().getWindowManager().getDefaultDisplay().getWidth();
-		int height = screenwidth / 2;
+		int height = (int) (screenwidth / 1.7);
 		LinearLayout.LayoutParams layoutParams1 = (android.widget.LinearLayout.LayoutParams) Half.getLayoutParams();
 		layoutParams1.height = height;
 		Half.setLayoutParams(layoutParams1);

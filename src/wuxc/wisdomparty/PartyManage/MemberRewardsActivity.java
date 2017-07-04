@@ -35,6 +35,7 @@ import single.wuxc.wisdomparty.R;
 import wuxc.wisdomparty.Adapter.RewardsAdapter;
 import wuxc.wisdomparty.Internet.GetChannelByKey;
 import wuxc.wisdomparty.Internet.HttpGetData;
+import wuxc.wisdomparty.Internet.webview;
 import wuxc.wisdomparty.Model.RewardsModel;
 import wuxc.wisdomparty.add.orgDetailActivity;
 
@@ -76,6 +77,7 @@ public class MemberRewardsActivity extends Activity implements OnTouchListener, 
 			}
 		}
 	};
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
@@ -85,11 +87,12 @@ public class MemberRewardsActivity extends Activity implements OnTouchListener, 
 		initview();
 		setonclicklistener();
 		setheadtextview();
-		PreUserInfo =  getSharedPreferences("UserInfo", Context.MODE_PRIVATE);
-		PreALLChannel =  getSharedPreferences("ALLChannel", Context.MODE_PRIVATE);
+		PreUserInfo = getSharedPreferences("UserInfo", Context.MODE_PRIVATE);
+		PreALLChannel = getSharedPreferences("ALLChannel", Context.MODE_PRIVATE);
 		ReadTicket();
 		GetData();
 	}
+
 	protected void GetDataDueData(Object obj) {
 
 		// TODO Auto-generated method stub
@@ -127,7 +130,8 @@ public class MemberRewardsActivity extends Activity implements OnTouchListener, 
 			jArray = new JSONArray(data);
 			JSONObject json_data = null;
 			if (jArray.length() == 0) {
-//			/	Toast.makeText(getApplicationContext(), "无数据", Toast.LENGTH_SHORT).show();
+				// / Toast.makeText(getApplicationContext(), "无数据",
+				// Toast.LENGTH_SHORT).show();
 
 			} else {
 				for (int i = 0; i < jArray.length(); i++) {
@@ -140,12 +144,24 @@ public class MemberRewardsActivity extends Activity implements OnTouchListener, 
 					listinfo.setTitle(json_data.getString("title"));
 					listinfo.setBackGround(json_data.getString("sacleImage"));
 					listinfo.setDetail(json_data.getString("content"));
-//					listinfo.setTime("2016-12-14");
-//					listinfo.setDetail(
-//							"此次专项检查的范围是招用农民工较多的建筑、制造、采矿、餐饮和其他中小型劳动密集型企业以及个体经济组织。检查内容包括：非公企业与劳动者签订劳动合同情况；按照工资支付有关规定支付职工工资情况；遵守最低工资规定及依法支付加班工资情况；依法参加社会保险和缴纳社会保险费情况；遵守禁止使用童工规定以及女职工和未成年工特殊劳动保护规定情况；其他遵守劳动保障法律法规的情况。"
-//									+ arg);
-//					listinfo.setTitle("宁县开展非公企业党建工作专项督查活动" + arg);
-//					listinfo.setBackGround("");
+					// listinfo.setTime("2016-12-14");
+					// listinfo.setDetail(
+					// "此次专项检查的范围是招用农民工较多的建筑、制造、采矿、餐饮和其他中小型劳动密集型企业以及个体经济组织。检查内容包括：非公企业与劳动者签订劳动合同情况；按照工资支付有关规定支付职工工资情况；遵守最低工资规定及依法支付加班工资情况；依法参加社会保险和缴纳社会保险费情况；遵守禁止使用童工规定以及女职工和未成年工特殊劳动保护规定情况；其他遵守劳动保障法律法规的情况。"
+					// + arg);
+					// listinfo.setTitle("宁县开展非公企业党建工作专项督查活动" + arg);
+					// listinfo.setBackGround("");
+					listinfo.setCont(true);
+					try {
+						listinfo.setLink(json_data.getString("otherLinks"));
+						if (json_data.getString("content").equals("") || json_data.getString("content") == null
+								|| json_data.getString("content").equals("null")) {
+							listinfo.setDetail(json_data.getString("source"));
+							listinfo.setCont(false);
+						}
+
+					} catch (Exception e) {
+						// TODO: handle exception
+					}
 					list.add(listinfo);
 
 				}
@@ -209,6 +225,7 @@ public class MemberRewardsActivity extends Activity implements OnTouchListener, 
 		}).start();
 
 	}
+
 	private void setheadtextview() {
 		headTextView = new TextView(this);
 		headTextView.setGravity(Gravity.CENTER);
@@ -291,7 +308,7 @@ public class MemberRewardsActivity extends Activity implements OnTouchListener, 
 		float tempyfoot = event.getY();
 		firstItemIndex = ListData.getFirstVisiblePosition();
 		lastItemIndex = ListData.getLastVisiblePosition();
-		// Toast.makeText(getActivity(), " lastItemIndex" +
+		// Toast.makeText(getApplicationContext(), " lastItemIndex" +
 		// lastItemIndex, Toast.LENGTH_SHORT).show();
 		switch (event.getAction()) {
 		case MotionEvent.ACTION_DOWN:
@@ -367,14 +384,29 @@ public class MemberRewardsActivity extends Activity implements OnTouchListener, 
 	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 		// TODO Auto-generated method stub
 		RewardsModel data = list.get(position - 1);
-		Intent intent = new Intent();
-		intent.setClass(getApplicationContext(), AssistanceDetailActivity.class);
-		Bundle bundle = new Bundle();
-		bundle.putString("content", data.getDetail());
-		bundle.putString("Title", data.getTitle());
-		bundle.putString("Time", data.getTime());
-		intent.putExtras(bundle);
-		startActivity(intent);
+		if (data.isCont()) {
+			Intent intent = new Intent();
+			intent.setClass(getApplicationContext(), AssistanceDetailActivity.class);
+			Bundle bundle = new Bundle();
+			bundle.putString("content", data.getDetail());
+			bundle.putString("Title", data.getTitle());
+			bundle.putString("Time", data.getTime());
+			intent.putExtras(bundle);
+			startActivity(intent);
+		} else {
+			Intent intent = new Intent();
+			intent.setClass(getApplicationContext(), webview.class);
+			Bundle bundle = new Bundle();
+			bundle.putString("url", data.getLink());
+			// // bundle.putString("Time", "2016-11-23");
+			// // bundle.putString("Name", "小李");
+			// // bundle.putString("PageTitle", "收藏详情");
+			// // bundle.putString("Detail",
+			// //
+			// "中国共产主义青年团，简称共青团，原名中国社会主义青年团，是中国共产党领导的一个由信仰共产主义的中国青年组成的群众性组织。共青团中央委员会受中共中央委员会领导，共青团的地方各级组织受同级党的委员会领导，同时受共青团上级组织领导。1922年5月，团的第一次代表大会在广州举行，正式成立中国社会主义青年团，1925年1月26日改称中国共产主义青年团。1959年5月4日共青团中央颁布共青团团徽。");
+			intent.putExtras(bundle);
+			startActivity(intent);
+		}
 	}
 
 }

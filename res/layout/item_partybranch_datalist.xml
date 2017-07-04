@@ -22,6 +22,7 @@
                 android:layout_width="100dp"
                 android:layout_height="match_parent"
                 android:padding="15dp"
+                android:scaleType="centerCrop"
                 android:src="@drawable/party_symbol" />
 
             <LinearLayout

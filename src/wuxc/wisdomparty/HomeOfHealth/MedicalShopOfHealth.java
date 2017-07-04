@@ -149,7 +149,18 @@ public class MedicalShopOfHealth extends Activity implements OnTouchListener, On
 					listinfo.setTitle(json_data.getString("title"));
 					listinfo.setDetail(json_data.getString("content"));
 					listinfo.setUrl(json_data.getString("otherLinks"));
-					// listinfo.setDetail(
+					listinfo.setCont(true);
+					try {
+						listinfo.setLink(json_data.getString("otherLinks"));
+						if (json_data.getString("content").equals("") || json_data.getString("content") == null
+								|| json_data.getString("content").equals("null")) {
+							listinfo.setDetail(json_data.getString("source"));
+							listinfo.setCont(false);
+						}
+
+					} catch (Exception e) {
+						// TODO: handle exception
+					} // listinfo.setDetail(
 					// "陕西省委爱心助学陕西省委爱心助学陕西省委爱心助学陕西省委爱心助学陕西省委爱心助学陕西省委爱心助学陕西省委爱心助学陕西省委爱心助学陕西省委爱心助学陕西省委爱心助学陕西省委爱心助学陕西省委爱心助学");
 					// listinfo.setBackGround("");
 					// listinfo.setAim("12");

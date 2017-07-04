@@ -25,6 +25,7 @@
                     android:id="@+id/image_headimg"
                     android:layout_width="160dp"
                     android:layout_height="120dp"
+                    android:scaleType="centerCrop"
                     android:src="@drawable/vote" />
 
                 <TextView
