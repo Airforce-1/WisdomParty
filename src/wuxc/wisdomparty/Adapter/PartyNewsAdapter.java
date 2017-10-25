@@ -54,8 +54,9 @@ public class PartyNewsAdapter extends ArrayAdapter<PartyNewsModel> {
 		LayoutInflater inflater = activity.getLayoutInflater();
 		if (position == 0) {
 			rowView = inflater.inflate(R.layout.item_party_news_1, null);
-		} else if (position == 2 || position == 3 || position == 8 || position == 9 || position == 6) {
-			rowView = inflater.inflate(R.layout.item_party_news2, null);
+			// } else if (position == 2 || position == 3 || position == 8 ||
+			// position == 9 || position == 6) {
+			// rowView = inflater.inflate(R.layout.item_party_news2, null);
 		} else {
 			rowView = inflater.inflate(R.layout.item_party_news, null);
 		}
@@ -65,10 +66,15 @@ public class PartyNewsAdapter extends ArrayAdapter<PartyNewsModel> {
 
 		PartyNewsModel imageAndText = getItem(position);
 
-		// Load the image and set it on the ImageView
-
 		TextView TextDetail = viewCache.getTextDetail();
-		TextDetail.setText(getcha.gethan(imageAndText.getDetail()));
+		if (imageAndText.getSummary().equals("") || imageAndText.getSummary().equals("null")
+				|| imageAndText.getSummary().equals("null")) {
+			TextDetail.setText(getcha.gethan(imageAndText.getDetail()));
+		}else {
+			TextDetail.setText(imageAndText.getSummary());
+		}
+		
+	
 		TextView TextTitle = viewCache.getTextTitle();
 		TextTitle.setText("" + imageAndText.getTitle());
 		TextView TextTime = viewCache.getTextTime();

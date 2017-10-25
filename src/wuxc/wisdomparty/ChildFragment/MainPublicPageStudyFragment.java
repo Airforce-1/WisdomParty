@@ -231,14 +231,19 @@ public class MainPublicPageStudyFragment extends Fragment
 			} else {
 				for (int i = 0; i < jArray.length(); i++) {
 					json_data = jArray.getJSONObject(i);
-					Log.e("json_data", "" + json_data);
+					//Log.e("json_data", "" + json_data);
 					// JSONObject jsonObject = json_data.getJSONObject("data");
 					StudyVideoModel listinfo = new StudyVideoModel();
 					listinfo.setTime(json_data.getString("createtime"));
 					listinfo.setTitle(json_data.getString("title"));
 					listinfo.setNumberCollect("12");
 					listinfo.setNumberGreat("23");
-
+					try {
+						listinfo.setSummary(json_data.getString("summary"));
+					} catch (Exception e) {
+						// TODO: handle exception
+						listinfo.setSummary(json_data.getString(""));
+					}
 					listinfo.setUrl(json_data.getString("otherLinks"));
 					try {
 						JSONArray jArray1 = new JSONArray(json_data.getString("sacleImage"));
@@ -311,7 +316,7 @@ public class MainPublicPageStudyFragment extends Fragment
 			} else {
 				for (int i = 0; i < jArray.length(); i++) {
 					json_data = jArray.getJSONObject(i);
-					Log.e("json_data", "" + json_data);
+					//Log.e("json_data", "" + json_data);
 					// JSONObject jsonObject = json_data.getJSONObject("data");
 					StudyArticleModel listinfo = new StudyArticleModel();
 
@@ -320,6 +325,12 @@ public class MainPublicPageStudyFragment extends Fragment
 					listinfo.setBackGround(json_data.getString("sacleImage"));
 					listinfo.setDetail(json_data.getString("content"));
 					listinfo.setCont(true);
+					try {
+						listinfo.setSummary(json_data.getString("summary"));
+					} catch (Exception e) {
+						// TODO: handle exception
+						listinfo.setSummary(json_data.getString(""));
+					}
 					if (json_data.getString("content").equals("") || json_data.getString("content") == null
 							|| json_data.getString("content").equals("null")) {
 						listinfo.setDetail(json_data.getString("source"));

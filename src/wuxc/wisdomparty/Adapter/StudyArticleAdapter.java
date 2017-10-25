@@ -30,7 +30,8 @@ import wuxc.wisdomparty.Internet.ImageLoader;
 import wuxc.wisdomparty.Internet.ImageLoader.ImageCallback;
 import wuxc.wisdomparty.Internet.URLcontainer;
 import wuxc.wisdomparty.Internet.getcha;
-import wuxc.wisdomparty.Model.StudyArticleModel;;
+import wuxc.wisdomparty.Model.StudyArticleModel;
+import wuxc.wisdomparty.add.ImageLoader600;;
 
 public class StudyArticleAdapter extends ArrayAdapter<StudyArticleModel> {
 	private ListView listView;
@@ -41,12 +42,15 @@ public class StudyArticleAdapter extends ArrayAdapter<StudyArticleModel> {
 	private float scalepx = 0;
 	private float dp = 0;
 	private Activity thisactivity;
+	public ImageLoader600 imageLoader;
 
 	public StudyArticleAdapter(Activity activity, List<StudyArticleModel> imageAndTexts, ListView listView) {
 		super(activity, 0, imageAndTexts);
 		this.listView = listView;
 		this.thisactivity = activity;
 		ImageLoader = new ImageLoader();
+		imageLoader = new ImageLoader600(activity.getApplicationContext());
+
 	}
 
 	public View getView(int position, View convertView, ViewGroup parent) {
@@ -55,67 +59,44 @@ public class StudyArticleAdapter extends ArrayAdapter<StudyArticleModel> {
 		// Inflate the views from XML
 		View rowView = convertView;
 		StudyArticleCache viewCache;
-		if (rowView == null) {
+		 
 			LayoutInflater inflater = activity.getLayoutInflater();
 			rowView = inflater.inflate(R.layout.item_article, null);
 			viewCache = new StudyArticleCache(rowView);
 			rowView.setTag(viewCache);
-		} else {
-			viewCache = (StudyArticleCache) rowView.getTag();
-		}
+		 
 		StudyArticleModel imageAndText = getItem(position);
 
 		// Load the image and set it on the ImageView
 		String imageUrl = imageAndText.getBackGround();
 		ImageView imageView = viewCache.getImageBackGround();
-		imageView.setTag(URLcontainer.urlip +URLcontainer.GetFile + imageUrl);
-		//Log.e("imageUrl", imageUrl);
-		if (imageUrl.equals(imageurl)||imageUrl.equals("null")) {
-			imageView.setImageResource(R.drawable.article);
-		} else {
+		if (!(imageAndText.getBackGround().equals("") || imageAndText.getBackGround() == null)) {
+
+			viewCache.getImageBackGround().setTag(imageAndText.getBackGround());
+
 			try {
-				String imageName1 = getBitName(imageUrl);
-				String temppath = Environment.getExternalStorageDirectory() + "/chat/" + imageName1 + ".png";
-				Bitmap bm1 = null;
-				bm1 = getBitmapByPath(temppath);
-				if (bm1 == null) {
-					imageUrl = URLcontainer.urlip +URLcontainer.GetFile + imageUrl;
-					//Log.e("imageUrl", imageUrl);
-					Drawable cachedImage = ImageLoader.loadDrawable(imageUrl, new ImageCallback() {
-						public void imageLoaded(Drawable imageDrawable, String imageUrl) {
-							ImageView imageViewByTag = (ImageView) listView.findViewWithTag(imageUrl);
-							if (imageViewByTag != null) {
-								imageViewByTag.setImageDrawable(imageDrawable);
-							}
-						}
-					});
-					if (cachedImage == null) {
-						imageView.setImageResource(R.drawable.article);
-					} else {
-						Drawable d = cachedImage; // xxx根据自己的情况获取drawable
 
-						BitmapDrawable bd = (BitmapDrawable) d;
-
-						Bitmap bm = bd.getBitmap();
-						bm = cutBmp(bm);
-						imageView.setImageBitmap(bm);
-					}
-				} else {
-					imageView.setImageBitmap(bm1);
-				}
+				imageLoader.DisplayImage(URLcontainer.urlip + URLcontainer.GetFile + imageAndText.getBackGround(),
+						activity, viewCache.getImageBackGround(), R.drawable.article);
 			} catch (Exception e) {
 				// TODO: handle exception
 			} catch (OutOfMemoryError e) {
 				// TODO: handle exception
 			}
-
+		} else {
+			imageView.setImageResource(R.drawable.article);
 		}
 		TextView TextTime = viewCache.getTextTime();
 		TextTime.setText(imageAndText.getTime());
 		TextView TextTitle = viewCache.getTextTitle();
 		TextTitle.setText("" + imageAndText.getTitle());
 		TextView TextDetail = viewCache.getTextDetail();
-		TextDetail.setText("" + getcha.gethan(imageAndText.getDetail()));
+		if (imageAndText.getSummary().equals("") || imageAndText.getSummary().equals("null")
+				|| imageAndText.getSummary().equals("null")) {
+			TextDetail.setText(getcha.gethan(imageAndText.getDetail()));
+		} else {
+			TextDetail.setText(imageAndText.getSummary());
+		}
 
 		screenwidth = thisactivity.getWindow().getWindowManager().getDefaultDisplay().getWidth();
 		DisplayMetrics mMetrics = new DisplayMetrics();

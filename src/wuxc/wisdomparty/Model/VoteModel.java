@@ -7,6 +7,15 @@ public class VoteModel {
 	private String Id;
 	private String link;
 	private boolean cont;
+	private String time;
+
+	public String getTime() {
+		return time;
+	}
+
+	public void setTime(String time) {
+		this.time = time;
+	}
 
 	public String getLink() {
 		return link;

@@ -163,6 +163,12 @@ public class HomeOfVolunteerActivity extends Activity implements OnTouchListener
 					// listinfo.setBackGround("");
 					listinfo.setCont(true);
 					try {
+						listinfo.setSummary(json_data.getString("summary"));
+					} catch (Exception e) {
+						// TODO: handle exception
+						listinfo.setSummary(json_data.getString(""));
+					}
+					try {
 						listinfo.setLink(json_data.getString("otherLinks"));
 						if (json_data.getString("content").equals("") || json_data.getString("content") == null
 								|| json_data.getString("content").equals("null")) {
@@ -218,25 +224,25 @@ public class HomeOfVolunteerActivity extends Activity implements OnTouchListener
 
 		// TODO Auto-generated method stub
 		final ArrayList ArrayValues = new ArrayList();
-		// ArrayValues.add(new BasicNameValuePair("ticket", ticket));
-		// chn = GetChannelByKey.GetSign(PreALLChannel, "志愿者之家");
-		// ArrayValues.add(new BasicNameValuePair("chn", chn));
-		// ArrayValues.add(new BasicNameValuePair("curPage", "" + curPage));
-		// ArrayValues.add(new BasicNameValuePair("pageSize", "" + pageSize));
 		ArrayValues.add(new BasicNameValuePair("ticket", ticket));
-
-		// ArrayValues.add(new BasicNameValuePair("chn", "zxhd"));
-		ArrayValues.add(new BasicNameValuePair("applyType", "" + 3));
-		ArrayValues.add(new BasicNameValuePair("helpSType", "" + type));
-		ArrayValues.add(new BasicNameValuePair("modelSign", "KNDY_APPLY"));
+		chn = GetChannelByKey.GetSign(PreALLChannel, "活动风采");
+		ArrayValues.add(new BasicNameValuePair("chn", chn));
 		ArrayValues.add(new BasicNameValuePair("curPage", "" + curPage));
 		ArrayValues.add(new BasicNameValuePair("pageSize", "" + pageSize));
+		// ArrayValues.add(new BasicNameValuePair("ticket", ticket));
+
+		// ArrayValues.add(new BasicNameValuePair("chn", "zxhd"));
+		// ArrayValues.add(new BasicNameValuePair("applyType", "" + 3));
+		// ArrayValues.add(new BasicNameValuePair("helpSType", "" + type));
+		//// ArrayValues.add(new BasicNameValuePair("modelSign", "KNDY_APPLY"));
+		// ArrayValues.add(new BasicNameValuePair("curPage", "" + curPage));
+		// ArrayValues.add(new BasicNameValuePair("pageSize", "" + pageSize));
 
 		new Thread(new Runnable() { // 开启线程上传文件
 			@Override
 			public void run() {
 				String DueData = "";
-				DueData = HttpGetData.GetData("api/pb/kndysq/listDataFront", ArrayValues);
+				DueData = HttpGetData.GetData("api/cms/channel/channleListData", ArrayValues);
 				Message msg = new Message();
 				msg.obj = DueData;
 				msg.what = GET_DUE_DATA;

@@ -32,19 +32,19 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 import single.wuxc.wisdomparty.R;
-import wuxc.wisdomparty.Adapter.RewardsAdapter;
+import wuxc.wisdomparty.Adapter.PartyRespondAdapter;
 import wuxc.wisdomparty.Internet.GetChannelByKey;
 import wuxc.wisdomparty.Internet.HttpGetData;
 import wuxc.wisdomparty.Internet.webview;
-import wuxc.wisdomparty.Model.RewardsModel;
+import wuxc.wisdomparty.Model.RespondModel;
 import wuxc.wisdomparty.add.orgDetailActivity;
 
 public class CreationAndFightingActivity extends Activity
 		implements OnTouchListener, OnClickListener, OnItemClickListener {
 	private ListView ListData;
 	private ImageView ImageBack;
-	List<RewardsModel> list = new ArrayList<RewardsModel>();
-	private static RewardsAdapter mAdapter;
+	List<RespondModel> list = new ArrayList<RespondModel>();
+	private static PartyRespondAdapter mAdapter;
 	private int firstItemIndex = 0;
 	private int lastItemIndex = 0;
 	private float startY = 0;
@@ -139,12 +139,12 @@ public class CreationAndFightingActivity extends Activity
 					json_data = jArray.getJSONObject(i);
 					Log.e("json_data", "" + json_data);
 					// JSONObject jsonObject = json_data.getJSONObject("data");
-					RewardsModel listinfo = new RewardsModel();
+					RespondModel listinfo = new RespondModel();
 
 					listinfo.setTime(json_data.getString("createtime"));
 					listinfo.setTitle(json_data.getString("title"));
-					listinfo.setBackGround(json_data.getString("sacleImage"));
-					listinfo.setDetail(json_data.getString("content"));
+					listinfo.setImageUrl(json_data.getString("sacleImage"));
+					listinfo.setCONT(json_data.getString("content"));
 					// listinfo.setTime("2016-12-14");
 					// listinfo.setDetail(
 					// "此次专项检查的范围是招用农民工较多的建筑、制造、采矿、餐饮和其他中小型劳动密集型企业以及个体经济组织。检查内容包括：非公企业与劳动者签订劳动合同情况；按照工资支付有关规定支付职工工资情况；遵守最低工资规定及依法支付加班工资情况；依法参加社会保险和缴纳社会保险费情况；遵守禁止使用童工规定以及女职工和未成年工特殊劳动保护规定情况；其他遵守劳动保障法律法规的情况。"
@@ -156,7 +156,7 @@ public class CreationAndFightingActivity extends Activity
 						listinfo.setLink(json_data.getString("otherLinks"));
 						if (json_data.getString("content").equals("") || json_data.getString("content") == null
 								|| json_data.getString("content").equals("null")) {
-							listinfo.setDetail(json_data.getString("source"));
+							listinfo.setCONT(json_data.getString("source"));
 							listinfo.setCont(false);
 						}
 
@@ -250,14 +250,14 @@ public class CreationAndFightingActivity extends Activity
 
 			for (int i = 0; i < 10; i++) {
 
-				RewardsModel listinfo = new RewardsModel();
-				listinfo.setTime("2016-12-14");
-				listinfo.setDetail(
-						"某某党员因何原因被奖励某某党员因何原因被奖励某某党员因何原因被奖励某某党员因何原因被奖励某某党员因何原因被奖励某某党员因何原因被奖励某某党员因何原因被奖励某某党员因何原因被奖励某某党员因何原因被奖励某某党员因何原因被奖励某某党员因何原因被奖励某某党员因何原因被奖励某某党员因何原因被奖励某某党员因何原因被奖励某某党员因何原因被奖励某某党员因何原因被奖励某某党员因何原因被奖励某某党员因何原因被奖励某某党员因何原因被奖励某某党员因何原因被奖励某某党员因何原因被奖励某某党员因何原因被奖励某某党员因何原因被奖励某某党员因何原因被奖励某某党员因何原因被奖励某某党员因何原因被奖励某某党员因何原因被奖励"
-								+ arg);
-				listinfo.setTitle("某某党员因何原因被奖励" + arg);
-				listinfo.setBackGround("");
-				list.add(listinfo);
+				// RespondModel listinfo = new RespondModel();
+				// listinfo.setTime("2016-12-14");
+				// listinfo.setDetail(
+				// "某某党员因何原因被奖励某某党员因何原因被奖励某某党员因何原因被奖励某某党员因何原因被奖励某某党员因何原因被奖励某某党员因何原因被奖励某某党员因何原因被奖励某某党员因何原因被奖励某某党员因何原因被奖励某某党员因何原因被奖励某某党员因何原因被奖励某某党员因何原因被奖励某某党员因何原因被奖励某某党员因何原因被奖励某某党员因何原因被奖励某某党员因何原因被奖励某某党员因何原因被奖励某某党员因何原因被奖励某某党员因何原因被奖励某某党员因何原因被奖励某某党员因何原因被奖励某某党员因何原因被奖励某某党员因何原因被奖励某某党员因何原因被奖励某某党员因何原因被奖励某某党员因何原因被奖励某某党员因何原因被奖励"
+				// + arg);
+				// listinfo.setTitle("某某党员因何原因被奖励" + arg);
+				// listinfo.setBackGround("");
+				// list.add(listinfo);
 
 			}
 		} catch (Exception e) {
@@ -274,7 +274,7 @@ public class CreationAndFightingActivity extends Activity
 
 	protected void go() {
 		ListData.setPadding(0, -100, 0, 0);
-		mAdapter = new RewardsAdapter(this, list, ListData);
+		mAdapter = new PartyRespondAdapter(this, list, ListData);
 		ListData.setAdapter(mAdapter);
 	}
 
@@ -384,12 +384,12 @@ public class CreationAndFightingActivity extends Activity
 	@Override
 	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 		// TODO Auto-generated method stub
-		RewardsModel data = list.get(position - 1);
+		RespondModel data = list.get(position - 1);
 		if (data.isCont()) {
 			Intent intent = new Intent();
 			intent.setClass(getApplicationContext(), AssistanceDetailActivity.class);
 			Bundle bundle = new Bundle();
-			bundle.putString("content", data.getDetail());
+			bundle.putString("content", data.getCONT());
 			bundle.putString("Title", data.getTitle());
 			bundle.putString("Time", data.getTime());
 			intent.putExtras(bundle);

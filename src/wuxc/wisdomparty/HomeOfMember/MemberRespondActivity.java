@@ -362,8 +362,8 @@ public class MemberRespondActivity extends Activity implements OnTouchListener, 
 		// TODO Auto-generated method stub
 		final ArrayList ArrayValues = new ArrayList();
 		ArrayValues.add(new BasicNameValuePair("ticket", ticket));
-		chn = GetChannelByKey.GetSign(PreALLChannel, "党员责任区");
-		ArrayValues.add(new BasicNameValuePair("chn", chn));
+		chn = GetChannelByKey.GetSign(PreALLChannel, "dyzrq");
+		ArrayValues.add(new BasicNameValuePair("chn", "dyzrq"));
 		ArrayValues.add(new BasicNameValuePair("curPage", "" + curPage));
 		ArrayValues.add(new BasicNameValuePair("pageSize", "" + pageSize));
 		new Thread(new Runnable() { // 开启线程上传文件

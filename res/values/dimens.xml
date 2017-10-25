@@ -25,5 +25,11 @@
     <dimen name="member_transform_size">16dp</dimen>
     <dimen name="big_text">18dp</dimen>
     <dimen name="input_height">46dp</dimen>
+    <dimen name="add_four">30dp</dimen>
+    <dimen name="add_four_text_top">13dp</dimen>
+    <dimen name="add_six">45dp</dimen>
+    <dimen name="add_six_text_top">10dp</dimen>
+    <dimen name="add_four_text">14dp</dimen>
+    <dimen name="add_party_six">72dp</dimen>
 
 </resources>

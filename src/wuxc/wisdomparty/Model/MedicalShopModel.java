@@ -5,40 +5,51 @@ public class MedicalShopModel {
 
 	private String Title;
 	private String Detail;
-private String url;
-private String time;	private String link;
-private boolean cont;
+	private String url;
+	private String time;
+	private String link;
+	private boolean cont;
+	private String summary;
 
-public String getLink() {
-	return link;
-}
+	public String getSummary() {
+		return summary;
+	}
 
-public void setLink(String link) {
-	this.link = link;
-}
+	public void setSummary(String summary) {
+		this.summary = summary;
+	}
 
-public boolean isCont() {
-	return cont;
-}
+	public String getLink() {
+		return link;
+	}
 
-public void setCont(boolean cont) {
-	this.cont = cont;
-}
+	public void setLink(String link) {
+		this.link = link;
+	}
+
+	public boolean isCont() {
+		return cont;
+	}
+
+	public void setCont(boolean cont) {
+		this.cont = cont;
+	}
+
 	public String getTime() {
-	return time;
-}
+		return time;
+	}
 
-public void setTime(String time) {
-	this.time = time;
-}
+	public void setTime(String time) {
+		this.time = time;
+	}
 
 	public String getUrl() {
-	return url;
-}
+		return url;
+	}
 
-public void setUrl(String url) {
-	this.url = url;
-}
+	public void setUrl(String url) {
+		this.url = url;
+	}
 
 	public String getDetail() {
 		return Detail;

@@ -8,6 +8,15 @@ public class PartyNewsModel {
 	private String Id;
 	private String link;
 	private boolean cont;
+	private String summary;
+
+	public String getSummary() {
+		return summary;
+	}
+
+	public void setSummary(String summary) {
+		this.summary = summary;
+	}
 
 	public String getLink() {
 		return link;
@@ -24,6 +33,7 @@ public class PartyNewsModel {
 	public void setCont(boolean cont) {
 		this.cont = cont;
 	}
+
 	public String getAuthor() {
 		return Author;
 	}

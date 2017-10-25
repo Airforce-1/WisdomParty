@@ -282,7 +282,7 @@
                         <ImageView
                             android:layout_width="wrap_content"
                             android:layout_height="0dp"
-                            android:layout_weight="3"
+                            android:layout_weight="2"
                             android:paddingTop="10dp"
                             android:src="@drawable/member_party_respond" />
 
@@ -291,7 +291,7 @@
                             android:layout_height="0dp"
                             android:layout_weight="2"
                             android:gravity="center"
-                            android:text="@string/member_party_respond"
+                            android:text="党风\n廉洁自律"
                             android:textSize="@dimen/member_text_size" />
                     </LinearLayout>
                 </LinearLayout>

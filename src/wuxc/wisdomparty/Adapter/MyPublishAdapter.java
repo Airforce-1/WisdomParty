@@ -54,7 +54,7 @@ public class MyPublishAdapter extends ArrayAdapter<MyPublishModel> implements On
 		// Load the image and set it on the ImageView
 
 		TextView TextTitle = viewCache.getTextTitle();
-		TextTitle.setText(imageAndText.getTitle());
+		TextTitle.setText(imageAndText.getBigTime());
 		TextView TextBigTime = viewCache.getTextBigTime();
 		TextBigTime.setText(imageAndText.getBigTime());
 		TextView Time = viewCache.getTextTime();

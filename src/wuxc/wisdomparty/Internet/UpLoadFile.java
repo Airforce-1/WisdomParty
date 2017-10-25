@@ -109,7 +109,7 @@ public class UpLoadFile {
 				sb.append(LINE_END);
 				sb.append(
 						"Content-Disposition: form-data; name=\"fup\"; filename=\"" + file.getName() + "\"" + LINE_END);
-				sb.append("Content-Type: image/pjpeg; charset=" + CHARSET + LINE_END);
+				sb.append("Content-Type: multipart/form-data; charset=" + CHARSET + LINE_END);
 				sb.append(LINE_END);
 				dos.write(sb.toString().getBytes());
 				InputStream is = new FileInputStream(file);

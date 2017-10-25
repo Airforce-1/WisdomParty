@@ -172,7 +172,7 @@ public class MainPublicPageInformFragment extends Fragment
 			} else {
 				for (int i = 0; i < jArray.length(); i++) {
 					json_data = jArray.getJSONObject(i);
-					Log.e("json_data", "" + json_data);
+					// Log.e("json_data", "" + json_data);
 					// JSONObject jsonObject = json_data.getJSONObject("data");
 					PartyNewsModel listinfo = new PartyNewsModel();
 
@@ -183,6 +183,12 @@ public class MainPublicPageInformFragment extends Fragment
 					listinfo.setId(json_data.getString("keyid"));
 					listinfo.setCont(true);
 					try {
+						listinfo.setSummary(json_data.getString("summary"));
+					} catch (Exception e) {
+						// TODO: handle exception
+						listinfo.setSummary(json_data.getString(""));
+					}
+					try {
 						listinfo.setLink(json_data.getString("otherLinks"));
 						if (json_data.getString("content").equals("") || json_data.getString("content") == null
 								|| json_data.getString("content").equals("null")) {
@@ -192,6 +198,7 @@ public class MainPublicPageInformFragment extends Fragment
 
 					} catch (Exception e) {
 						// TODO: handle exception
+
 					}
 
 					list.add(listinfo);

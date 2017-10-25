@@ -6,15 +6,14 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.List;
 
+import com.alipay.android.phone.mrpc.core.r;
+
 import android.app.Activity;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Rect;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 import android.os.Environment;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,15 +21,14 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import single.wuxc.wisdomparty.R;
 import wuxc.wisdomparty.Cache.RewardsCache;
 import wuxc.wisdomparty.Internet.ImageLoader;
-import wuxc.wisdomparty.Internet.ImageLoader.ImageCallback;
 import wuxc.wisdomparty.Internet.URLcontainer;
 import wuxc.wisdomparty.Internet.getcha;
-import wuxc.wisdomparty.Model.RewardsModel;;
+import wuxc.wisdomparty.Model.RewardsModel;
+import wuxc.wisdomparty.add.ImageLoader600;;
 
 public class RewardsAdapter extends ArrayAdapter<RewardsModel> {
 	private ListView listView;
@@ -41,11 +39,13 @@ public class RewardsAdapter extends ArrayAdapter<RewardsModel> {
 	private float scalepx = 0;
 	private float dp = 0;
 	private Activity thisactivity;
-
+	public ImageLoader600 imageLoader;
 	public RewardsAdapter(Activity activity, List<RewardsModel> imageAndTexts, ListView listView) {
 		super(activity, 0, imageAndTexts);
 		this.listView = listView;
 		this.thisactivity = activity;
+		imageLoader = new ImageLoader600(activity.getApplicationContext());
+
 		ImageLoader = new ImageLoader();
 	}
 
@@ -55,67 +55,47 @@ public class RewardsAdapter extends ArrayAdapter<RewardsModel> {
 		// Inflate the views from XML
 		View rowView = convertView;
 		RewardsCache viewCache;
-		if (rowView == null) {
+		 
 			LayoutInflater inflater = activity.getLayoutInflater();
 			rowView = inflater.inflate(R.layout.item_rewards, null);
 			viewCache = new RewardsCache(rowView);
 			rowView.setTag(viewCache);
-		} else {
-			viewCache = (RewardsCache) rowView.getTag();
-		}
+		 
 		RewardsModel imageAndText = getItem(position);
 
 		// Load the image and set it on the ImageView
 		String imageUrl = imageAndText.getBackGround();
 		ImageView imageView = viewCache.getImageBackGround();
-		imageView.setTag(URLcontainer.urlip +URLcontainer.GetFile +URLcontainer.GetFile+ imageUrl);
-		Log.e("imageUrl", imageUrl);
-		if (imageUrl.equals(imageurl)||imageUrl.equals("null")) {
-			imageView.setImageResource(R.drawable.cotent);
-		} else {
+		if (!(imageAndText.getBackGround().equals("") || imageAndText.getBackGround() == null)) {
+
+			viewCache.getImageBackGround().setTag(imageAndText.getBackGround());
+
 			try {
-				String imageName1 = getBitName(imageUrl);
-				String temppath = Environment.getExternalStorageDirectory() + "/chat/" + imageName1 + ".png";
-				Bitmap bm1 = null;
-				bm1 = getBitmapByPath(temppath);
-				if (bm1 == null) {
-					imageUrl = URLcontainer.urlip +URLcontainer.GetFile + imageUrl;
-					Log.e("imageUrl", imageUrl);
-					Drawable cachedImage = ImageLoader.loadDrawable(imageUrl, new ImageCallback() {
-						public void imageLoaded(Drawable imageDrawable, String imageUrl) {
-							ImageView imageViewByTag = (ImageView) listView.findViewWithTag(imageUrl);
-							if (imageViewByTag != null) {
-								imageViewByTag.setImageDrawable(imageDrawable);
-							}
-						}
-					});
-					if (cachedImage == null) {
-						imageView.setImageResource(R.drawable.cotent);
-					} else {
-						Drawable d = cachedImage; // xxx根据自己的情况获取drawable
 
-						BitmapDrawable bd = (BitmapDrawable) d;
-
-						Bitmap bm = bd.getBitmap();
-						bm = cutBmp(bm);
-						imageView.setImageBitmap(bm);
-					}
-				} else {
-					imageView.setImageBitmap(bm1);
-				}
+				imageLoader.DisplayImage(URLcontainer.urlip+URLcontainer.GetFile+imageAndText.getBackGround(), activity, viewCache.getImageBackGround(), R.drawable.cotent);
 			} catch (Exception e) {
 				// TODO: handle exception
 			} catch (OutOfMemoryError e) {
 				// TODO: handle exception
 			}
-
+		}else {
+			imageView.setImageResource(R.drawable.cotent);
 		}
 		TextView TextTime = viewCache.getTextTime();
 		TextTime.setText(imageAndText.getTime());
 		TextView TextTitle = viewCache.getTextTitle();
 		TextTitle.setText("" + imageAndText.getTitle());
 		TextView TextDetail = viewCache.getTextDetail();
-		TextDetail.setText("" + getcha.gethan(imageAndText.getDetail()));
+		try {
+			if (imageAndText.getSummary().equals("") || imageAndText.getSummary().equals("null")
+					|| imageAndText.getSummary().equals("null")) {
+				TextDetail.setText(getcha.gethan(imageAndText.getDetail()));
+			}else {
+				TextDetail.setText(imageAndText.getSummary());
+			}	
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
 
 		screenwidth = thisactivity.getWindow().getWindowManager().getDefaultDisplay().getWidth();
 		DisplayMetrics mMetrics = new DisplayMetrics();

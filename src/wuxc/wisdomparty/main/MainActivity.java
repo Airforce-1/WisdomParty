@@ -202,7 +202,7 @@ public class MainActivity extends FragmentActivity implements OnClickListener {
 		clearSelection();
 		mFragmentTransaction = mFragmentManager.beginTransaction();
 		ImageHomePage.setImageResource(R.drawable.homepage_selected);
-		TextRecommned.setTextColor(Color.rgb(0, 167, 255));
+		TextRecommned.setTextColor(Color.rgb(251,2,5));
 		write(1);
 		if (HomePageFragment == null) {
 			HomePageFragment = new MainHomePageFragment();
@@ -230,7 +230,7 @@ public class MainActivity extends FragmentActivity implements OnClickListener {
 		mFragmentTransaction = mFragmentManager.beginTransaction();
 		if (TextUtils.equals(tag, getString(R.string.str_homepage))) {
 			ImageHomePage.setImageResource(R.drawable.homepage_selected);
-			TextRecommned.setTextColor(Color.rgb(0, 167, 255));
+			TextRecommned.setTextColor(Color.rgb(251,2,5));
 
 			if (HomePageFragment == null) {
 				HomePageFragment = new MainHomePageFragment();
@@ -238,21 +238,21 @@ public class MainActivity extends FragmentActivity implements OnClickListener {
 
 		} else if (TextUtils.equals(tag, getString(R.string.str_public))) {
 			ImagePublic.setImageResource(R.drawable.public_selected);
-			TextPublic.setTextColor(Color.rgb(0, 167, 255));
+			TextPublic.setTextColor(Color.rgb(251,2,5));
 			if (PublicFragment == null) {
 				PublicFragment = new MainPublicPageFragment();
 			}
 
 		} else if (TextUtils.equals(tag, getString(R.string.str_party))) {
 			ImageParty.setImageResource(R.drawable.party_selected);
-			TextParty.setTextColor(Color.rgb(0, 167, 255));
+			TextParty.setTextColor(Color.rgb(251,2,5));
 			if (PartyFragment == null) {
 				PartyFragment = new MainPartyPageFragment();
 			}
 
 		} else if (TextUtils.equals(tag, getString(R.string.str_member))) {
 			ImageMember.setImageResource(R.drawable.member_selected);
-			TextMember.setTextColor(Color.rgb(0, 167, 255));
+			TextMember.setTextColor(Color.rgb(251,2,5));
 			if (MemberFragment == null) {
 				MemberFragment = new MainMemberPageFragment();
 			}

@@ -168,14 +168,21 @@ public class MainPublicPagePartyFragment extends Fragment
 			} else {
 				for (int i = 0; i < jArray.length(); i++) {
 					json_data = jArray.getJSONObject(i);
-					Log.e("json_data", "" + json_data);
+					// Log.e("json_data", "" + json_data);
 					// JSONObject jsonObject = json_data.getJSONObject("data");
 					PartyNewsModel listinfo = new PartyNewsModel();
 
 					listinfo.setTime(json_data.getString("createtime"));
 					listinfo.setTitle(json_data.getString("title"));
 					listinfo.setAuthor(json_data.getString("author"));
+
 					listinfo.setDetail(json_data.getString("content"));
+					try {
+						listinfo.setSummary(json_data.getString("summary"));
+					} catch (Exception e) {
+						// TODO: handle exception
+						listinfo.setSummary(json_data.getString(""));
+					}
 					listinfo.setId(json_data.getString("keyid"));
 					listinfo.setCont(true);
 					if (json_data.getString("content").equals("") || json_data.getString("content") == null

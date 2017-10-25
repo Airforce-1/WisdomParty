@@ -60,34 +60,34 @@ public class webview extends Activity implements OnClickListener {
 		text_7.setOnClickListener(this);
 		lin_text = (LinearLayout) findViewById(R.id.lin_text);
 		lin_text.setVisibility(View.GONE);
-		WebView.setWebChromeClient(new WebChromeClient() {
-			@Override
-			public void onShowCustomView(View view, CustomViewCallback callback) {
-				super.onShowCustomView(view, callback);
-			}
-
-		});
-		// WebView.getSettings().setLayoutAlgorithm(LayoutAlgorithm.SINGLE_COLUMN);
-		// WebView.getSettings().setLoadWithOverviewMode(true);
-
-		WebView.setWebViewClient(new WebViewClient() {
-			@Override
-			public void onPageFinished(WebView view, String url) {
-				super.onPageFinished(view, url);
-			}
-
-			@Override
-			public void onPageStarted(WebView view, String url, Bitmap favicon) {
-				// TODO Auto-generated method stub
-				super.onPageStarted(view, url, favicon);
-			}
-
-			public boolean shouldOverrideUrlLoading(WebView view, String url) {
-				// loadTime();
-				return true; // 表 示已经处理了这次URL的请求
-			}
-
-		});
+//		WebView.setWebChromeClient(new WebChromeClient() {
+//			@Override
+//			public void onShowCustomView(View view, CustomViewCallback callback) {
+//				super.onShowCustomView(view, callback);
+//			}
+//
+//		});
+//		// WebView.getSettings().setLayoutAlgorithm(LayoutAlgorithm.SINGLE_COLUMN);
+//		// WebView.getSettings().setLoadWithOverviewMode(true);
+//
+//		WebView.setWebViewClient(new WebViewClient() {
+//			@Override
+//			public void onPageFinished(WebView view, String url) {
+//				super.onPageFinished(view, url);
+//			}
+//
+//			@Override
+//			public void onPageStarted(WebView view, String url, Bitmap favicon) {
+//				// TODO Auto-generated method stub
+//				super.onPageStarted(view, url, favicon);
+//			}
+//
+//			public boolean shouldOverrideUrlLoading(WebView view, String url) {
+//				// loadTime();
+//				return true; // 表 示已经处理了这次URL的请求
+//			}
+//
+//		});
 		WebSettings settings = WebView.getSettings();
 		settings.setJavaScriptEnabled(true);
 		settings.setUseWideViewPort(true);
@@ -97,7 +97,7 @@ public class webview extends Activity implements OnClickListener {
 
 	@Override
 	protected void onPause() {
-		WebView.reload();
+//		WebView.reload();
 
 		super.onPause();
 	}

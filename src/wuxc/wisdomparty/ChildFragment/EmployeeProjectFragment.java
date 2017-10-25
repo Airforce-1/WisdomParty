@@ -2,8 +2,6 @@ package wuxc.wisdomparty.ChildFragment;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
 
 import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONArray;
@@ -30,27 +28,22 @@ import android.view.View.OnClickListener;
 import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ImageView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.AdapterView.OnItemClickListener;
 import single.wuxc.wisdomparty.R;
-import wuxc.wisdomparty.Adapter.AssistanceAdapter;
-import wuxc.wisdomparty.Adapter.StudyArticleAdapter;
-import wuxc.wisdomparty.Adapter.StudyVideoAadapter;
-import wuxc.wisdomparty.HomeOfMember.RespondDetailActivity;
+import wuxc.wisdomparty.Adapter.PartyNewsAdapter;
 import wuxc.wisdomparty.Internet.HttpGetData;
 import wuxc.wisdomparty.Internet.webview;
-import wuxc.wisdomparty.Model.AssistanceModel;
-import wuxc.wisdomparty.Model.AssistanceModel;
-import wuxc.wisdomparty.PartyManage.AssistanceDetailActivity;
+import wuxc.wisdomparty.Model.PartyNewsModel;
+import wuxc.wisdomparty.PartyManage.SpecialDetailActivity;
 
 public class EmployeeProjectFragment extends Fragment implements OnTouchListener, OnClickListener, OnItemClickListener {
 	private TextView text_list_title;
 	private ListView ListData;
-	List<AssistanceModel> list = new ArrayList<AssistanceModel>();
-	private static AssistanceAdapter mAdapter;
+	List<PartyNewsModel> list = new ArrayList<PartyNewsModel>();
+	private static PartyNewsAdapter mAdapter;
 	private int firstItemIndex = 0;
 	private int lastItemIndex = 0;
 	private float startY = 0;
@@ -171,13 +164,19 @@ public class EmployeeProjectFragment extends Fragment implements OnTouchListener
 					json_data = jArray.getJSONObject(i);
 					Log.e("json_data", "" + json_data);
 					// JSONObject jsonObject = json_data.getJSONObject("data");
-					AssistanceModel listinfo = new AssistanceModel();
+					PartyNewsModel listinfo = new PartyNewsModel();
 
-					listinfo.setNumber(json_data.getString("createtime"));
+					listinfo.setTime(json_data.getString("createtime"));
 					listinfo.setTitle(json_data.getString("title"));
-					listinfo.setBackGround(json_data.getString("sacleImage"));
+					// listinfo.setBackGround(json_data.getString("sacleImage"));
 					listinfo.setDetail(json_data.getString("content"));
 					listinfo.setCont(true);
+					try {
+						listinfo.setSummary(json_data.getString("summary"));
+					} catch (Exception e) {
+						// TODO: handle exception
+						listinfo.setSummary(json_data.getString(""));
+					}
 					try {
 						listinfo.setLink(json_data.getString("otherLinks"));
 						if (json_data.getString("content").equals("") || json_data.getString("content") == null
@@ -234,17 +233,24 @@ public class EmployeeProjectFragment extends Fragment implements OnTouchListener
 
 		// TODO Auto-generated method stub
 		final ArrayList ArrayValues = new ArrayList();
+		// ArrayValues.add(new BasicNameValuePair("ticket", ticket));
+		// ArrayValues.add(new BasicNameValuePair("applyType", "" + 2));
+		// ArrayValues.add(new BasicNameValuePair("helpSType", "" + type));
+		// ArrayValues.add(new BasicNameValuePair("modelSign", "KNDY_APPLY"));
+		// ArrayValues.add(new BasicNameValuePair("curPage", "" + curPage));
+		// ArrayValues.add(new BasicNameValuePair("pageSize", "" + pageSize));
+		// final ArrayList ArrayValues = new ArrayList();
 		ArrayValues.add(new BasicNameValuePair("ticket", ticket));
-		ArrayValues.add(new BasicNameValuePair("applyType", "" + 2));
-		ArrayValues.add(new BasicNameValuePair("helpSType", "" + type));
-		ArrayValues.add(new BasicNameValuePair("modelSign", "KNDY_APPLY"));
+		// chn = GetChannelByKey.GetSign(PreALLChannel, "职工之家");
+		ArrayValues.add(new BasicNameValuePair("chn", "wsgh"));
 		ArrayValues.add(new BasicNameValuePair("curPage", "" + curPage));
 		ArrayValues.add(new BasicNameValuePair("pageSize", "" + pageSize));
+
 		new Thread(new Runnable() { // 开启线程上传文件
 			@Override
 			public void run() {
 				String DueData = "";
-				DueData = HttpGetData.GetData("api/pb/kndysq/listDataFront", ArrayValues);
+				DueData = HttpGetData.GetData("api/cms/channel/channleListData", ArrayValues);
 				Message msg = new Message();
 				msg.obj = DueData;
 				msg.what = GET_DUE_DATA;
@@ -278,13 +284,13 @@ public class EmployeeProjectFragment extends Fragment implements OnTouchListener
 
 			for (int i = 0; i < 10; i++) {
 
-				AssistanceModel listinfo = new AssistanceModel();
+				PartyNewsModel listinfo = new PartyNewsModel();
 				listinfo.setTitle("爱心助学");
 				listinfo.setDetail(
 						"陕西省委爱心助学陕西省委爱心助学陕西省委爱心助学陕西省委爱心助学陕西省委爱心助学陕西省委爱心助学陕西省委爱心助学陕西省委爱心助学陕西省委爱心助学陕西省委爱心助学陕西省委爱心助学陕西省委爱心助学");
-				listinfo.setBackGround("");
-				listinfo.setAim("12");
-				listinfo.setNumber("3421");
+				// listinfo.setBackGround("");
+				// listinfo.setAim("12");
+				// listinfo.setNumber("3421");
 				list.add(listinfo);
 
 			}
@@ -302,7 +308,7 @@ public class EmployeeProjectFragment extends Fragment implements OnTouchListener
 
 	protected void go() {
 		ListData.setPadding(0, -100, 0, 0);
-		mAdapter = new AssistanceAdapter(getActivity(), list, ListData);
+		mAdapter = new PartyNewsAdapter(getActivity(), list, ListData);
 		ListData.setAdapter(mAdapter);
 	}
 
@@ -398,14 +404,14 @@ public class EmployeeProjectFragment extends Fragment implements OnTouchListener
 	@Override
 	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 		// TODO Auto-generated method stub
-		AssistanceModel data = list.get(position - 1);
+		PartyNewsModel data = list.get(position - 1);
 		if (data.isCont()) {
 			Intent intent = new Intent();
-			intent.setClass(getActivity(), AssistanceDetailActivity.class);
+			intent.setClass(getActivity(), SpecialDetailActivity.class);
 			Bundle bundle = new Bundle();
 			bundle.putString("Title", data.getTitle());
-			bundle.putString("Time", data.getNumber());
-			bundle.putString("content", data.getDetail());
+			bundle.putString("Time", data.getTime());
+			bundle.putString("detail", data.getDetail());
 			intent.putExtras(bundle);
 			startActivity(intent);
 		} else {

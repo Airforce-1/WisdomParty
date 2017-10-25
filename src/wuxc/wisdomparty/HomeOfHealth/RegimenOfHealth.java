@@ -148,7 +148,12 @@ public class RegimenOfHealth extends Activity implements OnTouchListener, OnClic
 					listinfo.setImageUrl(json_data.getString("sacleImage"));
 					listinfo.setTitle(json_data.getString("title"));
 					listinfo.setDetail(json_data.getString("content"));
-
+					try {
+						listinfo.setSummary(json_data.getString("summary"));
+					} catch (Exception e) {
+						// TODO: handle exception
+						listinfo.setSummary(json_data.getString(""));
+					}
 					// listinfo.setDetail(
 					// "陕西省委爱心助学陕西省委爱心助学陕西省委爱心助学陕西省委爱心助学陕西省委爱心助学陕西省委爱心助学陕西省委爱心助学陕西省委爱心助学陕西省委爱心助学陕西省委爱心助学陕西省委爱心助学陕西省委爱心助学");
 					// listinfo.setBackGround("");

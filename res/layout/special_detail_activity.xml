@@ -25,7 +25,7 @@
             android:layout_marginRight="@dimen/top_height"
             android:gravity="center"
             android:singleLine="true"
-            android:text="活动详情"
+            android:text="详情"
             android:textColor="@color/text_white"
             android:textSize="@dimen/text_size" />
     </RelativeLayout>

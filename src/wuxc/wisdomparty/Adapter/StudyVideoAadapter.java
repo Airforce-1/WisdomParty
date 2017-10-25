@@ -31,6 +31,7 @@ import wuxc.wisdomparty.Internet.ImageLoader;
 import wuxc.wisdomparty.Internet.ImageLoader.ImageCallback;
 import wuxc.wisdomparty.Internet.URLcontainer;
 import wuxc.wisdomparty.Model.StudyVideoModel;
+import wuxc.wisdomparty.add.ImageLoader600;
 import wuxc.wisdomparty.layout.SelectableRoundedImageView;;
 
 public class StudyVideoAadapter extends ArrayAdapter<StudyVideoModel> {
@@ -42,12 +43,13 @@ public class StudyVideoAadapter extends ArrayAdapter<StudyVideoModel> {
 	private float scalepx = 0;
 	private float dp = 0;
 	private Activity thisactivity;
-
+	public ImageLoader600 imageLoader;
 	public StudyVideoAadapter(Activity activity, List<StudyVideoModel> imageAndTexts, ListView listView) {
 		super(activity, 0, imageAndTexts);
 		this.listView = listView;
 		this.thisactivity = activity;
-		ImageLoader = new ImageLoader();
+		ImageLoader = new ImageLoader();imageLoader = new ImageLoader600(activity.getApplicationContext());
+
 	}
 
 	public View getView(int position, View convertView, ViewGroup parent) {
@@ -56,60 +58,32 @@ public class StudyVideoAadapter extends ArrayAdapter<StudyVideoModel> {
 		// Inflate the views from XML
 		View rowView = convertView;
 		StudyVideoCache viewCache;
-		if (rowView == null) {
+	 
 			LayoutInflater inflater = activity.getLayoutInflater();
 			rowView = inflater.inflate(R.layout.item_video, null);
 			viewCache = new StudyVideoCache(rowView);
 			rowView.setTag(viewCache);
-		} else {
-			viewCache = (StudyVideoCache) rowView.getTag();
-		}
+		 
 		StudyVideoModel imageAndText = getItem(position);
 
 		// Load the image and set it on the ImageView
 		String imageUrl = imageAndText.getImageUrl();
 		SelectableRoundedImageView imageView = viewCache.getImageHeadimg();
-		imageView.setTag(URLcontainer.urlip +URLcontainer.GetFile + imageUrl);
-		Log.e("imageUrl", imageUrl);
-		if (imageUrl.equals(imageurl)) {
-			imageView.setImageResource(R.drawable.video);
-		} else {
+		if (!(imageAndText.getImageUrl().equals("") || imageAndText.getImageUrl() == null)) {
+
+			viewCache.getImageHeadimg().setTag(imageAndText.getImageUrl());
+
 			try {
-				String imageName1 = getBitName(imageUrl);
-				String temppath = Environment.getExternalStorageDirectory() + "/chat/" + imageName1 + ".png";
-				Bitmap bm1 = null;
-				bm1 = getBitmapByPath(temppath);
-				if (bm1 == null) {
-					imageUrl = URLcontainer.urlip +URLcontainer.GetFile + imageUrl;
-					Log.e("imageUrl", imageUrl);
-					Drawable cachedImage = ImageLoader.loadDrawable(imageUrl, new ImageCallback() {
-						public void imageLoaded(Drawable imageDrawable, String imageUrl) {
-							ImageView imageViewByTag = (ImageView) listView.findViewWithTag(imageUrl);
-							if (imageViewByTag != null) {
-								imageViewByTag.setImageDrawable(imageDrawable);
-							}
-						}
-					});
-					if (cachedImage == null) {
-						imageView.setImageResource(R.drawable.video);
-					} else {
-						Drawable d = cachedImage; // xxx根据自己的情况获取drawable
 
-						BitmapDrawable bd = (BitmapDrawable) d;
-
-						Bitmap bm = bd.getBitmap();
-						bm = cutBmp(bm);
-						imageView.setImageBitmap(bm);
-					}
-				} else {
-					imageView.setImageBitmap(bm1);
-				}
+				imageLoader.DisplayImage(URLcontainer.urlip + URLcontainer.GetFile + imageAndText.getImageUrl(),
+						activity, viewCache.getImageHeadimg(), R.drawable.video);
 			} catch (Exception e) {
 				// TODO: handle exception
 			} catch (OutOfMemoryError e) {
 				// TODO: handle exception
 			}
-
+		} else {
+			imageView.setImageResource(R.drawable.video);
 		}
 
 		TextView TextNUmberGreat = viewCache.getTextNumberGreat();

@@ -44,61 +44,59 @@ public class MemberEducationAdapter extends ArrayAdapter<MemberEducationModel> {
 		// Inflate the views from XML
 		View rowView = convertView;
 		MemberEducationCache viewCache;
-		if (rowView == null) {
+	 
 			LayoutInflater inflater = activity.getLayoutInflater();
 			rowView = inflater.inflate(R.layout.item_member_education, null);
 			viewCache = new MemberEducationCache(rowView);
 			rowView.setTag(viewCache);
-		} else {
-			viewCache = (MemberEducationCache) rowView.getTag();
-		}
+		 
 		MemberEducationModel imageAndText = getItem(position);
 
 		// Load the image and set it on the ImageView
 		String imageUrl = imageAndText.getImageUrl();
 		ImageView imageView = viewCache.getImageView();
 		imageView.setTag(URLcontainer.urlip +URLcontainer.GetFile + imageUrl);
-		Log.e("imageUrl", imageUrl);
-		if (imageUrl.equals(imageurl)||imageUrl.equals("null")) {
-			imageView.setImageResource(R.drawable.rectangle_headimg);
-		} else {
-			try {
-				String imageName1 = getBitName(imageUrl);
-				String temppath = Environment.getExternalStorageDirectory() + "/chat/" + imageName1 + ".png";
-				Bitmap bm1 = null;
-				bm1 = getBitmapByPath(temppath);
-				if (bm1 == null) {
-					imageUrl = URLcontainer.urlip +URLcontainer.GetFile + imageUrl;
-					Log.e("imageUrl", imageUrl);
-					Drawable cachedImage = ImageLoader.loadDrawable(imageUrl, new ImageCallback() {
-						public void imageLoaded(Drawable imageDrawable, String imageUrl) {
-							ImageView imageViewByTag = (ImageView) listView.findViewWithTag(imageUrl);
-							if (imageViewByTag != null) {
-								imageViewByTag.setImageDrawable(imageDrawable);
-							}
-						}
-					});
-					if (cachedImage == null) {
-						imageView.setImageResource(R.drawable.rectangle_headimg);
-					} else {
-						Drawable d = cachedImage; // xxx根据自己的情况获取drawable
-
-						BitmapDrawable bd = (BitmapDrawable) d;
-
-						Bitmap bm = bd.getBitmap();
-						bm = cutBmp(bm);
-						imageView.setImageBitmap(bm);
-					}
-				} else {
-					imageView.setImageBitmap(bm1);
-				}
-			} catch (Exception e) {
-				// TODO: handle exception
-			} catch (OutOfMemoryError e) {
-				// TODO: handle exception
-			}
-
-		}
+//		Log.e("imageUrl", imageUrl);
+//		if (imageUrl.equals(imageurl)||imageUrl.equals("null")) {
+//			imageView.setImageResource(R.drawable.rectangle_headimg);
+//		} else {
+//			try {
+//				String imageName1 = getBitName(imageUrl);
+//				String temppath = Environment.getExternalStorageDirectory() + "/chat/" + imageName1 + ".png";
+//				Bitmap bm1 = null;
+//				bm1 = getBitmapByPath(temppath);
+//				if (bm1 == null) {
+//					imageUrl = URLcontainer.urlip +URLcontainer.GetFile + imageUrl;
+//					Log.e("imageUrl", imageUrl);
+//					Drawable cachedImage = ImageLoader.loadDrawable(imageUrl, new ImageCallback() {
+//						public void imageLoaded(Drawable imageDrawable, String imageUrl) {
+//							ImageView imageViewByTag = (ImageView) listView.findViewWithTag(imageUrl);
+//							if (imageViewByTag != null) {
+//								imageViewByTag.setImageDrawable(imageDrawable);
+//							}
+//						}
+//					});
+//					if (cachedImage == null) {
+//						imageView.setImageResource(R.drawable.rectangle_headimg);
+//					} else {
+//						Drawable d = cachedImage; // xxx根据自己的情况获取drawable
+//
+//						BitmapDrawable bd = (BitmapDrawable) d;
+//
+//						Bitmap bm = bd.getBitmap();
+//						bm = cutBmp(bm);
+//						imageView.setImageBitmap(bm);
+//					}
+//				} else {
+//					imageView.setImageBitmap(bm1);
+//				}
+//			} catch (Exception e) {
+//				// TODO: handle exception
+//			} catch (OutOfMemoryError e) {
+//				// TODO: handle exception
+//			}
+//
+//		}
 		TextView TextTitle = viewCache.getTextTitle();
 		TextTitle.setText("" + imageAndText.getTitle());
 		TextView TextTime = viewCache.getTextTime();

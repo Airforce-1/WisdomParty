@@ -1,5 +1,10 @@
 package wuxc.wisdomparty.PartyManage;
 
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
+
 import com.umeng.socialize.ShareAction;
 import com.umeng.socialize.UMShareListener;
 import com.umeng.socialize.bean.SHARE_MEDIA;
@@ -9,6 +14,7 @@ import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.webkit.WebChromeClient;
@@ -70,9 +76,25 @@ public class AssistanceDetailActivity extends Activity implements OnClickListene
 		webView.getSettings().setJavaScriptEnabled(true);
 		webView.setWebChromeClient(new WebChromeClient());
 		webView.getSettings().setLayoutAlgorithm(LayoutAlgorithm.SINGLE_COLUMN);
-
+		try {
+			content = getNewContent(content);
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
 		webView.loadDataWithBaseURL(null, content, "text/html", "utf-8", null);
 
+	}
+
+	private String getNewContent(String htmltext) {
+
+		Document doc = Jsoup.parse(htmltext);
+		Elements elements = doc.getElementsByTag("img");
+		for (Element element : elements) {
+			element.attr("width", "100%").attr("height", "auto");
+		}
+
+		Log.d("VACK", doc.toString());
+		return doc.toString();
 	}
 
 	private void initview() {

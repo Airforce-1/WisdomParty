@@ -23,6 +23,7 @@ import wuxc.wisdomparty.HomeActivity.HomeSettingActivity;
 import wuxc.wisdomparty.MemberCenter.NoticeDatalistActivity;
 import wuxc.wisdomparty.MemberCenter.NoticeDetailActivity;
 import wuxc.wisdomparty.StartPage.LoginActivity;
+import wuxc.wisdomparty.add.addhomeofpartyactivity;
 import wuxc.wisdomparty.layout.CircleLayout;
 import wuxc.wisdomparty.layout.CircleLayout.OnItemClickListener;
 
@@ -139,7 +140,7 @@ public class MainHomePageFragment extends MainBaseFragment implements OnItemClic
 				startActivity(intent);
 			} else if (this.getString(R.string.str_home_member).equals(name)) {
 				Intent intent = new Intent();
-				intent.setClass(getActivity(), HomeOfMemberActivity.class);
+				intent.setClass(getActivity(), addhomeofpartyactivity.class);
 				startActivity(intent);
 			} else if (this.getString(R.string.str_home_study).equals(name)) {
 				Intent intent = new Intent();

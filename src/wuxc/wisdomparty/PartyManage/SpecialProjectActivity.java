@@ -167,6 +167,12 @@ public class SpecialProjectActivity extends FragmentActivity
 					// listinfo.setTime("2016-12-14");
 					listinfo.setCont(true);
 					try {
+						listinfo.setSummary(json_data.getString("summary"));
+					} catch (Exception e) {
+						// TODO: handle exception
+						listinfo.setSummary(json_data.getString(""));
+					}
+					try {
 						listinfo.setLink(json_data.getString("otherLinks"));
 						if (json_data.getString("content").equals("") || json_data.getString("content") == null
 								|| json_data.getString("content").equals("null")) {

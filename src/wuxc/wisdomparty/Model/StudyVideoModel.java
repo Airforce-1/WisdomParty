@@ -8,6 +8,16 @@ public class StudyVideoModel {
 	private String Title;
 	private String ImageUrl;
 	private String url;
+	private String summary;
+
+	public String getSummary() {
+		return summary;
+	}
+
+	public void setSummary(String summary) {
+		this.summary = summary;
+	}
+
 	public String getUrl() {
 		return url;
 	}

@@ -32,19 +32,19 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 import single.wuxc.wisdomparty.R;
-import wuxc.wisdomparty.Adapter.RewardsAdapter;
+import wuxc.wisdomparty.Adapter.PartyRespondAdapter;
 import wuxc.wisdomparty.Internet.GetChannelByKey;
 import wuxc.wisdomparty.Internet.HttpGetData;
 import wuxc.wisdomparty.Internet.webview;
-import wuxc.wisdomparty.Model.RewardsModel;
+import wuxc.wisdomparty.Model.RespondModel;
 import wuxc.wisdomparty.add.orgDetailActivity;
 
 public class DemocraticCommentActivity extends Activity
 		implements OnTouchListener, OnClickListener, OnItemClickListener {
 	private ListView ListData;
 	private ImageView ImageBack;
-	List<RewardsModel> list = new ArrayList<RewardsModel>();
-	private static RewardsAdapter mAdapter;
+	List<RespondModel> list = new ArrayList<RespondModel>();
+	private static PartyRespondAdapter mAdapter;
 	private int firstItemIndex = 0;
 	private int lastItemIndex = 0;
 	private float startY = 0;
@@ -140,12 +140,12 @@ public class DemocraticCommentActivity extends Activity
 					json_data = jArray.getJSONObject(i);
 					Log.e("json_data", "" + json_data);
 					// JSONObject jsonObject = json_data.getJSONObject("data");
-					RewardsModel listinfo = new RewardsModel();
+					RespondModel listinfo = new RespondModel();
 
 					listinfo.setTime(json_data.getString("createtime"));
 					listinfo.setTitle(json_data.getString("title"));
-					listinfo.setBackGround(json_data.getString("sacleImage"));
-					listinfo.setDetail(json_data.getString("content"));
+					listinfo.setImageUrl(json_data.getString("sacleImage"));
+					listinfo.setCONT(json_data.getString("content"));
 					// listinfo.setTime("2016-12-14");
 					// listinfo.setDetail(
 					// "此次专项检查的范围是招用农民工较多的建筑、制造、采矿、餐饮和其他中小型劳动密集型企业以及个体经济组织。检查内容包括：非公企业与劳动者签订劳动合同情况；按照工资支付有关规定支付职工工资情况；遵守最低工资规定及依法支付加班工资情况；依法参加社会保险和缴纳社会保险费情况；遵守禁止使用童工规定以及女职工和未成年工特殊劳动保护规定情况；其他遵守劳动保障法律法规的情况。"
@@ -155,7 +155,7 @@ public class DemocraticCommentActivity extends Activity
 					listinfo.setCont(true);
 					if (json_data.getString("content").equals("") || json_data.getString("content") == null
 							|| json_data.getString("content").equals("null")) {
-						listinfo.setDetail(json_data.getString("source"));
+						listinfo.setCONT(json_data.getString("source"));
 						listinfo.setCont(false);
 					}
 					listinfo.setLink(json_data.getString("otherLinks"));
@@ -247,13 +247,13 @@ public class DemocraticCommentActivity extends Activity
 
 			for (int i = 0; i < 10; i++) {
 
-				RewardsModel listinfo = new RewardsModel();
+				RespondModel listinfo = new RespondModel();
 				listinfo.setTime("2016-12-14");
-				listinfo.setDetail(
+				listinfo.setCONT(
 						"虽然从岗位上退了，但作为一名党员，要不断加强学习，不落伍、不掉队、不退志、不褪色。”10月底，新疆察布查尔锡伯自治县民政局为离退休老同志“送学上门”，确保“两学一做”学习教育不留空白。在“两学一做”学习教育中，新疆维吾尔自治区党委着眼社会稳定和长治久安总目标，注重突出政治坚强，突出融入民族团结，突出问题导向，要求学深做实，取得成效。伊犁州集中学习习近平总书记系列重要讲话尤其是关于新疆工作的重要讲话，开展专题讨论。阿克苏地区开展“五找五查五做”活动，推动党员干部增强责任担当，补齐工作短板。塔城地区对县处级以上党员领导干部进行3天封闭式培训，围绕总目标真正学起来、动起来、做起来。“领导干部要在各个方面，做同党中央保持高度一致的表率，做贯彻落实中央各项决策部署的表率，做民族团结的模范。”莎车县公路分局党组副书记、局长艾力克木·阿布都拉说。"
 								+ arg);
 				listinfo.setTitle("学习系列讲话，争做合格党员" + arg);
-				listinfo.setBackGround("");
+				listinfo.setCONT("");
 				list.add(listinfo);
 
 			}
@@ -271,7 +271,7 @@ public class DemocraticCommentActivity extends Activity
 
 	protected void go() {
 		ListData.setPadding(0, -100, 0, 0);
-		mAdapter = new RewardsAdapter(this, list, ListData);
+		mAdapter = new PartyRespondAdapter(this, list, ListData);
 		ListData.setAdapter(mAdapter);
 	}
 
@@ -381,12 +381,12 @@ public class DemocraticCommentActivity extends Activity
 	@Override
 	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 		// TODO Auto-generated method stub
-		RewardsModel data = list.get(position - 1);
+		RespondModel data = list.get(position - 1);
 		if (data.isCont()) {
 			Intent intent = new Intent();
 			intent.setClass(getApplicationContext(), AssistanceDetailActivity.class);
 			Bundle bundle = new Bundle();
-			bundle.putString("content", data.getDetail());
+			bundle.putString("content", data.getCONT());
 			bundle.putString("Title", data.getTitle());
 			bundle.putString("Time", data.getTime());
 			intent.putExtras(bundle);

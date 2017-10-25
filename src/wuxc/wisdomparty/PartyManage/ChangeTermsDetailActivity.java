@@ -61,7 +61,7 @@ public class ChangeTermsDetailActivity extends Activity
 	private String StartTime;
 	private String EndTime;
 	private String Id = "";
-	private String ticket;
+	private int ticket;
 	private String chn;
 	private String userPhoto;
 	private String LoginId;
@@ -97,6 +97,7 @@ public class ChangeTermsDetailActivity extends Activity
 		StartTime = bundle.getString("StartTime");
 		Title = bundle.getString("Title");
 		EndTime = bundle.getString("EndTime");
+		Id=bundle.getString("EndTime");
 		TextTitle.setText(Title);
 		TextStartTime.setText(StartTime);
 		TextEndTime.setText(EndTime);
@@ -299,7 +300,7 @@ public class ChangeTermsDetailActivity extends Activity
 
 	private void ReadTicket() {
 		// TODO Auto-generated method stub
-		ticket = PreUserInfo.getString("ticket", "");
+		ticket = PreUserInfo.getInt("ticket", 0);
 		userPhoto = PreUserInfo.getString("userPhoto", "");
 		LoginId = PreUserInfo.getString("userName", "");
 	}
@@ -309,7 +310,7 @@ public class ChangeTermsDetailActivity extends Activity
 
 		// TODO Auto-generated method stub
 		final ArrayList ArrayValues = new ArrayList();
-		ArrayValues.add(new BasicNameValuePair("ticket", ticket));
+		ArrayValues.add(new BasicNameValuePair("ticket", "" + ticket));
 		ArrayValues.add(new BasicNameValuePair("voteItemDto.par_keyid", Id));
 		new Thread(new Runnable() { // 开启线程上传文件
 			@Override

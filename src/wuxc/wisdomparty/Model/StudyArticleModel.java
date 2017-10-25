@@ -7,6 +7,15 @@ public class StudyArticleModel {
 	private String Time;
 	private String link;
 	private boolean cont;
+	private String summary;
+
+	public String getSummary() {
+		return summary;
+	}
+
+	public void setSummary(String summary) {
+		this.summary = summary;
+	}
 
 	public String getLink() {
 		return link;

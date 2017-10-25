@@ -8,8 +8,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import com.umeng.socialize.utils.Log;
-
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -33,20 +31,18 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 import single.wuxc.wisdomparty.R;
-import wuxc.wisdomparty.Adapter.AssistanceAdapter;
+import wuxc.wisdomparty.Adapter.PartyRespondAdapter;
 import wuxc.wisdomparty.Internet.GetChannelByKey;
 import wuxc.wisdomparty.Internet.HttpGetData;
 import wuxc.wisdomparty.Internet.webview;
-import wuxc.wisdomparty.Model.AssistanceModel;
-import wuxc.wisdomparty.Model.AssistanceModel;
-import wuxc.wisdomparty.Model.AssistanceModel;
+import wuxc.wisdomparty.Model.RespondModel;
 
 public class AssistanceToPauperActivity extends Activity
 		implements OnTouchListener, OnClickListener, OnItemClickListener {
 	private ListView ListData;
 	private ImageView ImageBack;
-	List<AssistanceModel> list = new ArrayList<AssistanceModel>();
-	private static AssistanceAdapter mAdapter;
+	List<RespondModel> list = new ArrayList<RespondModel>();
+	private static PartyRespondAdapter mAdapter;
 	private int firstItemIndex = 0;
 	private int lastItemIndex = 0;
 	private float startY = 0;
@@ -121,14 +117,14 @@ public class AssistanceToPauperActivity extends Activity
 
 			for (int i = 0; i < 10; i++) {
 
-				AssistanceModel listinfo = new AssistanceModel();
-				listinfo.setTitle("爱心助学");
-				listinfo.setDetail(
-						"陕西省委爱心助学陕西省委爱心助学陕西省委爱心助学陕西省委爱心助学陕西省委爱心助学陕西省委爱心助学陕西省委爱心助学陕西省委爱心助学陕西省委爱心助学陕西省委爱心助学陕西省委爱心助学陕西省委爱心助学");
-				listinfo.setBackGround("");
-				listinfo.setAim("12");
-				listinfo.setNumber("3421");
-				list.add(listinfo);
+				// RespondModel listinfo = new RespondModel();
+				// listinfo.setTitle("爱心助学");
+				// listinfo.setDetail(
+				// "陕西省委爱心助学陕西省委爱心助学陕西省委爱心助学陕西省委爱心助学陕西省委爱心助学陕西省委爱心助学陕西省委爱心助学陕西省委爱心助学陕西省委爱心助学陕西省委爱心助学陕西省委爱心助学陕西省委爱心助学");
+				// listinfo.setBackGround("");
+				// listinfo.setAim("12");
+				// listinfo.setNumber("3421");
+				// list.add(listinfo);
 
 			}
 		} catch (Exception e) {
@@ -145,7 +141,7 @@ public class AssistanceToPauperActivity extends Activity
 
 	protected void go() {
 		ListData.setPadding(0, -100, 0, 0);
-		mAdapter = new AssistanceAdapter(this, list, ListData);
+		mAdapter = new PartyRespondAdapter(this, list, ListData);
 		ListData.setAdapter(mAdapter);
 	}
 
@@ -225,34 +221,36 @@ public class AssistanceToPauperActivity extends Activity
 					json_data = jArray.getJSONObject(i);
 
 					// JSONObject jsonObject = json_data.getJSONObject("data");
-					AssistanceModel listinfo = new AssistanceModel();
+					RespondModel listinfo = new RespondModel();
 					// listinfo.setTitle("爱心助学");
 					// listinfo.setDetail(
 					// "陕西省委爱心助学陕西省委爱心助学陕西省委爱心助学陕西省委爱心助学陕西省委爱心助学陕西省委爱心助学陕西省委爱心助学陕西省委爱心助学陕西省委爱心助学陕西省委爱心助学陕西省委爱心助学陕西省委爱心助学");
 					// // listinfo.setBackGround("");
-					listinfo.setAim("12");
-					listinfo.setNumber(json_data.getString("createtime"));
+
+					listinfo.setTime(json_data.getString("createtime"));
 					// listinfo.setTime(json_data.getString("createtime"));
 					listinfo.setTitle(json_data.getString("title"));
-					listinfo.setBackGround(json_data.getString("sacleImage"));
-					listinfo.setDetail(json_data.getString("content"));
+					listinfo.setImageUrl(json_data.getString("sacleImage"));
+					listinfo.setCONT(json_data.getString("content"));
 					// listinfo.setTime("2016-12-14");
 					// listinfo.setDetail(
 					// "此次专项检查的范围是招用农民工较多的建筑、制造、采矿、餐饮和其他中小型劳动密集型企业以及个体经济组织。检查内容包括：非公企业与劳动者签订劳动合同情况；按照工资支付有关规定支付职工工资情况；遵守最低工资规定及依法支付加班工资情况；依法参加社会保险和缴纳社会保险费情况；遵守禁止使用童工规定以及女职工和未成年工特殊劳动保护规定情况；其他遵守劳动保障法律法规的情况。"
 					// + arg);
 					// listinfo.setTitle("宁县开展非公企业党建工作专项督查活动" + arg);
 					// listinfo.setBackGround("");
-					listinfo.setCont(true);	try {
+					listinfo.setCont(true);
+					try {
 						listinfo.setLink(json_data.getString("otherLinks"));
 						if (json_data.getString("content").equals("") || json_data.getString("content") == null
 								|| json_data.getString("content").equals("null")) {
-							listinfo.setDetail(json_data.getString("source"));
+							listinfo.setCONT(json_data.getString("source"));
 							listinfo.setCont(false);
 						}
 
 					} catch (Exception e) {
 						// TODO: handle exception
-					}	list.add(listinfo);
+					}
+					list.add(listinfo);
 
 				}
 			}
@@ -398,15 +396,17 @@ public class AssistanceToPauperActivity extends Activity
 	@Override
 	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 		// TODO Auto-generated method stub
-		AssistanceModel data = list.get(position - 1);
-		if (data.isCont()) {	Intent intent = new Intent();
-		intent.setClass(getApplicationContext(), AssistanceDetailActivity.class);
-		Bundle bundle = new Bundle();
-		bundle.putString("Title", data.getTitle());
-		bundle.putString("Time", data.getNumber());
-		bundle.putString("content", data.getDetail());
-		intent.putExtras(bundle);
-		startActivity(intent);} else {
+		RespondModel data = list.get(position - 1);
+		if (data.isCont()) {
+			Intent intent = new Intent();
+			intent.setClass(getApplicationContext(), AssistanceDetailActivity.class);
+			Bundle bundle = new Bundle();
+			bundle.putString("Title", data.getTitle());
+			bundle.putString("Time", data.getTime());
+			bundle.putString("content", data.getCONT());
+			intent.putExtras(bundle);
+			startActivity(intent);
+		} else {
 			Intent intent = new Intent();
 			intent.setClass(getApplicationContext(), webview.class);
 			Bundle bundle = new Bundle();

@@ -9,6 +9,10 @@ import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 
 import com.alipay.android.phone.mrpc.core.ab;
 
@@ -129,19 +133,36 @@ public class SpecialDetailActivity extends Activity implements OnClickListener, 
 		setlistheight(0);
 		settext();
 		starttimedelay();
-		TextName.setText("作者："+Name);
+		TextName.setText("作者：" + Name);
 		TextTime.setText(Time);
 		String html = "<html>" + "<body>" + "<table>" + "<tr>" + "<td>成都天府</td>" + "</tr>" + "</table>" + "</body>"
 				+ "</html>";
 		webView = (android.webkit.WebView) findViewById(R.id.webview);
-//		StringBuilder sb = new StringBuilder();
-//		sb.append(detail);
-//		webView.loadUrl("http://ww.baidu.com");
+		// StringBuilder sb = new StringBuilder();
+		// sb.append(detail);
+		// webView.loadUrl("http://ww.baidu.com");
 		webView.getSettings().setJavaScriptEnabled(true);
-		 webView.setWebChromeClient(new WebChromeClient());
-		 webView.getSettings().setLayoutAlgorithm(LayoutAlgorithm.SINGLE_COLUMN);
+		webView.setWebChromeClient(new WebChromeClient());
+		webView.getSettings().setLayoutAlgorithm(LayoutAlgorithm.SINGLE_COLUMN);
+		try {
+			detail = getNewContent(detail);
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
 
 		webView.loadDataWithBaseURL(null, detail, "text/html", "utf-8", null);
+	}
+
+	private String getNewContent(String htmltext) {
+
+		Document doc = Jsoup.parse(htmltext);
+		Elements elements = doc.getElementsByTag("img");
+		for (Element element : elements) {
+			element.attr("width", "100%").attr("height", "auto");
+		}
+
+		Log.d("VACK", doc.toString());
+		return doc.toString();
 	}
 
 	protected void GetDataDueData(Object obj) {

@@ -46,6 +46,7 @@ import wuxc.wisdomparty.Internet.webview;
 import wuxc.wisdomparty.Model.VoteModel;
 import wuxc.wisdomparty.Model.VoteModel;
 import wuxc.wisdomparty.PartyManage.ChangeTermsDetailActivity;
+import wuxc.wisdomparty.PartyManage.SpecialDetailActivity;
 import wuxc.wisdomparty.layout.Childviewpaper;
 
 public class MainPublicPageVoteFragment extends Fragment
@@ -181,12 +182,13 @@ public class MainPublicPageVoteFragment extends Fragment
 			} else {
 				for (int i = 0; i < jArray.length(); i++) {
 					json_data = jArray.getJSONObject(i);
-					Log.e("json_data", "" + json_data);
+					// Log.e("json_data", "" + json_data);
 					// JSONObject jsonObject = json_data.getJSONObject("data");
 					VoteModel listinfo = new VoteModel();
 					listinfo.setId(json_data.getString("parKeyid"));
 					listinfo.setImageUrl(json_data.getString("sacleImage"));
 					listinfo.setTitle(json_data.getString("title"));
+					listinfo.setTime(json_data.getString("createtime"));
 					listinfo.setDetail(json_data.getString("content"));
 					listinfo.setCont(true);
 					try {
@@ -427,8 +429,8 @@ public class MainPublicPageVoteFragment extends Fragment
 		// TODO Auto-generated method stub
 		float tempY = event.getRawY();// 使用GetY时横滑时会出错，原因未知
 		// float a = event.getRawY();
-		// Log.e("tempY", "" + tempY);
-		// Log.e("getRawY", "" + a);
+		// //Log.e("tempY", "" + tempY);
+		// //Log.e("getRawY", "" + a);
 		float tempyfoot = event.getY();
 		firstItemIndex = ListData.getFirstVisiblePosition();
 		lastItemIndex = ListData.getLastVisiblePosition();
@@ -509,14 +511,39 @@ public class MainPublicPageVoteFragment extends Fragment
 	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 		// TODO Auto-generated method stub
 		VoteModel data = list.get(position - 1);
+		// if (data.isCont()) {
+		// Intent intent = new Intent();
+		// intent.setClass(getActivity(), ChangeTermsDetailActivity.class);
+		// Bundle bundle = new Bundle();
+		// bundle.putString("StartTime", "开始时间：2016.12.23 04:40:23");
+		// bundle.putString("EndTime", "结束时间：2016.12.29 04:40:23");
+		// bundle.putString("Title", data.getTitle());
+		// bundle.putString("ID", data.getId());
+		// intent.putExtras(bundle);
+		// startActivity(intent);
+		// } else {
+		// Intent intent = new Intent();
+		// intent.setClass(getActivity(), webview.class);
+		// Bundle bundle = new Bundle();
+		// bundle.putString("url", data.getLink());
+		// // // bundle.putString("Time", "2016-11-23");
+		// // // bundle.putString("Name", "小李");
+		// // // bundle.putString("PageTitle", "收藏详情");
+		// // // bundle.putString("Detail",
+		// // //
+		// //
+		// "中国共产主义青年团，简称共青团，原名中国社会主义青年团，是中国共产党领导的一个由信仰共产主义的中国青年组成的群众性组织。共青团中央委员会受中共中央委员会领导，共青团的地方各级组织受同级党的委员会领导，同时受共青团上级组织领导。1922年5月，团的第一次代表大会在广州举行，正式成立中国社会主义青年团，1925年1月26日改称中国共产主义青年团。1959年5月4日共青团中央颁布共青团团徽。");
+		// intent.putExtras(bundle);
+		// startActivity(intent);
+		// }
 		if (data.isCont()) {
 			Intent intent = new Intent();
-			intent.setClass(getActivity(), ChangeTermsDetailActivity.class);
+			intent.setClass(getActivity(), SpecialDetailActivity.class);
 			Bundle bundle = new Bundle();
-			bundle.putString("StartTime", "开始时间：2016.12.23 04:40:23");
-			bundle.putString("EndTime", "结束时间：2016.12.29 04:40:23");
 			bundle.putString("Title", data.getTitle());
-			bundle.putString("ID", data.getId());
+			bundle.putString("detail", data.getDetail());
+			bundle.putString("Time", data.getTime());
+			bundle.putString("Name", "");
 			intent.putExtras(bundle);
 			startActivity(intent);
 		} else {

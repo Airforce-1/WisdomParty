@@ -46,9 +46,9 @@
                 <TextView
                     android:id="@+id/text_detail"
                     android:layout_width="match_parent"
-                    android:layout_height="19dp"
+                    android:layout_height="36dp"
                     android:gravity="center_vertical"
-                    android:singleLine="true"
+                   android:maxLines="2"
                     android:text="详细详细详细详细详细详细详细详细详细详细详细详细详细详细详细详细详细详细详细"
                     android:textColor="@color/member_transform_stroke"
                     android:textSize="@dimen/member_text_size" />
