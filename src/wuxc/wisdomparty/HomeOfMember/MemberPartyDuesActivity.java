@@ -9,9 +9,11 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.alipay.sdk.pay.demo.PayDemoActivity;
+import com.tencent.mm.sdk.modelpay.PayReq;
+import com.tencent.mm.sdk.openapi.IWXAPI;
+import com.tencent.mm.sdk.openapi.WXAPIFactory;
 import com.umeng.socialize.utils.Log;
 
-import android.R.integer;
 import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -31,11 +33,9 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import single.wuxc.wisdomparty.R;
 import wuxc.wisdomparty.Internet.HttpGetData;
 import wuxc.wisdomparty.Internet.URLcontainer;
-import wuxc.wisdomparty.Model.PartyBranchDataListModel;
 import wuxc.wisdomparty.layout.dialogtwo;
 
 public class MemberPartyDuesActivity extends Activity implements OnClickListener {
@@ -134,6 +134,9 @@ public class MemberPartyDuesActivity extends Activity implements OnClickListener
 	private final static int GO_CHANGE_HEADIMG = 8;
 
 	private static final String GET_FAIL_RESULT = "fail";
+
+	PayReq req;
+	final IWXAPI msgApi = WXAPIFactory.createWXAPI(this, null);
 	public Handler uiHandler = new Handler() {
 		@Override
 		public void handleMessage(Message msg) {
@@ -144,6 +147,16 @@ public class MemberPartyDuesActivity extends Activity implements OnClickListener
 				break;
 			case GET_DUE_DATA:
 				GetDataDueData(msg.obj);
+				break;
+			case 23:
+				Log.e("msg.obj", "" + msg.obj);
+				GetDataDueDatatowechat(msg.obj);
+
+				break;
+			case 31:
+
+				Log.e("msg.obj", "" + msg.obj);
+				Getwechatinfo(msg.obj);
 				break;
 			default:
 				break;
@@ -157,6 +170,7 @@ public class MemberPartyDuesActivity extends Activity implements OnClickListener
 		super.onCreate(savedInstanceState);
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.member_party_dues_activity);
+		req = new PayReq();
 		initview();
 		setonclicklistener();
 		setlayoutheight();
@@ -194,6 +208,98 @@ public class MemberPartyDuesActivity extends Activity implements OnClickListener
 		} catch (Exception e) {
 			// TODO: handle exception
 		}
+	}
+
+	protected void GetDataDueDatatowechat(Object obj) {
+
+		// TODO Auto-generated method stub
+		String Type = null;
+		String Data = "";
+		try {
+			JSONObject demoJson = new JSONObject(obj.toString());
+			Type = demoJson.getString("type");
+
+			if (Type.equals(GET_SUCCESS_RESULT)) {
+				orderId = "";
+				orderId = demoJson.getString("orderId");
+				totalpay = demoJson.getDouble("payMoney");
+				if (!orderId.equals("")) {
+					rechargeresult = "success";
+				} else {
+					rechargeresult = "";
+				}
+				getorderid();
+			} else if (Type.equals(GET_FAIL_RESULT)) {
+				Toast.makeText(getApplicationContext(), "服务器数据失败", Toast.LENGTH_SHORT).show();
+			} else {
+				Toast.makeText(getApplicationContext(), "数据格式校验失败", Toast.LENGTH_SHORT).show();
+			}
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+	}
+
+	protected void Getwechatinfo(Object obj) {
+
+		// TODO Auto-generated method stub
+		String Type = null;
+		String Data = "";
+		try {
+			JSONObject demoJson = new JSONObject(obj.toString());
+			Type = demoJson.getString("type");
+
+			if (Type.equals(GET_SUCCESS_RESULT)) {
+				Toast.makeText(getApplicationContext(), "正在调起微信支付", Toast.LENGTH_SHORT).show();
+
+				req.appId = demoJson.getString("appid");
+				req.partnerId = demoJson.getString("partnerId");
+				req.prepayId = demoJson.getString("orderId");
+				req.packageValue = demoJson.getString("package");
+				req.nonceStr = demoJson.getString("noncestr");
+				req.timeStamp = demoJson.getString("timestamp");
+				req.sign = demoJson.getString("sign");
+
+				msgApi.registerApp(req.appId);
+				msgApi.sendReq(req);
+			} else if (Type.equals(GET_FAIL_RESULT)) {
+				Toast.makeText(getApplicationContext(), "服务器数据失败", Toast.LENGTH_SHORT).show();
+			} else {
+				Toast.makeText(getApplicationContext(), "数据格式校验失败", Toast.LENGTH_SHORT).show();
+			}
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+	}
+
+	private void getorderid() {
+		// TODO Auto-generated method stub
+
+		// TODO Auto-generated method stub
+		final ArrayList ArrayValues = new ArrayList();
+		ArrayValues.add(new BasicNameValuePair("ticket", ticket));
+		ArrayValues.add(new BasicNameValuePair("orderId", orderId));
+		Log.e("totalpay", "" + (int) (totalpay * 100));
+		ArrayValues.add(new BasicNameValuePair("payMoney", ((int) (totalpay * 100)) + ""));
+		ArrayValues.add(new BasicNameValuePair("title", name + "由平台代缴" + inityear + "年" + monthstring + "月普通党费"));
+		new Thread(new Runnable() { // 开启线程上传文件
+			@Override
+			public void run() {
+				String DueData = "";
+				DueData = HttpGetData.GetData("member/wxpay/getOrderInfo", ArrayValues);
+				Message msg = new Message();
+				msg.obj = DueData;
+
+				msg.what = 31;
+				uiHandler.sendMessage(msg);
+			}
+		}).start();
+
 	}
 
 	protected void GetDataDetailFromMonth(Object obj) {
@@ -272,6 +378,26 @@ public class MemberPartyDuesActivity extends Activity implements OnClickListener
 		RelativeResult.setVisibility(View.INVISIBLE);
 		LinResult.setVisibility(View.INVISIBLE);
 		LinButtonResult.setVisibility(View.INVISIBLE);
+	}
+
+	@Override
+	protected void onResume() {
+		// TODO Auto-generated method stub
+		super.onResume();
+		try {
+			if (idnumber.equals("") || idnumber == null) {
+			} else {
+				if (GetMonth) {
+					for (int i = 0; i < 12; i++) {
+						condition[i] = 0;
+					}
+					GetMonthData(idnumber);
+				}
+
+			}
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
 	}
 
 	public void setImage() {
@@ -662,13 +788,36 @@ public class MemberPartyDuesActivity extends Activity implements OnClickListener
 		builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
 			public void onClick(DialogInterface dialog, int which) {
 				dialog.dismiss();
-				GetData();
+				selecet();
 			}
 		});
 
 		builder.setNegativeButton("取消", new android.content.DialogInterface.OnClickListener() {
 			public void onClick(DialogInterface dialog, int which) {
 				dialog.dismiss();
+			}
+		});
+
+		builder.create().show();
+
+	}
+
+	public void selecet() {
+
+		dialogtwo.Builder builder = new dialogtwo.Builder(this);
+		builder.setMessage("请选择支付平台");
+		builder.setTitle("平台选择");
+		builder.setPositiveButton("微信支付", new DialogInterface.OnClickListener() {
+			public void onClick(DialogInterface dialog, int which) {
+				dialog.dismiss();
+				GetDatatoweichat();
+			}
+		});
+
+		builder.setNegativeButton("支付宝支付", new android.content.DialogInterface.OnClickListener() {
+			public void onClick(DialogInterface dialog, int which) {
+				dialog.dismiss();
+				GetData();
 			}
 		});
 
@@ -687,7 +836,7 @@ public class MemberPartyDuesActivity extends Activity implements OnClickListener
 		ArrayValues.add(new BasicNameValuePair("rechargeMoneyDto.ext2", Month));
 		Log.d("Month", "" + Month);
 		ArrayValues.add(new BasicNameValuePair("rechargeMoneyDto.title",
-				name + "由平台代缴" + inityear + "年" + monthstring + "普通党费"));
+				name + "由平台代缴" + inityear + "年" + monthstring + "月普通党费"));
 		ArrayValues.add(new BasicNameValuePair("rechargeMoneyDto.classify", "PARY_FARE"));
 		ArrayValues.add(new BasicNameValuePair("rechargeMoneyDto.payMoney", "" + totalpay));
 		new Thread(new Runnable() { // 开启线程上传文件
@@ -698,6 +847,34 @@ public class MemberPartyDuesActivity extends Activity implements OnClickListener
 				Message msg = new Message();
 				msg.obj = DueData;
 				msg.what = GET_DUE_DATA;
+				uiHandler.sendMessage(msg);
+			}
+		}).start();
+
+	}
+
+	private void GetDatatoweichat() {
+		// TODO Auto-generated method stub
+
+		// TODO Auto-generated method stub
+		final ArrayList ArrayValues = new ArrayList();
+		ArrayValues.add(new BasicNameValuePair("ticket", ticket));
+		ArrayValues.add(new BasicNameValuePair("rechargeMoneyDto.platformCode", "008"));
+		ArrayValues.add(new BasicNameValuePair("rechargeMoneyDto.ext1", idnumber));
+		ArrayValues.add(new BasicNameValuePair("rechargeMoneyDto.ext2", Month));
+		Log.d("Month", "" + Month);
+		ArrayValues.add(new BasicNameValuePair("rechargeMoneyDto.title",
+				name + "由平台代缴" + inityear + "年" + monthstring + "月普通党费"));
+		ArrayValues.add(new BasicNameValuePair("rechargeMoneyDto.classify", "PARY_FARE"));
+		ArrayValues.add(new BasicNameValuePair("rechargeMoneyDto.payMoney", "" + totalpay));
+		new Thread(new Runnable() { // 开启线程上传文件
+			@Override
+			public void run() {
+				String DueData = "";
+				DueData = HttpGetData.GetData("api/shop/recharge/generateRecharge", ArrayValues);
+				Message msg = new Message();
+				msg.obj = DueData;
+				msg.what = 23;
 				uiHandler.sendMessage(msg);
 			}
 		}).start();

@@ -99,7 +99,7 @@ public class HomeOfStudyActivity extends FragmentActivity
 		initdot(NumberPicture);
 		godotchange(0);// 显示第一个逗点为绿色
 		setheadtextview();
-		getdatalist(curPage);
+		// getdatalist(curPage);
 	}
 
 	private void setheadtextview() {
@@ -115,44 +115,44 @@ public class HomeOfStudyActivity extends FragmentActivity
 		ListData.setOnTouchListener(this);
 	}
 
-	private void getdatalist(int arg) {
-		if (arg == 1) {
-			list.clear();
-		}
-		// TODO Auto-generated method stub
+	// private void getdatalist(int arg) {
+	// if (arg == 1) {
+	// list.clear();
+	// }
+	// // TODO Auto-generated method stub
+	//
+	// try {
+	//
+	// for (int i = 0; i < 10; i++) {
+	//
+	// SpecialModel listinfo = new SpecialModel();
+	// listinfo.setTime("2016-12-14");
+	// listinfo.setDetail(
+	// "中共党史研究新成果中共党史研究新成果中共党史研究新成果中共党史研究新成果中共党史研究新成果中共党史研究新成果中共党史研究新成果中共党史研究新成果中共党史研究新成果中共党史研究新成果中共党史研究新成果中共党史研究新成果中共党史研究新成果"
+	// + arg);
+	// listinfo.setTitle("中共党史研究新成果" + arg);
+	// listinfo.setNumber("23");
+	// listinfo.setImageUrl("");
+	// list.add(listinfo);
+	//
+	// }
+	// } catch (Exception e) {
+	// // TODO Auto-generated catch block
+	// e.printStackTrace();
+	// }
+	// if (arg == 1) {
+	// go();
+	// } else {
+	// mAdapter.notifyDataSetChanged();
+	// }
+	//
+	// }
 
-		try {
-
-			for (int i = 0; i < 10; i++) {
-
-				SpecialModel listinfo = new SpecialModel();
-				listinfo.setTime("2016-12-14");
-				listinfo.setDetail(
-						"中共党史研究新成果中共党史研究新成果中共党史研究新成果中共党史研究新成果中共党史研究新成果中共党史研究新成果中共党史研究新成果中共党史研究新成果中共党史研究新成果中共党史研究新成果中共党史研究新成果中共党史研究新成果中共党史研究新成果"
-								+ arg);
-				listinfo.setTitle("中共党史研究新成果" + arg);
-				listinfo.setNumber("23");
-				listinfo.setImageUrl("");
-				list.add(listinfo);
-
-			}
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		if (arg == 1) {
-			go();
-		} else {
-			mAdapter.notifyDataSetChanged();
-		}
-
-	}
-
-	protected void go() {
-		ListData.setPadding(0, -100, 0, 0);
-		mAdapter = new SpecialAdapter(this, list, ListData);
-		ListData.setAdapter(mAdapter);
-	}
+	// protected void go() {
+	// ListData.setPadding(0, -100, 0, 0);
+	// mAdapter = new SpecialAdapter(this, list, ListData);
+	// ListData.setAdapter(mAdapter);
+	// }
 
 	private void initdot(int numpic) {
 		// TODO Auto-generated method stub
@@ -311,80 +311,90 @@ public class HomeOfStudyActivity extends FragmentActivity
 	@Override
 	public boolean onTouch(View v, MotionEvent event) {
 		// TODO Auto-generated method stub
-		float tempY = event.getY();
-		float tempyfoot = event.getY();
-		firstItemIndex = ListData.getFirstVisiblePosition();
-		lastItemIndex = ListData.getLastVisiblePosition();
-		// Toast.makeText(getActivity(), " lastItemIndex" +
-		// lastItemIndex, Toast.LENGTH_SHORT).show();
-		switch (event.getAction()) {
-		case MotionEvent.ACTION_DOWN:
-		case MotionEvent.ACTION_MOVE:
-			if (!isRecored && (firstItemIndex == 0)) {
-				isRecored = true;
-				startY = tempY;
-			}
-			int temp = 1;
-			temp = (lastItemIndex) % pageSize;
-			if (!isRecoredfoot && (temp == 0)) {
-				isRecoredfoot = true;
-				startYfoot = tempyfoot;
-			}
-			break;
-		case MotionEvent.ACTION_UP:
-		case MotionEvent.ACTION_CANCEL:
-			isRecored = false;
-			isRecoredfoot = false;
-			break;
-
-		default:
-			break;
-		}
-
-		switch (event.getAction()) {
-		case MotionEvent.ACTION_DOWN:
-			break;
-		case MotionEvent.ACTION_UP:
-		case MotionEvent.ACTION_CANCEL:
-			ListData.setPadding(0, 0, 0, 0);
-			if (tempY - startY < 400) {
-				ListData.setPadding(0, -100, 0, 0);
-			} else {
-				curPage = 1;
-				Toast.makeText(getApplicationContext(), "正在刷新", Toast.LENGTH_SHORT).show();
-				getdatalist(curPage);
-			}
-			int temp = 1;
-			temp = (lastItemIndex) % pageSize;
-			// temp = 0;
-			if (temp == 0 && (startYfoot - tempyfoot > 400)) {
-				curPage++;
-				if (curPage > totalPage) {
-					Toast.makeText(getApplicationContext(), " 没有更多了", Toast.LENGTH_SHORT).show();
-					// // listinfoagain();
-				} else {
-					getdatalist(curPage);
-					Toast.makeText(getApplicationContext(), "正在加载下一页", Toast.LENGTH_SHORT).show();
-				}
-
-			} else {
-
-			}
-			break;
-		case MotionEvent.ACTION_MOVE:
-			if (isRecored && tempY > startY) {
-				ListData.setPadding(0, (int) ((tempY - startY) / RATIO - 100), 0, 0);
-			}
-			if (isRecoredfoot && startYfoot > tempyfoot) {
-				// footTextView.setVisibility(View.VISIBLE);
-				ListData.setPadding(0, -100, 0, (int) ((startYfoot - tempyfoot) / RATIO));
-			}
-			break;
-
-		default:
-			break;
-		}
 		return false;
 	}
+
+	// @Override
+	// public boolean onTouch(View v, MotionEvent event) {
+	// // TODO Auto-generated method stub
+	// float tempY = event.getY();
+	// float tempyfoot = event.getY();
+	// firstItemIndex = ListData.getFirstVisiblePosition();
+	// lastItemIndex = ListData.getLastVisiblePosition();
+	// // Toast.makeText(getActivity(), " lastItemIndex" +
+	// // lastItemIndex, Toast.LENGTH_SHORT).show();
+	// switch (event.getAction()) {
+	// case MotionEvent.ACTION_DOWN:
+	// case MotionEvent.ACTION_MOVE:
+	// if (!isRecored && (firstItemIndex == 0)) {
+	// isRecored = true;
+	// startY = tempY;
+	// }
+	// int temp = 1;
+	// temp = (lastItemIndex) % pageSize;
+	// if (!isRecoredfoot && (temp == 0)) {
+	// isRecoredfoot = true;
+	// startYfoot = tempyfoot;
+	// }
+	// break;
+	// case MotionEvent.ACTION_UP:
+	// case MotionEvent.ACTION_CANCEL:
+	// isRecored = false;
+	// isRecoredfoot = false;
+	// break;
+	//
+	// default:
+	// break;
+	// }
+	//
+	// switch (event.getAction()) {
+	// case MotionEvent.ACTION_DOWN:
+	// break;
+	// case MotionEvent.ACTION_UP:
+	// case MotionEvent.ACTION_CANCEL:
+	// ListData.setPadding(0, 0, 0, 0);
+	// if (tempY - startY < 400) {
+	// ListData.setPadding(0, -100, 0, 0);
+	// } else {
+	// curPage = 1;
+	// Toast.makeText(getApplicationContext(), "正在刷新",
+	// Toast.LENGTH_SHORT).show();
+	// getdatalist(curPage);
+	// }
+	// int temp = 1;
+	// temp = (lastItemIndex) % pageSize;
+	// // temp = 0;
+	// if (temp == 0 && (startYfoot - tempyfoot > 400)) {
+	// curPage++;
+	// if (curPage > totalPage) {
+	// Toast.makeText(getApplicationContext(), " 没有更多了",
+	// Toast.LENGTH_SHORT).show();
+	// // // listinfoagain();
+	// } else {
+	// getdatalist(curPage);
+	// Toast.makeText(getApplicationContext(), "正在加载下一页",
+	// Toast.LENGTH_SHORT).show();
+	// }
+	//
+	// } else {
+	//
+	// }
+	// break;
+	// case MotionEvent.ACTION_MOVE:
+	// if (isRecored && tempY > startY) {
+	// ListData.setPadding(0, (int) ((tempY - startY) / RATIO - 100), 0, 0);
+	// }
+	// if (isRecoredfoot && startYfoot > tempyfoot) {
+	// // footTextView.setVisibility(View.VISIBLE);
+	// ListData.setPadding(0, -100, 0, (int) ((startYfoot - tempyfoot) /
+	// RATIO));
+	// }
+	// break;
+	//
+	// default:
+	// break;
+	// }
+	// return false;
+	// }
 
 }

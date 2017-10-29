@@ -93,10 +93,8 @@ public class SpecialDetailActivity extends Activity implements OnClickListener, 
 		@Override
 		public void handleMessage(Message msg) {
 			switch (msg.what) {
-			case 0:
-				// GetData();
-				// Toast.makeText(getApplicationContext(), "正在加载数据",
-				// Toast.LENGTH_SHORT).show();
+			case 1:
+				webView.loadDataWithBaseURL(null, detail, "text/html", "utf-8", null);
 
 				break;
 			case GET_DUE_DATA:
@@ -144,13 +142,30 @@ public class SpecialDetailActivity extends Activity implements OnClickListener, 
 		webView.getSettings().setJavaScriptEnabled(true);
 		webView.setWebChromeClient(new WebChromeClient());
 		webView.getSettings().setLayoutAlgorithm(LayoutAlgorithm.SINGLE_COLUMN);
-		try {
-			detail = getNewContent(detail);
-		} catch (Exception e) {
-			// TODO: handle exception
-		}
 
 		webView.loadDataWithBaseURL(null, detail, "text/html", "utf-8", null);
+		GetData1();
+	}
+
+	private void GetData1() {
+		// TODO Auto-generated method stub
+
+		// TODO Auto-generated method stub
+		new Thread(new Runnable() { // 开启线程上传文件
+			@Override
+			public void run() {
+				try {
+					detail = getNewContent(detail);
+				} catch (Exception e) {
+					// TODO: handle exception
+				}
+				Message msg = new Message();
+				msg.obj = "1";
+				msg.what = 1;
+				uiHandler.sendMessage(msg);
+			}
+		}).start();
+
 	}
 
 	private String getNewContent(String htmltext) {

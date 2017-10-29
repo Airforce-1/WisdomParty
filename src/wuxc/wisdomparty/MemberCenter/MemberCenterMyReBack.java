@@ -133,7 +133,7 @@ public class MemberCenterMyReBack extends Activity
 					// listinfo.setChange("" + jsonObject.getString("score"));
 					listinfo.setTime(jsonObject.getString("createTime"));
 					listinfo.setTitle(jsonObject.getString("topicContent"));
-					 listinfo.setReBack(jsonObject.getString("content"));
+					listinfo.setReBack(jsonObject.getString("content"));
 					list.add(listinfo);
 
 				}
@@ -365,7 +365,26 @@ public class MemberCenterMyReBack extends Activity
 	@Override
 	public void click(View v) {
 		// TODO Auto-generated method stub
-//		Toast.makeText(MemberCenterMyReBack.this, "删除第" + (Integer) v.getTag() + "条", Toast.LENGTH_SHORT).show();
+		// Toast.makeText(MemberCenterMyReBack.this, "删除第" + (Integer)
+		// v.getTag() + "条", Toast.LENGTH_SHORT).show();
+
+		switch (v.getId()) {
+		case R.id.lin_all:
+			MyReBackModel data = list.get((Integer) v.getTag());
+			Intent intent = new Intent();
+			intent.setClass(getApplicationContext(), MemberCenterMyReBackDetail.class);
+			Bundle bundle = new Bundle();
+			bundle.putString("Reback", data.getReBack());
+			bundle.putString("Time", data.getTime());
+			bundle.putString("Title", data.getTitle());
+			intent.putExtras(bundle);
+			startActivity(intent);
+			break;
+
+		default:
+			break;
+		}
+
 	}
 
 }

@@ -33,11 +33,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 import single.wuxc.wisdomparty.R;
 import wuxc.wisdomparty.Adapter.CollectAdapter;
+import wuxc.wisdomparty.Adapter.CollectAdapter.Callback;
 import wuxc.wisdomparty.Internet.HttpGetData;
 import wuxc.wisdomparty.Internet.webview;
 import wuxc.wisdomparty.Model.CollectModel;
 
-public class MemberCenterMyCollect extends Activity implements OnTouchListener, OnClickListener, OnItemClickListener {
+public class MemberCenterMyCollect extends Activity
+		implements Callback, OnTouchListener, OnClickListener, OnItemClickListener {
 	private ListView ListData;
 	private ImageView ImageBack;
 	List<CollectModel> list = new ArrayList<CollectModel>();
@@ -83,7 +85,8 @@ public class MemberCenterMyCollect extends Activity implements OnTouchListener, 
 		setonclicklistener();
 		setheadtextview();
 		GetData();
-//		Toast.makeText(getApplicationContext(), "正在加载数据", Toast.LENGTH_SHORT).show();
+		// Toast.makeText(getApplicationContext(), "正在加载数据",
+		// Toast.LENGTH_SHORT).show();
 
 	}
 
@@ -126,7 +129,7 @@ public class MemberCenterMyCollect extends Activity implements OnTouchListener, 
 			if (jArray.length() == 0) {
 				Toast.makeText(getApplicationContext(), "无数据", Toast.LENGTH_SHORT).show();
 
-			}else {
+			} else {
 				for (int i = 0; i < jArray.length(); i++) {
 					json_data = jArray.getJSONObject(i);
 					Log.e("json_data", "" + json_data);
@@ -149,7 +152,7 @@ public class MemberCenterMyCollect extends Activity implements OnTouchListener, 
 
 				}
 			}
-		
+
 		} catch (JSONException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -257,7 +260,7 @@ public class MemberCenterMyCollect extends Activity implements OnTouchListener, 
 
 	protected void go() {
 		ListData.setPadding(0, -100, 0, 0);
-		mAdapter = new CollectAdapter(this, list, ListData);
+		mAdapter = new CollectAdapter(this, list, ListData, this);
 		ListData.setAdapter(mAdapter);
 	}
 
@@ -285,7 +288,7 @@ public class MemberCenterMyCollect extends Activity implements OnTouchListener, 
 			finish();
 			break;
 		case R.id.text_change:
-			if (list.size()!=0) {
+			if (list.size() != 0) {
 				if (TYPE == 0) {
 					TYPE = 1;
 				} else {
@@ -293,7 +296,7 @@ public class MemberCenterMyCollect extends Activity implements OnTouchListener, 
 				}
 				ChangeMode(TYPE);
 			}
-		
+
 			break;
 		default:
 			break;
@@ -442,11 +445,12 @@ public class MemberCenterMyCollect extends Activity implements OnTouchListener, 
 			intent.setClass(getApplicationContext(), webview.class);
 			Bundle bundle = new Bundle();
 			bundle.putString("url", data.getUrl());
-//			// bundle.putString("Time", "2016-11-23");
-//			// bundle.putString("Name", "小李");
-//			// bundle.putString("PageTitle", "收藏详情");
-//			// bundle.putString("Detail",
-//			// "中国共产主义青年团，简称共青团，原名中国社会主义青年团，是中国共产党领导的一个由信仰共产主义的中国青年组成的群众性组织。共青团中央委员会受中共中央委员会领导，共青团的地方各级组织受同级党的委员会领导，同时受共青团上级组织领导。1922年5月，团的第一次代表大会在广州举行，正式成立中国社会主义青年团，1925年1月26日改称中国共产主义青年团。1959年5月4日共青团中央颁布共青团团徽。");
+			// // bundle.putString("Time", "2016-11-23");
+			// // bundle.putString("Name", "小李");
+			// // bundle.putString("PageTitle", "收藏详情");
+			// // bundle.putString("Detail",
+			// //
+			// "中国共产主义青年团，简称共青团，原名中国社会主义青年团，是中国共产党领导的一个由信仰共产主义的中国青年组成的群众性组织。共青团中央委员会受中共中央委员会领导，共青团的地方各级组织受同级党的委员会领导，同时受共青团上级组织领导。1922年5月，团的第一次代表大会在广州举行，正式成立中国社会主义青年团，1925年1月26日改称中国共产主义青年团。1959年5月4日共青团中央颁布共青团团徽。");
 			intent.putExtras(bundle);
 			startActivity(intent);
 		} else {
@@ -459,6 +463,41 @@ public class MemberCenterMyCollect extends Activity implements OnTouchListener, 
 			mAdapter.notifyDataSetChanged();
 		}
 
+	}
+
+	@Override
+	public void click(View v) {
+		// TODO Auto-generated method stub
+		switch (v.getId()) {
+		case R.id.lin_all:
+			if (TYPE == 1) {
+				CollectModel data = list.get((Integer) v.getTag());
+				Intent intent = new Intent();
+				intent.setClass(getApplicationContext(), webview.class);
+				Bundle bundle = new Bundle();
+				bundle.putString("url", data.getUrl());
+				// // bundle.putString("Time", "2016-11-23");
+				// // bundle.putString("Name", "小李");
+				// // bundle.putString("PageTitle", "收藏详情");
+				// // bundle.putString("Detail",
+				// //
+				// "中国共产主义青年团，简称共青团，原名中国社会主义青年团，是中国共产党领导的一个由信仰共产主义的中国青年组成的群众性组织。共青团中央委员会受中共中央委员会领导，共青团的地方各级组织受同级党的委员会领导，同时受共青团上级组织领导。1922年5月，团的第一次代表大会在广州举行，正式成立中国社会主义青年团，1925年1月26日改称中国共产主义青年团。1959年5月4日共青团中央颁布共青团团徽。");
+				intent.putExtras(bundle);
+				startActivity(intent);
+			} else {
+				CollectModel data = list.get((Integer) v.getTag());
+				if (data.isIsselected()) {
+					data.setIsselected(false);
+				} else {
+					data.setIsselected(true);
+				}
+				mAdapter.notifyDataSetChanged();
+			}
+			break;
+
+		default:
+			break;
+		}
 	}
 
 }

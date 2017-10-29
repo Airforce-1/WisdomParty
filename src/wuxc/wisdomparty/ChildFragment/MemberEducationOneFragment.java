@@ -37,6 +37,7 @@ import android.widget.Toast;
 import android.widget.AdapterView.OnItemClickListener;
 import single.wuxc.wisdomparty.R;
 import wuxc.wisdomparty.Adapter.MemberEducationAdapter;
+import wuxc.wisdomparty.Adapter.MemberEducationAdapter.Callback;
 import wuxc.wisdomparty.HomeOfMember.RespondDetailActivity;
 import wuxc.wisdomparty.Internet.GetChannelByKey;
 import wuxc.wisdomparty.Internet.HttpGetData;
@@ -47,7 +48,7 @@ import wuxc.wisdomparty.PartyManage.AssistanceDetailActivity;
 import wuxc.wisdomparty.PartyManage.MemberEducationDetailActivity;
 
 public class MemberEducationOneFragment extends Fragment
-		implements OnTouchListener, OnClickListener, OnItemClickListener {
+		implements OnTouchListener, Callback, OnClickListener, OnItemClickListener {
 	private TextView text_list_title;
 	private ListView ListData;
 	List<MemberEducationModel> list = new ArrayList<MemberEducationModel>();
@@ -163,7 +164,7 @@ public class MemberEducationOneFragment extends Fragment
 
 	protected void go() {
 		ListData.setPadding(0, -100, 0, 0);
-		mAdapter = new MemberEducationAdapter(getActivity(), list, ListData);
+		mAdapter = new MemberEducationAdapter(getActivity(), list, ListData, this);
 		ListData.setAdapter(mAdapter);
 	}
 
@@ -255,6 +256,7 @@ public class MemberEducationOneFragment extends Fragment
 		}
 		return false;
 	}
+
 	protected void GetDataDueData(Object obj) {
 
 		// TODO Auto-generated method stub
@@ -293,7 +295,8 @@ public class MemberEducationOneFragment extends Fragment
 			jArray = new JSONArray(data);
 			JSONObject json_data = null;
 			if (jArray.length() == 0) {
-//			/	Toast.makeText(getActivity(), "无数据", Toast.LENGTH_SHORT).show();
+				// / Toast.makeText(getActivity(), "无数据",
+				// Toast.LENGTH_SHORT).show();
 
 			} else {
 				for (int i = 0; i < jArray.length(); i++) {
@@ -306,17 +309,19 @@ public class MemberEducationOneFragment extends Fragment
 					listinfo.setTitle(json_data.getString("title"));
 					listinfo.setImageUrl(json_data.getString("sacleImage"));
 					listinfo.setContent(json_data.getString("content"));
-					listinfo.setCont(true);	try {
+					listinfo.setCont(true);
+					try {
 						listinfo.setLink(json_data.getString("otherLinks"));
 						if (json_data.getString("content").equals("") || json_data.getString("content") == null
 								|| json_data.getString("content").equals("null")) {
 							listinfo.setContent(json_data.getString("content"));
-								listinfo.setCont(false);
+							listinfo.setCont(false);
 						}
 
 					} catch (Exception e) {
 						// TODO: handle exception
-					}	list.add(listinfo);
+					}
+					list.add(listinfo);
 
 				}
 			}
@@ -384,14 +389,16 @@ public class MemberEducationOneFragment extends Fragment
 	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 		// TODO Auto-generated method stub
 		MemberEducationModel data = list.get(position - 1);
-		if (data.isCont()) {	Intent intent = new Intent();
-		intent.setClass(getActivity(), AssistanceDetailActivity.class);
-		Bundle bundle = new Bundle();
-		bundle.putString("Title",   data.getTitle());
-		bundle.putString("Time",  data.getTime());
-		bundle.putString("content",  data.getContent());
-		intent.putExtras(bundle);
-		startActivity(intent);} else {
+		if (data.isCont()) {
+			Intent intent = new Intent();
+			intent.setClass(getActivity(), AssistanceDetailActivity.class);
+			Bundle bundle = new Bundle();
+			bundle.putString("Title", data.getTitle());
+			bundle.putString("Time", data.getTime());
+			bundle.putString("content", data.getContent());
+			intent.putExtras(bundle);
+			startActivity(intent);
+		} else {
 			Intent intent = new Intent();
 			intent.setClass(getActivity(), webview.class);
 			Bundle bundle = new Bundle();
@@ -455,6 +462,42 @@ public class MemberEducationOneFragment extends Fragment
 		switch (v.getId()) {
 		case R.id.text_list_title:
 
+			break;
+
+		default:
+			break;
+		}
+	}
+
+	@Override
+	public void click(View v) {
+		// TODO Auto-generated method stub
+		switch (v.getId()) {
+		case R.id.lin_all:
+			MemberEducationModel data = list.get((Integer) v.getTag());
+			if (data.isCont()) {
+				Intent intent = new Intent();
+				intent.setClass(getActivity(), AssistanceDetailActivity.class);
+				Bundle bundle = new Bundle();
+				bundle.putString("Title", data.getTitle());
+				bundle.putString("Time", data.getTime());
+				bundle.putString("content", data.getContent());
+				intent.putExtras(bundle);
+				startActivity(intent);
+			} else {
+				Intent intent = new Intent();
+				intent.setClass(getActivity(), webview.class);
+				Bundle bundle = new Bundle();
+				bundle.putString("url", data.getLink());
+				// // bundle.putString("Time", "2016-11-23");
+				// // bundle.putString("Name", "小李");
+				// // bundle.putString("PageTitle", "收藏详情");
+				// // bundle.putString("Detail",
+				// //
+				// "中国共产主义青年团，简称共青团，原名中国社会主义青年团，是中国共产党领导的一个由信仰共产主义的中国青年组成的群众性组织。共青团中央委员会受中共中央委员会领导，共青团的地方各级组织受同级党的委员会领导，同时受共青团上级组织领导。1922年5月，团的第一次代表大会在广州举行，正式成立中国社会主义青年团，1925年1月26日改称中国共产主义青年团。1959年5月4日共青团中央颁布共青团团徽。");
+				intent.putExtras(bundle);
+				startActivity(intent);
+			}
 			break;
 
 		default:

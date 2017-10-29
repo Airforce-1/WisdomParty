@@ -35,6 +35,7 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.view.Window;
 import single.wuxc.wisdomparty.R;
 import wuxc.wisdomparty.Adapter.MedicalShopAdapter;
+import wuxc.wisdomparty.Adapter.MedicalShopAdapter.Callback;
 import wuxc.wisdomparty.Internet.GetChannelByKey;
 import wuxc.wisdomparty.Internet.HttpGetData;
 import wuxc.wisdomparty.Internet.URLcontainer;
@@ -44,7 +45,8 @@ import wuxc.wisdomparty.PartyManage.SpecialDetailActivity;
 import wuxc.wisdomparty.Model.MedicalShopModel;
 import wuxc.wisdomparty.Model.MedicalShopModel;
 
-public class MedicalShopOfHealth extends Activity implements OnTouchListener, OnClickListener, OnItemClickListener {
+public class MedicalShopOfHealth extends Activity
+		implements OnTouchListener, OnClickListener, OnItemClickListener, Callback {
 	private ListView ListData;
 	private ImageView ImageBack;
 	List<MedicalShopModel> list = new ArrayList<MedicalShopModel>();
@@ -294,7 +296,7 @@ public class MedicalShopOfHealth extends Activity implements OnTouchListener, On
 
 	protected void go() {
 		ListData.setPadding(0, -100, 0, 0);
-		mAdapter = new MedicalShopAdapter(this, list, ListData);
+		mAdapter = new MedicalShopAdapter(this, list, ListData, this);
 		ListData.setAdapter(mAdapter);
 	}
 
@@ -448,6 +450,54 @@ public class MedicalShopOfHealth extends Activity implements OnTouchListener, On
 			}
 		}
 
+	}
+
+	@Override
+	public void click(View v) {
+		// TODO Auto-generated method stub
+		switch (v.getId()) {
+		case R.id.lin_all:
+			MedicalShopModel data = list.get((Integer) v.getTag());
+			try {
+
+				Intent intent = new Intent();
+				intent.setAction("android.intent.action.VIEW");
+				String path = data.getUrl();
+				Uri content_url = Uri.parse(path);
+				intent.setData(content_url);
+				startActivity(intent);
+			} catch (Exception e) {
+				// TODO: handle exception
+				if (data.isCont()) {
+					Intent intent = new Intent();
+					intent.setClass(this, SpecialDetailActivity.class);
+					Bundle bundle = new Bundle();
+					bundle.putString("Title", data.getTitle());
+					bundle.putString("detail", data.getDetail());
+					bundle.putString("Time", data.getTime());
+					bundle.putString("Name", "");
+					intent.putExtras(bundle);
+					startActivity(intent);
+				} else {
+					Intent intent = new Intent();
+					intent.setClass(this, webview.class);
+					Bundle bundle = new Bundle();
+					bundle.putString("url", data.getLink());
+					// // bundle.putString("Time", "2016-11-23");
+					// // bundle.putString("Name", "小李");
+					// // bundle.putString("PageTitle", "收藏详情");
+					// // bundle.putString("Detail",
+					// //
+					// "中国共产主义青年团，简称共青团，原名中国社会主义青年团，是中国共产党领导的一个由信仰共产主义的中国青年组成的群众性组织。共青团中央委员会受中共中央委员会领导，共青团的地方各级组织受同级党的委员会领导，同时受共青团上级组织领导。1922年5月，团的第一次代表大会在广州举行，正式成立中国社会主义青年团，1925年1月26日改称中国共产主义青年团。1959年5月4日共青团中央颁布共青团团徽。");
+					intent.putExtras(bundle);
+					startActivity(intent);
+				}
+			}
+			break;
+
+		default:
+			break;
+		}
 	}
 
 }

@@ -91,7 +91,8 @@ public class MemberCenterMyPost extends Activity
 		PreUserInfo = getSharedPreferences("UserInfo", Context.MODE_PRIVATE);
 		ReadTicket();
 		GetData();
-//		Toast.makeText(getApplicationContext(), "正在加载数据", Toast.LENGTH_SHORT).show();
+		// Toast.makeText(getApplicationContext(), "正在加载数据",
+		// Toast.LENGTH_SHORT).show();
 
 	}
 
@@ -405,7 +406,24 @@ public class MemberCenterMyPost extends Activity
 		// TODO Auto-generated method stub
 		// Toast.makeText(MemberCenterMyPost.this, "删除第" + (Integer) v.getTag()
 		// + "条", Toast.LENGTH_SHORT).show();
-		showAlertDialog((Integer) v.getTag());
+
+		switch (v.getId()) {
+		case R.id.lin_all:
+			MyPostModel data = list.get((Integer) v.getTag());
+			Intent intent = new Intent();
+			intent.setClass(getApplicationContext(), webview.class);
+			Bundle bundle = new Bundle();
+			bundle.putString("url", data.getUrl());
+
+			intent.putExtras(bundle);
+			startActivity(intent);
+			break;
+		case R.id.image_delete:
+			showAlertDialog((Integer) v.getTag());
+			break;
+		default:
+			break;
+		}
 	}
 
 	public void showAlertDialog(final Integer integer) {
@@ -418,7 +436,7 @@ public class MemberCenterMyPost extends Activity
 				dialog.dismiss();
 				MyPostModel data = list.get(integer);
 				deletekeyid(data.getKeyid());
-				list.remove(integer-1);
+				list.remove(integer - 1);
 				mAdapter.notifyDataSetChanged();
 			}
 		});

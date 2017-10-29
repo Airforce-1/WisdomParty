@@ -18,6 +18,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.View.OnClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -25,6 +26,7 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import single.wuxc.wisdomparty.R;
+import wuxc.wisdomparty.Adapter.RewardsAdapter.Callback;
 import wuxc.wisdomparty.Cache.SpecialCache;
 import wuxc.wisdomparty.Internet.ImageLoader;
 import wuxc.wisdomparty.Internet.ImageLoader.ImageCallback;
@@ -32,18 +34,30 @@ import wuxc.wisdomparty.Internet.URLcontainer;
 import wuxc.wisdomparty.Internet.getcha;
 import wuxc.wisdomparty.Model.SpecialModel;;
 
-public class SpecialAdapter extends ArrayAdapter<SpecialModel> {
+public class SpecialAdapter extends ArrayAdapter<SpecialModel> implements OnClickListener {
 	private ListView listView;
 	private ImageLoader ImageLoader;
 	private String imageurl = "";
 	private int screenwidth = 0;
 	private Activity thisactivity;
+	private Callback mCallback;
 
-	public SpecialAdapter(Activity activity, List<SpecialModel> imageAndTexts, ListView listView) {
+	public SpecialAdapter(Activity activity, List<SpecialModel> imageAndTexts, ListView listView, Callback callback) {
 		super(activity, 0, imageAndTexts);
 		this.listView = listView;
 		this.thisactivity = activity;
 		ImageLoader = new ImageLoader();
+		mCallback = callback;
+	}
+
+	@Override
+	public void onClick(View v) {
+		// TODO Auto-generated method stub
+		mCallback.click(v);
+	}
+
+	public interface Callback {
+		public void click(View v);
 	}
 
 	public View getView(int position, View convertView, ViewGroup parent) {
@@ -52,59 +66,63 @@ public class SpecialAdapter extends ArrayAdapter<SpecialModel> {
 		// Inflate the views from XML
 		View rowView = convertView;
 		SpecialCache viewCache;
-	 
-			LayoutInflater inflater = activity.getLayoutInflater();
-			rowView = inflater.inflate(R.layout.item_special, null);
-			viewCache = new SpecialCache(rowView);
-			rowView.setTag(viewCache);
-		 
+
+		LayoutInflater inflater = activity.getLayoutInflater();
+		rowView = inflater.inflate(R.layout.item_special, null);
+		viewCache = new SpecialCache(rowView);
+		rowView.setTag(viewCache);
+
 		SpecialModel imageAndText = getItem(position);
 
 		// Load the image and set it on the ImageView
 		String imageUrl = imageAndText.getImageUrl();
 		ImageView imageView = viewCache.getImageHeadimg();
-//		imageView.setTag(URLcontainer.urlip + URLcontainer.GetFile + imageUrl);
-//		Log.e("imageUrl", imageUrl);
-//		if (imageUrl.equals(imageurl) || imageUrl.equals("null")) {
-//			imageView.setImageResource(R.drawable.special_list_headimg);
-//		} else {
-//			try {
-//				String imageName1 = getBitName(imageUrl);
-//				String temppath = Environment.getExternalStorageDirectory() + "/chat/" + imageName1 + ".png";
-//				Bitmap bm1 = null;
-//				bm1 = getBitmapByPath(temppath);
-//				if (bm1 == null) {
-//					imageUrl = URLcontainer.urlip + URLcontainer.GetFile + imageUrl;
-//					Log.e("imageUrl", imageUrl);
-//					Drawable cachedImage = ImageLoader.loadDrawable(imageUrl, new ImageCallback() {
-//						public void imageLoaded(Drawable imageDrawable, String imageUrl) {
-//							ImageView imageViewByTag = (ImageView) listView.findViewWithTag(imageUrl);
-//							if (imageViewByTag != null) {
-//								imageViewByTag.setImageDrawable(imageDrawable);
-//							}
-//						}
-//					});
-//					if (cachedImage == null) {
-//						imageView.setImageResource(R.drawable.special_list_headimg);
-//					} else {
-//						Drawable d = cachedImage; // xxx根据自己的情况获取drawable
-//
-//						BitmapDrawable bd = (BitmapDrawable) d;
-//
-//						Bitmap bm = bd.getBitmap();
-//						bm = cutBmp(bm);
-//						imageView.setImageBitmap(bm);
-//					}
-//				} else {
-//					imageView.setImageBitmap(bm1);
-//				}
-//			} catch (Exception e) {
-//				// TODO: handle exception
-//			} catch (OutOfMemoryError e) {
-//				// TODO: handle exception
-//			}
-//
-//		}
+		// imageView.setTag(URLcontainer.urlip + URLcontainer.GetFile +
+		// imageUrl);
+		// Log.e("imageUrl", imageUrl);
+		// if (imageUrl.equals(imageurl) || imageUrl.equals("null")) {
+		// imageView.setImageResource(R.drawable.special_list_headimg);
+		// } else {
+		// try {
+		// String imageName1 = getBitName(imageUrl);
+		// String temppath = Environment.getExternalStorageDirectory() +
+		// "/chat/" + imageName1 + ".png";
+		// Bitmap bm1 = null;
+		// bm1 = getBitmapByPath(temppath);
+		// if (bm1 == null) {
+		// imageUrl = URLcontainer.urlip + URLcontainer.GetFile + imageUrl;
+		// Log.e("imageUrl", imageUrl);
+		// Drawable cachedImage = ImageLoader.loadDrawable(imageUrl, new
+		// ImageCallback() {
+		// public void imageLoaded(Drawable imageDrawable, String imageUrl) {
+		// ImageView imageViewByTag = (ImageView)
+		// listView.findViewWithTag(imageUrl);
+		// if (imageViewByTag != null) {
+		// imageViewByTag.setImageDrawable(imageDrawable);
+		// }
+		// }
+		// });
+		// if (cachedImage == null) {
+		// imageView.setImageResource(R.drawable.special_list_headimg);
+		// } else {
+		// Drawable d = cachedImage; // xxx根据自己的情况获取drawable
+		//
+		// BitmapDrawable bd = (BitmapDrawable) d;
+		//
+		// Bitmap bm = bd.getBitmap();
+		// bm = cutBmp(bm);
+		// imageView.setImageBitmap(bm);
+		// }
+		// } else {
+		// imageView.setImageBitmap(bm1);
+		// }
+		// } catch (Exception e) {
+		// // TODO: handle exception
+		// } catch (OutOfMemoryError e) {
+		// // TODO: handle exception
+		// }
+		//
+		// }
 		TextView TextNUmber = viewCache.getTextNumber();
 		TextNUmber.setText(imageAndText.getNumber());
 		TextView TextTitle = viewCache.getTextTitle();
@@ -112,10 +130,13 @@ public class SpecialAdapter extends ArrayAdapter<SpecialModel> {
 		TextView TextTime = viewCache.getTextTime();
 		TextTime.setText("" + imageAndText.getTime());
 		TextView TextDetail = viewCache.getTextDetail();
+		LinearLayout lin_all = viewCache.getlin_all();
+		lin_all.setTag(position);
+		lin_all.setOnClickListener(this);
 		if (imageAndText.getSummary().equals("") || imageAndText.getSummary().equals("null")
 				|| imageAndText.getSummary().equals("null")) {
 			TextDetail.setText(getcha.gethan(imageAndText.getDetail()));
-		}else {
+		} else {
 			TextDetail.setText(imageAndText.getSummary());
 		}
 		return rowView;

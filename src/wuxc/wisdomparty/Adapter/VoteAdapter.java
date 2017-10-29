@@ -16,6 +16,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.View.OnClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -23,6 +24,7 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import single.wuxc.wisdomparty.R;
+import wuxc.wisdomparty.Adapter.RewardsAdapter.Callback;
 import wuxc.wisdomparty.Cache.VoteCache;
 import wuxc.wisdomparty.Internet.ImageLoader;
 import wuxc.wisdomparty.Internet.ImageLoader.ImageCallback;
@@ -30,18 +32,30 @@ import wuxc.wisdomparty.Internet.URLcontainer;
 import wuxc.wisdomparty.Internet.getcha;
 import wuxc.wisdomparty.Model.VoteModel;;
 
-public class VoteAdapter extends ArrayAdapter<VoteModel> {
+public class VoteAdapter extends ArrayAdapter<VoteModel> implements OnClickListener {
 	private ListView listView;
 	private ImageLoader ImageLoader;
 	private String imageurl = "";
 	private int screenwidth = 0;
 	private Activity thisactivity;
+	private Callback mCallback;
 
-	public VoteAdapter(Activity activity, List<VoteModel> imageAndTexts, ListView listView) {
+	public VoteAdapter(Activity activity, List<VoteModel> imageAndTexts, ListView listView, Callback callback) {
 		super(activity, 0, imageAndTexts);
 		this.listView = listView;
 		this.thisactivity = activity;
 		ImageLoader = new ImageLoader();
+		mCallback = callback;
+	}
+
+	@Override
+	public void onClick(View v) {
+		// TODO Auto-generated method stub
+		mCallback.click(v);
+	}
+
+	public interface Callback {
+		public void click(View v);
 	}
 
 	public View getView(int position, View convertView, ViewGroup parent) {
@@ -115,7 +129,9 @@ public class VoteAdapter extends ArrayAdapter<VoteModel> {
 		TextTitle.setText("" + imageAndText.getTitle());
 		TextView TextDetail = viewCache.getTextDetail();
 		TextDetail.setText("" + getcha.gethan(imageAndText.getDetail()));
-
+		LinearLayout lin_all = viewCache.getlin_all();
+		lin_all.setTag(position);
+		lin_all.setOnClickListener(this);
 		return rowView;
 	}
 

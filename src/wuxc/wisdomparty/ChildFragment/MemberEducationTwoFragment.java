@@ -5,8 +5,17 @@ import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import org.apache.http.message.BasicNameValuePair;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import com.umeng.socialize.utils.Log;
+
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
@@ -28,12 +37,18 @@ import android.widget.Toast;
 import android.widget.AdapterView.OnItemClickListener;
 import single.wuxc.wisdomparty.R;
 import wuxc.wisdomparty.Adapter.MemberEducationAdapter;
+import wuxc.wisdomparty.Adapter.MemberEducationAdapter.Callback;
 import wuxc.wisdomparty.HomeOfMember.RespondDetailActivity;
+import wuxc.wisdomparty.Internet.GetChannelByKey;
+import wuxc.wisdomparty.Internet.HttpGetData;
+import wuxc.wisdomparty.Internet.webview;
 import wuxc.wisdomparty.Model.MemberEducationModel;
+import wuxc.wisdomparty.Model.MemberEducationModel;
+import wuxc.wisdomparty.PartyManage.AssistanceDetailActivity;
 import wuxc.wisdomparty.PartyManage.MemberEducationDetailActivity;
 
 public class MemberEducationTwoFragment extends Fragment
-		implements OnTouchListener, OnClickListener, OnItemClickListener {
+		implements OnTouchListener, Callback, OnClickListener, OnItemClickListener {
 	private TextView text_list_title;
 	private ListView ListData;
 	List<MemberEducationModel> list = new ArrayList<MemberEducationModel>();
@@ -49,17 +64,25 @@ public class MemberEducationTwoFragment extends Fragment
 	private int curPage = 1;
 	private final static int RATIO = 2;
 	private TextView headTextView = null;
-	private Handler uiHandler = new Handler() {
-		@Override
-		public void handleMessage(Message msg1) {
-			switch (msg1.what) {
-			case 0:
-				getdatalist();
-				break;
+	private String ticket;
+	private String chn;
+	private String userPhoto;
+	private String LoginId;
+	private SharedPreferences PreUserInfo;// 存储个人信息
+	private SharedPreferences PreALLChannel;// 存储所用频道信息
+	private static final String GET_SUCCESS_RESULT = "success";
+	private static final String GET_FAIL_RESULT = "fail";
+	private static final int GET_DUE_DATA = 6;
 
+	public Handler uiHandler = new Handler() {
+		@Override
+		public void handleMessage(Message msg) {
+			switch (msg.what) {
+			case GET_DUE_DATA:
+				GetDataDueData(msg.obj);
+				break;
 			default:
 				break;
-
 			}
 		}
 	};
@@ -89,7 +112,10 @@ public class MemberEducationTwoFragment extends Fragment
 		initview(view);
 		setonclicklistener();
 		setheadtextview();
-		getdatalist(curPage);
+		PreUserInfo = getActivity().getSharedPreferences("UserInfo", Context.MODE_PRIVATE);
+		PreALLChannel = getActivity().getSharedPreferences("ALLChannel", Context.MODE_PRIVATE);
+		ReadTicket();
+		GetData();
 		return view;
 	}
 
@@ -138,7 +164,7 @@ public class MemberEducationTwoFragment extends Fragment
 
 	protected void go() {
 		ListData.setPadding(0, -100, 0, 0);
-		mAdapter = new MemberEducationAdapter(getActivity(), list, ListData);
+		mAdapter = new MemberEducationAdapter(getActivity(), list, ListData, this);
 		ListData.setAdapter(mAdapter);
 	}
 
@@ -196,7 +222,7 @@ public class MemberEducationTwoFragment extends Fragment
 			} else {
 				curPage = 1;
 				Toast.makeText(getActivity(), "正在刷新", Toast.LENGTH_SHORT).show();
-				getdatalist(curPage);
+				GetData();
 			}
 			int temp = 1;
 			temp = (lastItemIndex) % pageSize;
@@ -207,7 +233,7 @@ public class MemberEducationTwoFragment extends Fragment
 					Toast.makeText(getActivity(), " 没有更多了", Toast.LENGTH_SHORT).show();
 					// // listinfoagain();
 				} else {
-					getdatalist(curPage);
+					GetData();
 					Toast.makeText(getActivity(), "正在加载下一页", Toast.LENGTH_SHORT).show();
 				}
 
@@ -231,17 +257,161 @@ public class MemberEducationTwoFragment extends Fragment
 		return false;
 	}
 
+	protected void GetDataDueData(Object obj) {
+
+		// TODO Auto-generated method stub
+		String Type = null;
+		String Data = null;
+		String pager = null;
+		try {
+			JSONObject demoJson = new JSONObject(obj.toString());
+			Type = demoJson.getString("type");
+			pager = demoJson.getString("pager");
+			Data = demoJson.getString("datas");
+			if (Type.equals(GET_SUCCESS_RESULT)) {
+				GetPager(pager);
+				GetDataList(Data, curPage);
+			} else if (Type.equals(GET_FAIL_RESULT)) {
+				Toast.makeText(getActivity(), "服务器数据失败", Toast.LENGTH_SHORT).show();
+			} else {
+				Toast.makeText(getActivity(), "数据格式校验失败", Toast.LENGTH_SHORT).show();
+			}
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+	}
+
+	private void GetDataList(String data, int arg) {
+		text_list_title.setVisibility(View.GONE);
+		;
+		if (arg == 1) {
+			list.clear();
+		}
+		JSONArray jArray = null;
+		try {
+			jArray = new JSONArray(data);
+			JSONObject json_data = null;
+			if (jArray.length() == 0) {
+				// / Toast.makeText(getActivity(), "无数据",
+				// Toast.LENGTH_SHORT).show();
+
+			} else {
+				for (int i = 0; i < jArray.length(); i++) {
+					json_data = jArray.getJSONObject(i);
+					Log.e("json_data", "" + json_data);
+					// JSONObject jsonObject = json_data.getJSONObject("data");
+					MemberEducationModel listinfo = new MemberEducationModel();
+
+					listinfo.setTime(json_data.getString("createtime"));
+					listinfo.setTitle(json_data.getString("title"));
+					listinfo.setImageUrl(json_data.getString("sacleImage"));
+					listinfo.setContent(json_data.getString("content"));
+					listinfo.setCont(true);
+					try {
+						listinfo.setLink(json_data.getString("otherLinks"));
+						if (json_data.getString("content").equals("") || json_data.getString("content") == null
+								|| json_data.getString("content").equals("null")) {
+							listinfo.setContent(json_data.getString("content"));
+							listinfo.setCont(false);
+						}
+
+					} catch (Exception e) {
+						// TODO: handle exception
+					}
+					list.add(listinfo);
+
+				}
+			}
+
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		if (arg == 1) {
+			go();
+		} else {
+			mAdapter.notifyDataSetChanged();
+		}
+
+	}
+
+	private void GetPager(String pager) {
+		// TODO Auto-generated method stub
+		try {
+			JSONObject demoJson = new JSONObject(pager);
+
+			totalPage = demoJson.getInt("totalPage");
+
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+	}
+
+	private void ReadTicket() {
+		// TODO Auto-generated method stub
+		ticket = PreUserInfo.getString("ticket", "");
+		userPhoto = PreUserInfo.getString("userPhoto", "");
+		LoginId = PreUserInfo.getString("userName", "");
+	}
+
+	private void GetData() {
+		// TODO Auto-generated method stub
+
+		// TODO Auto-generated method stub
+		final ArrayList ArrayValues = new ArrayList();
+		ArrayValues.add(new BasicNameValuePair("ticket", ticket));
+		chn = GetChannelByKey.GetSign(PreALLChannel, "党员教育");
+		ArrayValues.add(new BasicNameValuePair("chn", chn));
+		ArrayValues.add(new BasicNameValuePair("curPage", "" + curPage));
+		ArrayValues.add(new BasicNameValuePair("pageSize", "" + pageSize));
+		new Thread(new Runnable() { // 开启线程上传文件
+			@Override
+			public void run() {
+				String DueData = "";
+				DueData = HttpGetData.GetData("api/cms/channel/channleListData", ArrayValues);
+				Message msg = new Message();
+				msg.obj = DueData;
+				msg.what = GET_DUE_DATA;
+				uiHandler.sendMessage(msg);
+			}
+		}).start();
+
+	}
+
 	@Override
 	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 		// TODO Auto-generated method stub
 		MemberEducationModel data = list.get(position - 1);
-		Intent intent = new Intent();
-		intent.setClass(getActivity(), MemberEducationDetailActivity.class);
-		Bundle bundle = new Bundle();
-		bundle.putString("Title",   data.getTitle());
-		bundle.putString("Time",  data.getTime());
-		intent.putExtras(bundle);
-		startActivity(intent);
+		if (data.isCont()) {
+			Intent intent = new Intent();
+			intent.setClass(getActivity(), AssistanceDetailActivity.class);
+			Bundle bundle = new Bundle();
+			bundle.putString("Title", data.getTitle());
+			bundle.putString("Time", data.getTime());
+			bundle.putString("content", data.getContent());
+			intent.putExtras(bundle);
+			startActivity(intent);
+		} else {
+			Intent intent = new Intent();
+			intent.setClass(getActivity(), webview.class);
+			Bundle bundle = new Bundle();
+			bundle.putString("url", data.getLink());
+			// // bundle.putString("Time", "2016-11-23");
+			// // bundle.putString("Name", "小李");
+			// // bundle.putString("PageTitle", "收藏详情");
+			// // bundle.putString("Detail",
+			// //
+			// "中国共产主义青年团，简称共青团，原名中国社会主义青年团，是中国共产党领导的一个由信仰共产主义的中国青年组成的群众性组织。共青团中央委员会受中共中央委员会领导，共青团的地方各级组织受同级党的委员会领导，同时受共青团上级组织领导。1922年5月，团的第一次代表大会在广州举行，正式成立中国社会主义青年团，1925年1月26日改称中国共产主义青年团。1959年5月4日共青团中央颁布共青团团徽。");
+			intent.putExtras(bundle);
+			startActivity(intent);
+		}
 	}
 
 	@Override
@@ -292,6 +462,42 @@ public class MemberEducationTwoFragment extends Fragment
 		switch (v.getId()) {
 		case R.id.text_list_title:
 
+			break;
+
+		default:
+			break;
+		}
+	}
+
+	@Override
+	public void click(View v) {
+		// TODO Auto-generated method stub
+		switch (v.getId()) {
+		case R.id.lin_all:
+			MemberEducationModel data = list.get((Integer) v.getTag());
+			if (data.isCont()) {
+				Intent intent = new Intent();
+				intent.setClass(getActivity(), AssistanceDetailActivity.class);
+				Bundle bundle = new Bundle();
+				bundle.putString("Title", data.getTitle());
+				bundle.putString("Time", data.getTime());
+				bundle.putString("content", data.getContent());
+				intent.putExtras(bundle);
+				startActivity(intent);
+			} else {
+				Intent intent = new Intent();
+				intent.setClass(getActivity(), webview.class);
+				Bundle bundle = new Bundle();
+				bundle.putString("url", data.getLink());
+				// // bundle.putString("Time", "2016-11-23");
+				// // bundle.putString("Name", "小李");
+				// // bundle.putString("PageTitle", "收藏详情");
+				// // bundle.putString("Detail",
+				// //
+				// "中国共产主义青年团，简称共青团，原名中国社会主义青年团，是中国共产党领导的一个由信仰共产主义的中国青年组成的群众性组织。共青团中央委员会受中共中央委员会领导，共青团的地方各级组织受同级党的委员会领导，同时受共青团上级组织领导。1922年5月，团的第一次代表大会在广州举行，正式成立中国社会主义青年团，1925年1月26日改称中国共产主义青年团。1959年5月4日共青团中央颁布共青团团徽。");
+				intent.putExtras(bundle);
+				startActivity(intent);
+			}
 			break;
 
 		default:

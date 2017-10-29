@@ -2,6 +2,7 @@ package wuxc.wisdomparty.Cache;
 
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import single.wuxc.wisdomparty.R;
 import wuxc.wisdomparty.layout.RoundImageView;
@@ -15,6 +16,15 @@ public class DiscussionCache {
 	private TextView TextanswerNumber;
 	private TextView TextName;
 	private TextView TextTime;
+
+	private LinearLayout lin_all;
+
+	public LinearLayout getlin_all() {
+		if (lin_all == null) {
+			lin_all = (LinearLayout) baseView.findViewById(R.id.lin_all);
+		}
+		return lin_all;
+	}
 
 	public DiscussionCache(View baseView) {
 		this.baseView = baseView;

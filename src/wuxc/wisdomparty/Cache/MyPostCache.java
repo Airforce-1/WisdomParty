@@ -18,6 +18,14 @@ public class MyPostCache {
 	private TextView TextMyReBack;
 	private ImageView ImageDelete;
 	private RoundedImageView HeadImg;
+	private LinearLayout lin_all;
+
+	public LinearLayout getlin_all() {
+		if (lin_all == null) {
+			lin_all = (LinearLayout) baseView.findViewById(R.id.lin_all);
+		}
+		return lin_all;
+	}
 
 	public MyPostCache(View baseView) {
 		this.baseView = baseView;

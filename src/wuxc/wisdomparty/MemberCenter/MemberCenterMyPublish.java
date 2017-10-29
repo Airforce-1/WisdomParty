@@ -132,11 +132,11 @@ public class MemberCenterMyPublish extends Activity
 					Log.e("json_data", "" + json_data);
 					JSONObject jsonObject = json_data.getJSONObject("data");
 					MyPublishModel listinfo = new MyPublishModel();
-//					listinfo.setDetail(jsonObject.getString("ctype"));
-//					listinfo.setChange("" + jsonObject.getString("score"));
+					// listinfo.setDetail(jsonObject.getString("ctype"));
+					// listinfo.setChange("" + jsonObject.getString("score"));
 					listinfo.setTime(jsonObject.getString("createTime"));
 					listinfo.setTitle(jsonObject.getString("user_name"));
-					 listinfo.setBigTime(jsonObject.getString("content"));
+					listinfo.setBigTime(jsonObject.getString("content"));
 					list.add(listinfo);
 
 				}
@@ -383,9 +383,22 @@ public class MemberCenterMyPublish extends Activity
 
 	@Override
 	public void click(View v) {
-		// TODO Auto-generated method stub
-		// Toast.makeText(MemberCenterMyPublish.this, "É¾³ýµÚ" + (Integer)
-		// v.getTag() + "Ìõ", Toast.LENGTH_SHORT).show();
+		switch (v.getId()) {
+		case R.id.lin_all:
+			MyPublishModel data = list.get((Integer) v.getTag());
+			Intent intent = new Intent();
+			intent.setClass(getApplicationContext(), MemberCenterMyReBackDetail.class);
+			Bundle bundle = new Bundle();
+			bundle.putString("Reback", data.getBigTime());
+			bundle.putString("Time", data.getTime());
+			bundle.putString("Title", data.getTitle());
+			intent.putExtras(bundle);
+			startActivity(intent);
+			break;
+
+		default:
+			break;
+		}
 	}
 
 }

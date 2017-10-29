@@ -16,6 +16,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.View.OnClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -23,6 +24,7 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import single.wuxc.wisdomparty.R;
+import wuxc.wisdomparty.Adapter.RewardsAdapter.Callback;
 import wuxc.wisdomparty.Cache.PartyNewsCache;
 import wuxc.wisdomparty.Internet.ImageLoader;
 import wuxc.wisdomparty.Internet.ImageLoader.ImageCallback;
@@ -30,18 +32,31 @@ import wuxc.wisdomparty.Internet.URLcontainer;
 import wuxc.wisdomparty.Internet.getcha;
 import wuxc.wisdomparty.Model.PartyNewsModel;;
 
-public class PartyNewsAdapter extends ArrayAdapter<PartyNewsModel> {
+public class PartyNewsAdapter extends ArrayAdapter<PartyNewsModel> implements OnClickListener {
 	private ListView listView;
 	private ImageLoader ImageLoader;
 	private String imageurl = "";
 	private int screenwidth = 0;
 	private Activity thisactivity;
+	private Callback mCallback;
 
-	public PartyNewsAdapter(Activity activity, List<PartyNewsModel> imageAndTexts, ListView listView) {
+	public PartyNewsAdapter(Activity activity, List<PartyNewsModel> imageAndTexts, ListView listView,
+			Callback callback) {
 		super(activity, 0, imageAndTexts);
 		this.listView = listView;
 		this.thisactivity = activity;
 		ImageLoader = new ImageLoader();
+		mCallback = callback;
+	}
+
+	@Override
+	public void onClick(View v) {
+		// TODO Auto-generated method stub
+		mCallback.click(v);
+	}
+
+	public interface Callback {
+		public void click(View v);
 	}
 
 	public View getView(int position, View convertView, ViewGroup parent) {
@@ -70,11 +85,12 @@ public class PartyNewsAdapter extends ArrayAdapter<PartyNewsModel> {
 		if (imageAndText.getSummary().equals("") || imageAndText.getSummary().equals("null")
 				|| imageAndText.getSummary().equals("null")) {
 			TextDetail.setText(getcha.gethan(imageAndText.getDetail()));
-		}else {
+		} else {
 			TextDetail.setText(imageAndText.getSummary());
 		}
-		
-	
+		LinearLayout lin_all = viewCache.getlin_all();
+		lin_all.setTag(position);
+		lin_all.setOnClickListener(this);
 		TextView TextTitle = viewCache.getTextTitle();
 		TextTitle.setText("" + imageAndText.getTitle());
 		TextView TextTime = viewCache.getTextTime();

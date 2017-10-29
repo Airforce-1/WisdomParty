@@ -34,6 +34,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import single.wuxc.wisdomparty.R;
 import wuxc.wisdomparty.Adapter.RewardsAdapter;
+import wuxc.wisdomparty.Adapter.RewardsAdapter.Callback;
 import wuxc.wisdomparty.Internet.GetChannelByKey;
 import wuxc.wisdomparty.Internet.HttpGetData;
 import wuxc.wisdomparty.Internet.webview;
@@ -43,7 +44,8 @@ import wuxc.wisdomparty.PartyManage.RewardsDetailActivity;
 import wuxc.wisdomparty.add.orgDetailActivity;
 import wuxc.wisdomparty.Model.RewardsModel;
 
-public class DynamicActivity extends Activity implements OnTouchListener, OnClickListener, OnItemClickListener {
+public class DynamicActivity extends Activity
+		implements Callback, OnTouchListener, OnClickListener, OnItemClickListener {
 	private ListView ListData;
 	private ImageView ImageBack;
 	List<RewardsModel> list = new ArrayList<RewardsModel>();
@@ -282,7 +284,7 @@ public class DynamicActivity extends Activity implements OnTouchListener, OnClic
 
 	protected void go() {
 		ListData.setPadding(0, -100, 0, 0);
-		mAdapter = new RewardsAdapter(this, list, ListData);
+		mAdapter = new RewardsAdapter(this, list, ListData, this);
 		ListData.setAdapter(mAdapter);
 	}
 
@@ -392,29 +394,42 @@ public class DynamicActivity extends Activity implements OnTouchListener, OnClic
 	@Override
 	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 		// TODO Auto-generated method stub
-		RewardsModel data = list.get(position - 1);
-		if (data.isCont()) {
-			Intent intent = new Intent();
-			intent.setClass(getApplicationContext(), AssistanceDetailActivity.class);
-			Bundle bundle = new Bundle();
-			bundle.putString("content", data.getDetail());
-			bundle.putString("Title", data.getTitle());
-			bundle.putString("Time", data.getTime());
-			intent.putExtras(bundle);
-			startActivity(intent);
-		} else {
-			Intent intent = new Intent();
-			intent.setClass(getApplicationContext(), webview.class);
-			Bundle bundle = new Bundle();
-			bundle.putString("url", data.getLink());
-			// // bundle.putString("Time", "2016-11-23");
-			// // bundle.putString("Name", "小李");
-			// // bundle.putString("PageTitle", "收藏详情");
-			// // bundle.putString("Detail",
-			// //
-			// "中国共产主义青年团，简称共青团，原名中国社会主义青年团，是中国共产党领导的一个由信仰共产主义的中国青年组成的群众性组织。共青团中央委员会受中共中央委员会领导，共青团的地方各级组织受同级党的委员会领导，同时受共青团上级组织领导。1922年5月，团的第一次代表大会在广州举行，正式成立中国社会主义青年团，1925年1月26日改称中国共产主义青年团。1959年5月4日共青团中央颁布共青团团徽。");
-			intent.putExtras(bundle);
-			startActivity(intent);
+
+	}
+
+	@Override
+	public void click(View v) {
+		// TODO Auto-generated method stub
+		switch (v.getId()) {
+		case R.id.lin_all:
+			RewardsModel data = list.get((Integer) v.getTag());
+			if (data.isCont()) {
+				Intent intent = new Intent();
+				intent.setClass(getApplicationContext(), AssistanceDetailActivity.class);
+				Bundle bundle = new Bundle();
+				bundle.putString("content", data.getDetail());
+				bundle.putString("Title", data.getTitle());
+				bundle.putString("Time", data.getTime());
+				intent.putExtras(bundle);
+				startActivity(intent);
+			} else {
+				Intent intent = new Intent();
+				intent.setClass(getApplicationContext(), webview.class);
+				Bundle bundle = new Bundle();
+				bundle.putString("url", data.getLink());
+				// // bundle.putString("Time", "2016-11-23");
+				// // bundle.putString("Name", "小李");
+				// // bundle.putString("PageTitle", "收藏详情");
+				// // bundle.putString("Detail",
+				// //
+				// "中国共产主义青年团，简称共青团，原名中国社会主义青年团，是中国共产党领导的一个由信仰共产主义的中国青年组成的群众性组织。共青团中央委员会受中共中央委员会领导，共青团的地方各级组织受同级党的委员会领导，同时受共青团上级组织领导。1922年5月，团的第一次代表大会在广州举行，正式成立中国社会主义青年团，1925年1月26日改称中国共产主义青年团。1959年5月4日共青团中央颁布共青团团徽。");
+				intent.putExtras(bundle);
+				startActivity(intent);
+			}
+			break;
+
+		default:
+			break;
 		}
 	}
 

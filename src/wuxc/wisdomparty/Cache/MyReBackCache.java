@@ -15,6 +15,14 @@ public class MyReBackCache {
 	private TextView TextReBack;
 	private TextView TextTitle;
 	private ImageView ImageDelete;
+	private LinearLayout lin_all;
+
+	public LinearLayout getlin_all() {
+		if (lin_all == null) {
+			lin_all = (LinearLayout) baseView.findViewById(R.id.lin_all);
+		}
+		return lin_all;
+	}
 
 	public MyReBackCache(View baseView) {
 		this.baseView = baseView;

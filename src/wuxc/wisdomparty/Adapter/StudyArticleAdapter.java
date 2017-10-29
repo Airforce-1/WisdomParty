@@ -18,6 +18,7 @@ import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.View.OnClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -25,6 +26,7 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import single.wuxc.wisdomparty.R;
+import wuxc.wisdomparty.Adapter.RewardsAdapter.Callback;
 import wuxc.wisdomparty.Cache.StudyArticleCache;
 import wuxc.wisdomparty.Internet.ImageLoader;
 import wuxc.wisdomparty.Internet.ImageLoader.ImageCallback;
@@ -33,7 +35,7 @@ import wuxc.wisdomparty.Internet.getcha;
 import wuxc.wisdomparty.Model.StudyArticleModel;
 import wuxc.wisdomparty.add.ImageLoader600;;
 
-public class StudyArticleAdapter extends ArrayAdapter<StudyArticleModel> {
+public class StudyArticleAdapter extends ArrayAdapter<StudyArticleModel> implements OnClickListener {
 	private ListView listView;
 	private ImageLoader ImageLoader;
 	private String imageurl = "";
@@ -43,28 +45,37 @@ public class StudyArticleAdapter extends ArrayAdapter<StudyArticleModel> {
 	private float dp = 0;
 	private Activity thisactivity;
 	public ImageLoader600 imageLoader;
+	private Callback mCallback;
 
-	public StudyArticleAdapter(Activity activity, List<StudyArticleModel> imageAndTexts, ListView listView) {
+	public StudyArticleAdapter(Activity activity, List<StudyArticleModel> imageAndTexts, ListView listView, Callback callback) {
 		super(activity, 0, imageAndTexts);
 		this.listView = listView;
 		this.thisactivity = activity;
 		ImageLoader = new ImageLoader();
 		imageLoader = new ImageLoader600(activity.getApplicationContext());
-
+		mCallback = callback;
+	}
+	@Override
+	public void onClick(View v) {
+		// TODO Auto-generated method stub
+		mCallback.click(v);
 	}
 
+	public interface Callback {
+		public void click(View v);
+	}
 	public View getView(int position, View convertView, ViewGroup parent) {
 		Activity activity = (Activity) getContext();
 
 		// Inflate the views from XML
 		View rowView = convertView;
 		StudyArticleCache viewCache;
-		 
-			LayoutInflater inflater = activity.getLayoutInflater();
-			rowView = inflater.inflate(R.layout.item_article, null);
-			viewCache = new StudyArticleCache(rowView);
-			rowView.setTag(viewCache);
-		 
+
+		LayoutInflater inflater = activity.getLayoutInflater();
+		rowView = inflater.inflate(R.layout.item_article, null);
+		viewCache = new StudyArticleCache(rowView);
+		rowView.setTag(viewCache);
+
 		StudyArticleModel imageAndText = getItem(position);
 
 		// Load the image and set it on the ImageView
@@ -90,7 +101,9 @@ public class StudyArticleAdapter extends ArrayAdapter<StudyArticleModel> {
 		TextTime.setText(imageAndText.getTime());
 		TextView TextTitle = viewCache.getTextTitle();
 		TextTitle.setText("" + imageAndText.getTitle());
-		TextView TextDetail = viewCache.getTextDetail();
+		TextView TextDetail = viewCache.getTextDetail();	LinearLayout lin_all = viewCache.getlin_all();
+		lin_all.setTag(position);
+		lin_all.setOnClickListener(this);
 		if (imageAndText.getSummary().equals("") || imageAndText.getSummary().equals("null")
 				|| imageAndText.getSummary().equals("null")) {
 			TextDetail.setText(getcha.gethan(imageAndText.getDetail()));

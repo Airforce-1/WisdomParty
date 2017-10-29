@@ -16,6 +16,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.View.OnClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -23,6 +24,7 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import single.wuxc.wisdomparty.R;
+import wuxc.wisdomparty.Adapter.RewardsAdapter.Callback;
 import wuxc.wisdomparty.Cache.VolunteerCache;
 import wuxc.wisdomparty.Internet.ImageLoader;
 import wuxc.wisdomparty.Internet.ImageLoader.ImageCallback;
@@ -31,21 +33,33 @@ import wuxc.wisdomparty.Internet.getcha;
 import wuxc.wisdomparty.Model.VolunteerModel;
 import wuxc.wisdomparty.add.ImageLoader600;;
 
-public class VolunteerAdapter extends ArrayAdapter<VolunteerModel> {
+public class VolunteerAdapter extends ArrayAdapter<VolunteerModel> implements OnClickListener {
 	private ListView listView;
 	private ImageLoader ImageLoader;
 	private String imageurl = "";
 	private int screenwidth = 0;
 	private Activity thisactivity;
 	public ImageLoader600 imageLoader;
+	private Callback mCallback;
 
-	public VolunteerAdapter(Activity activity, List<VolunteerModel> imageAndTexts, ListView listView) {
+	public VolunteerAdapter(Activity activity, List<VolunteerModel> imageAndTexts, ListView listView,
+			Callback callback) {
 		super(activity, 0, imageAndTexts);
 		this.listView = listView;
 		this.thisactivity = activity;
 		imageLoader = new ImageLoader600(activity.getApplicationContext());
-
+		mCallback = callback;
 		ImageLoader = new ImageLoader();
+	}
+
+	@Override
+	public void onClick(View v) {
+		// TODO Auto-generated method stub
+		mCallback.click(v);
+	}
+
+	public interface Callback {
+		public void click(View v);
 	}
 
 	public View getView(int position, View convertView, ViewGroup parent) {
@@ -81,6 +95,9 @@ public class VolunteerAdapter extends ArrayAdapter<VolunteerModel> {
 		} else {
 			imageView.setImageResource(R.drawable.knbz);
 		}
+		LinearLayout lin_all = viewCache.getlin_all();
+		lin_all.setTag(position);
+		lin_all.setOnClickListener(this);
 		TextView TextTitle = viewCache.getTextTitle();
 		TextTitle.setText("" + imageAndText.getTitle());
 		TextView TextDetail = viewCache.getTextDetail();

@@ -29,6 +29,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import single.wuxc.wisdomparty.R;
 import wuxc.wisdomparty.Adapter.DiscussionAdapter;
+import wuxc.wisdomparty.Adapter.DiscussionAdapter.Callback;
 import wuxc.wisdomparty.Internet.GetChannelByKey;
 import wuxc.wisdomparty.Internet.HttpGetData;
 import wuxc.wisdomparty.Internet.webview;
@@ -43,7 +44,7 @@ import android.view.View.OnClickListener;
 import android.view.View.OnTouchListener;
 
 public class MemberDiscussionActivity extends Activity
-		implements OnClickListener, OnTouchListener, OnItemClickListener {
+		implements OnClickListener, OnTouchListener, OnItemClickListener, Callback {
 	private ImageView ImageBack;
 	private ListView ListData;
 	List<DiscussionModel> list = new ArrayList<DiscussionModel>();
@@ -165,11 +166,11 @@ public class MemberDiscussionActivity extends Activity
 					} catch (Exception e) {
 						// TODO: handle exception
 					} // listinfo.setTime("2016-12-14");
-					// listinfo.setDetail(
-					// "此次专项检查的范围是招用农民工较多的建筑、制造、采矿、餐饮和其他中小型劳动密集型企业以及个体经济组织。检查内容包括：非公企业与劳动者签订劳动合同情况；按照工资支付有关规定支付职工工资情况；遵守最低工资规定及依法支付加班工资情况；依法参加社会保险和缴纳社会保险费情况；遵守禁止使用童工规定以及女职工和未成年工特殊劳动保护规定情况；其他遵守劳动保障法律法规的情况。"
-					// + arg);
-					// listinfo.setTitle("宁县开展非公企业党建工作专项督查活动" + arg);
-					// listinfo.setBackGround("");
+						// listinfo.setDetail(
+						// "此次专项检查的范围是招用农民工较多的建筑、制造、采矿、餐饮和其他中小型劳动密集型企业以及个体经济组织。检查内容包括：非公企业与劳动者签订劳动合同情况；按照工资支付有关规定支付职工工资情况；遵守最低工资规定及依法支付加班工资情况；依法参加社会保险和缴纳社会保险费情况；遵守禁止使用童工规定以及女职工和未成年工特殊劳动保护规定情况；其他遵守劳动保障法律法规的情况。"
+						// + arg);
+						// listinfo.setTitle("宁县开展非公企业党建工作专项督查活动" + arg);
+						// listinfo.setBackGround("");
 					list.add(listinfo);
 
 				}
@@ -268,7 +269,7 @@ public class MemberDiscussionActivity extends Activity
 
 	protected void go() {
 		ListData.setPadding(0, -100, 0, 0);
-		mAdapter = new DiscussionAdapter(this, list, ListData);
+		mAdapter = new DiscussionAdapter(this, list, ListData, this);
 		ListData.setAdapter(mAdapter);
 	}
 
@@ -392,15 +393,17 @@ public class MemberDiscussionActivity extends Activity
 	@Override
 	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 		// TODO Auto-generated method stub
-				DiscussionModel data = list.get(position - 1);
-				if (data.isCont()) {	Intent intent = new Intent();
-		intent.setClass(getApplicationContext(), AssistanceDetailActivity.class);
-		Bundle bundle = new Bundle();
-		bundle.putString("content", data.getContent());
-		bundle.putString("Time", data.getTime());
-		bundle.putString("Title", data.getAnswerNumber());
-		intent.putExtras(bundle);
-		startActivity(intent);} else {
+		DiscussionModel data = list.get(position - 1);
+		if (data.isCont()) {
+			Intent intent = new Intent();
+			intent.setClass(getApplicationContext(), AssistanceDetailActivity.class);
+			Bundle bundle = new Bundle();
+			bundle.putString("content", data.getContent());
+			bundle.putString("Time", data.getTime());
+			bundle.putString("Title", data.getAnswerNumber());
+			intent.putExtras(bundle);
+			startActivity(intent);
+		} else {
 			Intent intent = new Intent();
 			intent.setClass(getApplicationContext(), webview.class);
 			Bundle bundle = new Bundle();
@@ -413,6 +416,42 @@ public class MemberDiscussionActivity extends Activity
 			// "中国共产主义青年团，简称共青团，原名中国社会主义青年团，是中国共产党领导的一个由信仰共产主义的中国青年组成的群众性组织。共青团中央委员会受中共中央委员会领导，共青团的地方各级组织受同级党的委员会领导，同时受共青团上级组织领导。1922年5月，团的第一次代表大会在广州举行，正式成立中国社会主义青年团，1925年1月26日改称中国共产主义青年团。1959年5月4日共青团中央颁布共青团团徽。");
 			intent.putExtras(bundle);
 			startActivity(intent);
+		}
+	}
+
+	@Override
+	public void click(View v) {
+		// TODO Auto-generated method stub
+		switch (v.getId()) {
+		case R.id.lin_all:
+			DiscussionModel data = list.get((Integer) v.getTag());
+			if (data.isCont()) {
+				Intent intent = new Intent();
+				intent.setClass(getApplicationContext(), AssistanceDetailActivity.class);
+				Bundle bundle = new Bundle();
+				bundle.putString("content", data.getContent());
+				bundle.putString("Time", data.getTime());
+				bundle.putString("Title", data.getAnswerNumber());
+				intent.putExtras(bundle);
+				startActivity(intent);
+			} else {
+				Intent intent = new Intent();
+				intent.setClass(getApplicationContext(), webview.class);
+				Bundle bundle = new Bundle();
+				bundle.putString("url", data.getLink());
+				// // bundle.putString("Time", "2016-11-23");
+				// // bundle.putString("Name", "小李");
+				// // bundle.putString("PageTitle", "收藏详情");
+				// // bundle.putString("Detail",
+				// //
+				// "中国共产主义青年团，简称共青团，原名中国社会主义青年团，是中国共产党领导的一个由信仰共产主义的中国青年组成的群众性组织。共青团中央委员会受中共中央委员会领导，共青团的地方各级组织受同级党的委员会领导，同时受共青团上级组织领导。1922年5月，团的第一次代表大会在广州举行，正式成立中国社会主义青年团，1925年1月26日改称中国共产主义青年团。1959年5月4日共青团中央颁布共青团团徽。");
+				intent.putExtras(bundle);
+				startActivity(intent);
+			}
+			break;
+
+		default:
+			break;
 		}
 	}
 

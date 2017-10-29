@@ -38,7 +38,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 import single.wuxc.wisdomparty.R;
 import wuxc.wisdomparty.Adapter.StudyArticleAdapter;
+import wuxc.wisdomparty.Adapter.StudyArticleAdapter.Callback;
 import wuxc.wisdomparty.Adapter.StudyVideoAadapter;
+import wuxc.wisdomparty.Adapter.StudyVideoAadapter.Callbackvideo;
 import wuxc.wisdomparty.Internet.GetChannelByKey;
 import wuxc.wisdomparty.Internet.HttpGetData;
 import wuxc.wisdomparty.Internet.URLcontainer;
@@ -52,7 +54,7 @@ import wuxc.wisdomparty.PartyManage.StudyArticleDetailActivity;
 import wuxc.wisdomparty.PartyManage.StudyVideoDetailActivity;
 
 public class MainPublicPageStudyFragment extends Fragment
-		implements OnTouchListener, OnClickListener, OnItemClickListener {
+		implements OnTouchListener, OnClickListener, OnItemClickListener, Callbackvideo, Callback {
 	private TextView text_list_title;
 	private ListView ListData;
 	List<StudyArticleModel> list = new ArrayList<StudyArticleModel>();
@@ -231,7 +233,7 @@ public class MainPublicPageStudyFragment extends Fragment
 			} else {
 				for (int i = 0; i < jArray.length(); i++) {
 					json_data = jArray.getJSONObject(i);
-					//Log.e("json_data", "" + json_data);
+					// Log.e("json_data", "" + json_data);
 					// JSONObject jsonObject = json_data.getJSONObject("data");
 					StudyVideoModel listinfo = new StudyVideoModel();
 					listinfo.setTime(json_data.getString("createtime"));
@@ -316,7 +318,7 @@ public class MainPublicPageStudyFragment extends Fragment
 			} else {
 				for (int i = 0; i < jArray.length(); i++) {
 					json_data = jArray.getJSONObject(i);
-					//Log.e("json_data", "" + json_data);
+					// Log.e("json_data", "" + json_data);
 					// JSONObject jsonObject = json_data.getJSONObject("data");
 					StudyArticleModel listinfo = new StudyArticleModel();
 
@@ -403,10 +405,10 @@ public class MainPublicPageStudyFragment extends Fragment
 	protected void go() {
 		ListData.setPadding(0, -100, 0, 0);
 		if (type == 0) {
-			mAdapter = new StudyArticleAdapter(getActivity(), list, ListData);
+			mAdapter = new StudyArticleAdapter(getActivity(), list, ListData, this);
 			ListData.setAdapter(mAdapter);
 		} else {
-			VAdapter = new StudyVideoAadapter(getActivity(), listVideo, ListData);
+			VAdapter = new StudyVideoAadapter(getActivity(), listVideo, ListData, this);
 			ListData.setAdapter(VAdapter);
 		}
 
@@ -663,6 +665,72 @@ public class MainPublicPageStudyFragment extends Fragment
 				uiHandler.sendMessage(msg);
 			}
 		}).start();
+	}
+
+	@Override
+	public void click(View v) {
+		// TODO Auto-generated method stub
+		switch (v.getId()) {
+		case R.id.lin_all:
+			if (type == 0) {
+
+				StudyArticleModel data = list.get((Integer) v.getTag());
+				if (data.isCont()) {
+					Intent intent = new Intent();
+					intent.setClass(getActivity(), AssistanceDetailActivity.class);
+					Bundle bundle = new Bundle();
+					bundle.putString("Title", data.getTitle());
+					bundle.putString("Time", data.getTime());
+					bundle.putString("content", data.getDetail());
+					intent.putExtras(bundle);
+					startActivity(intent);
+				} else {
+					Intent intent = new Intent();
+					intent.setClass(getActivity(), webview.class);
+					Bundle bundle = new Bundle();
+					bundle.putString("url", data.getLink());
+					// // bundle.putString("Time", "2016-11-23");
+					// // bundle.putString("Name", "小李");
+					// // bundle.putString("PageTitle", "收藏详情");
+					// // bundle.putString("Detail",
+					// //
+					// "中国共产主义青年团，简称共青团，原名中国社会主义青年团，是中国共产党领导的一个由信仰共产主义的中国青年组成的群众性组织。共青团中央委员会受中共中央委员会领导，共青团的地方各级组织受同级党的委员会领导，同时受共青团上级组织领导。1922年5月，团的第一次代表大会在广州举行，正式成立中国社会主义青年团，1925年1月26日改称中国共产主义青年团。1959年5月4日共青团中央颁布共青团团徽。");
+					intent.putExtras(bundle);
+					startActivity(intent);
+				}
+
+			} else {
+				StudyVideoModel data = listVideo.get((Integer) v.getTag());
+				// Intent intent = new Intent();
+				// intent.setClass(getActivity(), webview.class);
+				// Bundle bundle = new Bundle();
+				// bundle.putString("url", data.getUrl());
+				// // // bundle.putString("Time", "2016-11-23");
+				// // // bundle.putString("Name", "小李");
+				// // // bundle.putString("PageTitle", "收藏详情");
+				// // // bundle.putString("Detail",
+				// // //
+				// //
+				// "中国共产主义青年团，简称共青团，原名中国社会主义青年团，是中国共产党领导的一个由信仰共产主义的中国青年组成的群众性组织。共青团中央委员会受中共中央委员会领导，共青团的地方各级组织受同级党的委员会领导，同时受共青团上级组织领导。1922年5月，团的第一次代表大会在广州举行，正式成立中国社会主义青年团，1925年1月26日改称中国共产主义青年团。1959年5月4日共青团中央颁布共青团团徽。");
+				// intent.putExtras(bundle);
+				// startActivity(intent);
+				try {
+					Intent intent = new Intent();
+					intent.setAction("android.intent.action.VIEW");
+					String path = data.getUrl();
+					Uri content_url = Uri.parse(path);
+					intent.setData(content_url);
+					startActivity(intent);
+				} catch (Exception e) {
+					// TODO: handle exception
+				}
+
+			}
+			break;
+
+		default:
+			break;
+		}
 	}
 
 }

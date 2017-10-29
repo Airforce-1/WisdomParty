@@ -14,6 +14,8 @@ import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -76,12 +78,43 @@ public class AssistanceDetailActivity extends Activity implements OnClickListene
 		webView.getSettings().setJavaScriptEnabled(true);
 		webView.setWebChromeClient(new WebChromeClient());
 		webView.getSettings().setLayoutAlgorithm(LayoutAlgorithm.SINGLE_COLUMN);
-		try {
-			content = getNewContent(content);
-		} catch (Exception e) {
-			// TODO: handle exception
-		}
+
 		webView.loadDataWithBaseURL(null, content, "text/html", "utf-8", null);
+		GetData();
+	}
+
+	public Handler uiHandler = new Handler() {
+		@Override
+		public void handleMessage(Message msg) {
+			switch (msg.what) {
+			case 1:
+				webView.loadDataWithBaseURL(null, content, "text/html", "utf-8", null);
+
+				break;
+			default:
+				break;
+			}
+		}
+	};
+
+	private void GetData() {
+		// TODO Auto-generated method stub
+
+		// TODO Auto-generated method stub
+		new Thread(new Runnable() { // 开启线程上传文件
+			@Override
+			public void run() {
+				try {
+					content = getNewContent(content);
+				} catch (Exception e) {
+					// TODO: handle exception
+				}
+				Message msg = new Message();
+				msg.obj = "1";
+				msg.what = 1;
+				uiHandler.sendMessage(msg);
+			}
+		}).start();
 
 	}
 

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/lin_all"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical" >
@@ -48,7 +49,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="36dp"
                     android:gravity="center_vertical"
-                   android:maxLines="2"
+                    android:maxLines="2"
                     android:text="详细详细详细详细详细详细详细详细详细详细详细详细详细详细详细详细详细详细详细"
                     android:textColor="@color/member_transform_stroke"
                     android:textSize="@dimen/member_text_size" />

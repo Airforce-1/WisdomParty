@@ -16,6 +16,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.View.OnClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -23,6 +24,7 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import single.wuxc.wisdomparty.R;
+import wuxc.wisdomparty.Adapter.RewardsAdapter.Callback;
 import wuxc.wisdomparty.Cache.MedicalShopCache;
 import wuxc.wisdomparty.Internet.ImageLoader;
 import wuxc.wisdomparty.Internet.ImageLoader.ImageCallback;
@@ -31,21 +33,33 @@ import wuxc.wisdomparty.Internet.getcha;
 import wuxc.wisdomparty.Model.MedicalShopModel;
 import wuxc.wisdomparty.add.ImageLoader120;;
 
-public class MedicalShopAdapter extends ArrayAdapter<MedicalShopModel> {
+public class MedicalShopAdapter extends ArrayAdapter<MedicalShopModel> implements OnClickListener {
 	private ListView listView;
 	private ImageLoader ImageLoader;
 	private String imageurl = "";
 	private int screenwidth = 0;
 	private Activity thisactivity;
 	public ImageLoader120 imageLoader;
+	private Callback mCallback;
 
-	public MedicalShopAdapter(Activity activity, List<MedicalShopModel> imageAndTexts, ListView listView) {
+	public MedicalShopAdapter(Activity activity, List<MedicalShopModel> imageAndTexts, ListView listView,
+			Callback callback) {
 		super(activity, 0, imageAndTexts);
 		this.listView = listView;
 		this.thisactivity = activity;
 		ImageLoader = new ImageLoader();
 		imageLoader = new ImageLoader120(activity.getApplicationContext());
+		mCallback = callback;
+	}
 
+	@Override
+	public void onClick(View v) {
+		// TODO Auto-generated method stub
+		mCallback.click(v);
+	}
+
+	public interface Callback {
+		public void click(View v);
 	}
 
 	public View getView(int position, View convertView, ViewGroup parent) {
@@ -65,7 +79,8 @@ public class MedicalShopAdapter extends ArrayAdapter<MedicalShopModel> {
 		// Load the image and set it on the ImageView
 		String imageUrl = imageAndText.getImageUrl();
 		ImageView imageView = viewCache.getImageHeadimg();
-		if (!(imageAndText.getImageUrl().equals("null") ||imageAndText.getImageUrl().equals("") || imageAndText.getImageUrl() == null)) {
+		if (!(imageAndText.getImageUrl().equals("null") || imageAndText.getImageUrl().equals("")
+				|| imageAndText.getImageUrl() == null)) {
 
 			viewCache.getImageHeadimg().setTag(imageAndText.getImageUrl());
 
@@ -84,7 +99,9 @@ public class MedicalShopAdapter extends ArrayAdapter<MedicalShopModel> {
 
 		TextView TextTitle = viewCache.getTextTitle();
 		TextTitle.setText("" + imageAndText.getTitle());
-
+		LinearLayout lin_all = viewCache.getlin_all();
+		lin_all.setTag(position);
+		lin_all.setOnClickListener(this);
 		TextView TextDetail = viewCache.getTextDetail();
 
 		if (imageAndText.getSummary().equals("") || imageAndText.getSummary().equals("null")

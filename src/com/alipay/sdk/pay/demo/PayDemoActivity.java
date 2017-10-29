@@ -18,6 +18,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.v4.app.FragmentActivity;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.TextView;
@@ -53,7 +54,8 @@ public class PayDemoActivity extends FragmentActivity {
 	// + "CoAyRHLV5fyvdOLo8EBCsKno8ayW4t1WMYu6D7KgsNplXZlewgWcgTrCs6TtVUP0\n" +
 	// "EopcWzgXS2Cs1bHdAQIDAQAB\n";
 	public static final String RSA_PRIVATE = "MIICeAIBADANBgkqhkiG9w0BAQEFAASCAmIwggJeAgEAAoGBAOA6E96rqjKwPrMpZkIxhBxP3Maf6GzuBfVcxKIBROHuFveUCnObfmeHxApZkKs5UskQUxUFvCEH/fbdbQHH8x6DYMJdfrBKME1BGDmXoLZt7/zFna93im/SQ1th5U4zV4DiyZnmBQQR1e9+SgB++LfMZeHUrPwayRcC/rLVnSYFAgMBAAECgYEAgWEhi+8zgpHta8Vsiq81knyGYFlubEQfTgdcMjpXO6H8wJg8O56yHhzZgjtR3WpzGS8BMXUgq1KIOMRlHIz5+0Fr2G15Bgv18teGrSOJhTjLfQjPuturvBRE40R0iGK0FmwY5gzgqymoVe6ngZrOXiYiBiA4Pke64F/7GBWk5hUCQQD8IVa9jhhvtRIgp9VuBpnXfoRclnQ4JEkAeFp6ZTTnsP82kcG2EVLLpizuqSFJryPT6dnDwdfyWPflZlL4IL7bAkEA46saFJLa4Z+gcnVbFS/EOeG4uKm6rEKa6HOkdB4E3pJ7CX2C8YlI09WhMVllBJXtmXLpLIDB2NugEVa0+9CUnwJBALKmWNTla3Ezpw2WfoeAi9+CmP0V6nGhXEzF+q5BKhSFeMDM1KpSag08yReupZSVUdilGZU4s+/XlIdqUp3YbgMCQQDPeJ5kv0t+LuSdSbr+PLBaewvGJM57qprWWIQ2WSDg36YGCP3qNMxMVzL08N0w55xFqUU6i/+bKtHc2yJFFFhLAkBsvvZf1QNvmwwv/N9p6tQwXX0Efk/v0R1GNnRX3NHHStZsJ449FdTQkgfLOK0jwvD23tLDFA6Bj4F8rhTWHHXO";
-	public static final String RSA_PUBLIC = "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDgOhPeq6oysD6zKWZCMYQcT9zGn+hs7gX1XMSiAUTh7hb3lApzm35nh8QKWZCrOVLJEFMVBbwhB/323W0Bx/Meg2DCXX6wSjBNQRg5l6C2be/8xZ2vd4pv0kNbYeVOM1eA4smZ5gUEEdXvfkoAfvi3zGXh1Kz8GskXAv6y1Z0mBQIDAQAB";
+	 public static final String RSA_PUBLIC =
+	 "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDgOhPeq6oysD6zKWZCMYQcT9zGn+hs7gX1XMSiAUTh7hb3lApzm35nh8QKWZCrOVLJEFMVBbwhB/323W0Bx/Meg2DCXX6wSjBNQRg5l6C2be/8xZ2vd4pv0kNbYeVOM1eA4smZ5gUEEdXvfkoAfvi3zGXh1Kz8GskXAv6y1Z0mBQIDAQAB";
 	private static final String notifyurl = "http://www.smxyyzgs.cn/member/alipay/partyfare/noticeAsyn";
 	private static final int SDK_PAY_FLAG = 1;
 	private TextView product_subject;
@@ -74,6 +76,7 @@ public class PayDemoActivity extends FragmentActivity {
 				 * docType=1) 建议商户依赖异步通知
 				 */
 				String resultInfo = payResult.getResult();// 同步返回需要验证的信息
+//				Log.e("resultInfo", resultInfo);
 
 				String resultStatus = payResult.getResultStatus();
 				// 判断resultStatus 为“9000”则代表支付成功，具体状态码代表含义可参考接口文档
@@ -112,7 +115,7 @@ public class PayDemoActivity extends FragmentActivity {
 		Bundle bundle = intent.getExtras(); // 获取intent里面的bundle对象
 		rechargemoney = bundle.getString("rechargemoney");
 		orderId = bundle.getString("orderId");
-		product_subject.setText("党费缴纳");
+		product_subject.setText("党费缴纳" + orderId);
 		detail.setText("三门峡市医药总公司党员网上党费缴纳");
 		product_price.setText(rechargemoney + "元");
 	}
@@ -161,7 +164,7 @@ public class PayDemoActivity extends FragmentActivity {
 		 * 完整的符合支付宝参数规范的订单信息
 		 */
 		final String payInfo = orderInfo + "&sign=\"" + sign + "\"&" + getSignType();
-
+		Log.e("payInfo", payInfo);
 		Runnable payRunnable = new Runnable() {
 
 			@Override
@@ -263,8 +266,8 @@ public class PayDemoActivity extends FragmentActivity {
 		// orderInfo += "&extern_token=" + "\"" + extern_token + "\"";
 
 		// 支付宝处理完请求后，当前页面跳转到商户指定页面的路径，可空
+		// orderInfo += "&return_url=" + "\"" + notifyurl + "\"";
 		orderInfo += "&return_url=\"m.alipay.com\"";
-
 		// 调用银行卡支付，需配置此参数，参与签名， 固定值 （需要签约《无线银行卡快捷支付》才能使用）
 		// orderInfo += "&paymethod=\"expressGateway\"";
 

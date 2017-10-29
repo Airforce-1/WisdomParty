@@ -19,6 +19,7 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import single.wuxc.wisdomparty.R;
@@ -71,7 +72,7 @@ public class MyPostAdapter extends ArrayAdapter<MyPostModel> implements OnClickL
 		// Load the image and set it on the ImageView
 		String imageUrl = imageAndText.getHeadImgUrl();
 		RoundedImageView imageView = viewCache.getHeadImg();
-		imageView.setTag(URLcontainer.urlip + URLcontainer.GetFile+ imageUrl);
+		imageView.setTag(URLcontainer.urlip + URLcontainer.GetFile + imageUrl);
 
 		if (imageUrl.equals(imageurl)) {
 			imageView.setImageResource(R.drawable.item_headimg);
@@ -82,7 +83,7 @@ public class MyPostAdapter extends ArrayAdapter<MyPostModel> implements OnClickL
 				Bitmap bm1 = null;
 				bm1 = getBitmapByPath(temppath);
 				if (bm1 == null) {
-					imageUrl = URLcontainer.urlip + URLcontainer.GetFile+ imageUrl;
+					imageUrl = URLcontainer.urlip + URLcontainer.GetFile + imageUrl;
 					Log.e("imageUrl", imageUrl);
 					Drawable cachedImage = ImageLoader.loadDrawable(imageUrl, new ImageCallback() {
 						public void imageLoaded(Drawable imageDrawable, String imageUrl) {
@@ -122,6 +123,9 @@ public class MyPostAdapter extends ArrayAdapter<MyPostModel> implements OnClickL
 		TextTitle.setText("" + imageAndText.getTitle());
 		TextView TextReBack = viewCache.getTextMyReBack();
 		TextReBack.setText("" + imageAndText.getReBack());
+		LinearLayout lin_all = viewCache.getlin_all();
+		lin_all.setTag(position);
+		lin_all.setOnClickListener(this);
 		ImageView ImageDelete = viewCache.getImageDelete();
 		ImageDelete.setOnClickListener(this);
 		ImageDelete.setTag(position);

@@ -16,26 +16,42 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.View.OnClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import single.wuxc.wisdomparty.R;
+import wuxc.wisdomparty.Adapter.RewardsAdapter.Callback;
 import wuxc.wisdomparty.Cache.DiscussionCache;
 import wuxc.wisdomparty.Internet.ImageLoader;
 import wuxc.wisdomparty.Internet.ImageLoader.ImageCallback;
 import wuxc.wisdomparty.Internet.URLcontainer;
 import wuxc.wisdomparty.Model.DiscussionModel;;
 
-public class DiscussionAdapter extends ArrayAdapter<DiscussionModel> {
+public class DiscussionAdapter extends ArrayAdapter<DiscussionModel> implements OnClickListener {
 	private ListView listView;
 	private ImageLoader ImageLoader;
 	private String imageurl = "";
+	private Callback mCallback;
 
-	public DiscussionAdapter(Activity activity, List<DiscussionModel> imageAndTexts, ListView listView) {
+	public DiscussionAdapter(Activity activity, List<DiscussionModel> imageAndTexts, ListView listView,
+			Callback callback) {
 		super(activity, 0, imageAndTexts);
 		this.listView = listView;
 		ImageLoader = new ImageLoader();
+		mCallback = callback;
+	}
+
+	@Override
+	public void onClick(View v) {
+		// TODO Auto-generated method stub
+		mCallback.click(v);
+	}
+
+	public interface Callback {
+		public void click(View v);
 	}
 
 	public View getView(int position, View convertView, ViewGroup parent) {
@@ -44,59 +60,63 @@ public class DiscussionAdapter extends ArrayAdapter<DiscussionModel> {
 		// Inflate the views from XML
 		View rowView = convertView;
 		DiscussionCache viewCache;
-	 
-			LayoutInflater inflater = activity.getLayoutInflater();
-			rowView = inflater.inflate(R.layout.item_discussion, null);
-			viewCache = new DiscussionCache(rowView);
-			rowView.setTag(viewCache);
-		 
+
+		LayoutInflater inflater = activity.getLayoutInflater();
+		rowView = inflater.inflate(R.layout.item_discussion, null);
+		viewCache = new DiscussionCache(rowView);
+		rowView.setTag(viewCache);
+
 		DiscussionModel imageAndText = getItem(position);
 
 		// Load the image and set it on the ImageView
-//		String imageUrl = imageAndText.getRoundUrl();
-//		ImageView imageView = viewCache.getRoundImageview();
-//		imageView.setTag(URLcontainer.urlip +URLcontainer.GetFile + imageUrl);
-//		Log.e("imageUrl", imageUrl);
-//		if (imageUrl.equals(imageurl)||imageUrl.equals("null")) {
-//			imageView.setImageResource(R.drawable.item_headimg);
-//		} else {
-//			try {
-//				String imageName1 = getBitName(imageUrl);
-//				String temppath = Environment.getExternalStorageDirectory() + "/chat/" + imageName1 + ".png";
-//				Bitmap bm1 = null;
-//				bm1 = getBitmapByPath(temppath);
-//				if (bm1 == null) {
-//					imageUrl = URLcontainer.urlip +URLcontainer.GetFile + imageUrl;
-//					Log.e("imageUrl", imageUrl);
-//					Drawable cachedImage = ImageLoader.loadDrawable(imageUrl, new ImageCallback() {
-//						public void imageLoaded(Drawable imageDrawable, String imageUrl) {
-//							ImageView imageViewByTag = (ImageView) listView.findViewWithTag(imageUrl);
-//							if (imageViewByTag != null) {
-//								imageViewByTag.setImageDrawable(imageDrawable);
-//							}
-//						}
-//					});
-//					if (cachedImage == null) {
-//						imageView.setImageResource(R.drawable.item_headimg);
-//					} else {
-//						Drawable d = cachedImage; // xxx根据自己的情况获取drawable
-//
-//						BitmapDrawable bd = (BitmapDrawable) d;
-//
-//						Bitmap bm = bd.getBitmap();
-//						bm = cutBmp(bm);
-//						imageView.setImageBitmap(bm);
-//					}
-//				} else {
-//					imageView.setImageBitmap(bm1);
-//				}
-//			} catch (Exception e) {
-//				// TODO: handle exception
-//			} catch (OutOfMemoryError e) {
-//				// TODO: handle exception
-//			}
-//
-//		}
+		// String imageUrl = imageAndText.getRoundUrl();
+		// ImageView imageView = viewCache.getRoundImageview();
+		// imageView.setTag(URLcontainer.urlip +URLcontainer.GetFile +
+		// imageUrl);
+		// Log.e("imageUrl", imageUrl);
+		// if (imageUrl.equals(imageurl)||imageUrl.equals("null")) {
+		// imageView.setImageResource(R.drawable.item_headimg);
+		// } else {
+		// try {
+		// String imageName1 = getBitName(imageUrl);
+		// String temppath = Environment.getExternalStorageDirectory() +
+		// "/chat/" + imageName1 + ".png";
+		// Bitmap bm1 = null;
+		// bm1 = getBitmapByPath(temppath);
+		// if (bm1 == null) {
+		// imageUrl = URLcontainer.urlip +URLcontainer.GetFile + imageUrl;
+		// Log.e("imageUrl", imageUrl);
+		// Drawable cachedImage = ImageLoader.loadDrawable(imageUrl, new
+		// ImageCallback() {
+		// public void imageLoaded(Drawable imageDrawable, String imageUrl) {
+		// ImageView imageViewByTag = (ImageView)
+		// listView.findViewWithTag(imageUrl);
+		// if (imageViewByTag != null) {
+		// imageViewByTag.setImageDrawable(imageDrawable);
+		// }
+		// }
+		// });
+		// if (cachedImage == null) {
+		// imageView.setImageResource(R.drawable.item_headimg);
+		// } else {
+		// Drawable d = cachedImage; // xxx根据自己的情况获取drawable
+		//
+		// BitmapDrawable bd = (BitmapDrawable) d;
+		//
+		// Bitmap bm = bd.getBitmap();
+		// bm = cutBmp(bm);
+		// imageView.setImageBitmap(bm);
+		// }
+		// } else {
+		// imageView.setImageBitmap(bm1);
+		// }
+		// } catch (Exception e) {
+		// // TODO: handle exception
+		// } catch (OutOfMemoryError e) {
+		// // TODO: handle exception
+		// }
+		//
+		// }
 		TextView TextTitle = viewCache.getTextTitle();
 		TextTitle.setText("" + imageAndText.getTitle());
 		TextView TextTime = viewCache.getTextTime();
@@ -107,6 +127,9 @@ public class DiscussionAdapter extends ArrayAdapter<DiscussionModel> {
 		TextBrowse.setText("" + imageAndText.getBrowseNumber());
 		TextView TextAnswer = viewCache.getTextanswerNumber();
 		TextAnswer.setText("" + imageAndText.getAnswerNumber());
+		LinearLayout lin_all = viewCache.getlin_all();
+		lin_all.setTag(position);
+		lin_all.setOnClickListener(this);
 		return rowView;
 	}
 

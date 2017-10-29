@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.view.View.OnClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import single.wuxc.wisdomparty.R;
@@ -62,6 +63,9 @@ public class MyPublishAdapter extends ArrayAdapter<MyPublishModel> implements On
 		ImageView ImageDelete = viewCache.getImageDelete();
 		ImageDelete.setOnClickListener(this);
 		ImageDelete.setTag(position);
+		LinearLayout lin_all = viewCache.getlin_all();
+		lin_all.setTag(position);
+		lin_all.setOnClickListener(this);
 		return rowView;
 	}
 
